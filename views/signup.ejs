@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - PulseX Emergency Healthcare</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="auth-page-body">
+
+    <div class="auth-page-container">
+        <!-- Background Ambient Glow -->
+        <div class="auth-bg-glow glow-1"></div>
+        <div class="auth-bg-glow glow-2"></div>
+
+        <div class="auth-page-card">
+            <!-- Back to Home Link -->
+            <a href="/" class="back-to-home">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back to PulseX
+            </a>
+
+            <div class="auth-header">
+                <a href="/" class="auth-brand">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+                    <span>PulseX Health</span>
+                </a>
+                <h1 class="auth-title">Create Your PulseX Account</h1>
+                <p class="auth-subtitle">Join the AI-powered emergency care network — it's free to get started</p>
+            </div>
+
+            <!-- Account Type Selector -->
+            <div class="role-selector" id="signupRoleSelector">
+                <button type="button" class="role-pill active" data-role="patient">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    Patient
+                </button>
+                <button type="button" class="role-pill" data-role="doctor">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"></path></svg>
+                    Doctor
+                </button>
+                <button type="button" class="role-pill" data-role="hospital">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4 8 4v14M9 10h2m-2 4h2m4-4h2m-2 4h2"></path></svg>
+                    Hospital
+                </button>
+            </div>
+
+            <!-- Notification Banner -->
+            <div class="auth-alert" id="signupAlert" style="display: none;"></div>
+
+            <form class="auth-form" id="signupForm" onsubmit="event.preventDefault(); submitSignup();">
+
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        <input type="text" id="signupName" placeholder="Dr. Jane Smith" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupEmail">Email / Health ID</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        <input type="email" id="signupEmail" placeholder="name@example.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupPhone">Phone Number</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                        <input type="tel" id="signupPhone" placeholder="+91 98765 43210" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        <input type="password" id="signupPassword" placeholder="••••••••" required minlength="8">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"></path></svg>
+                        <input type="password" id="signupConfirmPassword" placeholder="••••••••" required minlength="8">
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="signupTerms" required>
+                        <span class="checkmark"></span>
+                        I agree to the <a href="#" class="forgot-link" style="font-size:13px;">Terms of Service</a> &amp; <a href="#" class="forgot-link" style="font-size:13px;">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-auth-submit" id="signupSubmitBtn">
+                    <span>Create Account</span>
+                    <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </button>
+            </form>
+
+            <div class="auth-divider">
+                <span>OR SIGN UP WITH</span>
+            </div>
+
+            <div class="social-login-grid">
+                <button type="button" class="btn-social">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.7 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.9C6.2 7.3 8.9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.3 14.7c-.2-.7-.4-1.5-.4-2.3s.2-1.6.4-2.3L1.6 7.2C.6 9.2 0 11.5 0 14s.6 4.8 1.6 6.8l3.7-2.9z"/><path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.3-6.7-5.3L1.6 16C3.5 19.8 7.4 23 12 23z"/></svg>
+                    Google
+                </button>
+                <button type="button" class="btn-social">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00b4ff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    ABHA / Health ID
+                </button>
+            </div>
+
+            <div class="auth-footer">
+                Already have an account? <a href="/login">Log in</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Account Type pill selection
+        document.querySelectorAll('#signupRoleSelector .role-pill').forEach(pill => {
+            pill.addEventListener('click', () => {
+                document.querySelectorAll('#signupRoleSelector .role-pill').forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+            });
+        });
+
+        function submitSignup() {
+            const alertBox  = document.getElementById('signupAlert');
+            const submitBtn = document.getElementById('signupSubmitBtn');
+            const password  = document.getElementById('signupPassword').value;
+            const confirm   = document.getElementById('signupConfirmPassword').value;
+
+            // Validate passwords match
+            if (password !== confirm) {
+                alertBox.className = 'auth-alert alert-error';
+                alertBox.style.display = 'block';
+                alertBox.innerHTML = '✕ Passwords do not match. Please try again.';
+                return;
+            }
+
+            alertBox.style.display = 'none';
+            submitBtn.innerHTML = '<span>Creating Account...</span>';
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                alertBox.className = 'auth-alert alert-success';
+                alertBox.style.display = 'block';
+                alertBox.innerHTML = '✓ Account created successfully! Redirecting to login...';
+
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 1500);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

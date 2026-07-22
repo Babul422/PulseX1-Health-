@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In - PulseX Emergency Healthcare</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="auth-page-body">
+
+    <div class="auth-page-container">
+        <!-- Background Ambient Glow -->
+        <div class="auth-bg-glow glow-1"></div>
+        <div class="auth-bg-glow glow-2"></div>
+
+        <div class="auth-page-card">
+            <!-- Back to Home Link -->
+            <a href="/" class="back-to-home">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back to PulseX
+            </a>
+
+            <div class="auth-header">
+                <a href="/" class="auth-brand">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+                    <span>PulseX Health</span>
+                </a>
+                <h1 class="auth-title">Account Log In</h1>
+                <p class="auth-subtitle">Access your emergency response dashboard, bed tracker & clinical triage</p>
+            </div>
+
+            <!-- User Role Pills -->
+            <div class="role-selector" id="pageRoleSelector">
+                <button type="button" class="role-pill active" data-role="patient">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    Patient / User
+                </button>
+                <button type="button" class="role-pill" data-role="doctor">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"></path></svg>
+                    Doctor
+                </button>
+                <button type="button" class="role-pill" data-role="hospital">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4 8 4v14M9 10h2m-2 4h2m4-4h2m-2 4h2"></path></svg>
+                    Hospital Admin
+                </button>
+            </div>
+
+            <!-- Notification Banner -->
+            <div class="auth-alert" id="authAlert" style="display: none;"></div>
+
+            <form class="auth-form" id="standaloneLoginForm" onsubmit="event.preventDefault(); submitLoginPage();">
+                <div class="form-group">
+                    <label for="pageEmail">Email Address or Health ID</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        <input type="email" id="pageEmail" placeholder="name@example.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-label-row">
+                        <label for="pagePassword">Password</label>
+                        <a href="#" class="forgot-link">Forgot Password?</a>
+                    </div>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        <input type="password" id="pagePassword" placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="pageRememberMe" checked>
+                        <span class="checkmark"></span>
+                        Keep me logged in for 30 days
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-auth-submit" id="pageSubmitBtn">
+                    <span>Log In to Account</span>
+                    <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </button>
+            </form>
+
+            <div class="auth-divider">
+                <span>OR CONTINUE WITH</span>
+            </div>
+
+            <div class="social-login-grid">
+                <button type="button" class="btn-social">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.7 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.9C6.2 7.3 8.9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.3 14.7c-.2-.7-.4-1.5-.4-2.3s.2-1.6.4-2.3L1.6 7.2C.6 9.2 0 11.5 0 14s.6 4.8 1.6 6.8l3.7-2.9z"/><path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.3-6.7-5.3L1.6 16C3.5 19.8 7.4 23 12 23z"/></svg>
+                    Google
+                </button>
+                <button type="button" class="btn-social">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00b4ff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    Health ID / ABHA
+                </button>
+            </div>
+
+            <div class="auth-footer">
+                New to PulseX Health? <a href="/signup">Create an Account</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('#pageRoleSelector .role-pill').forEach(pill => {
+            pill.addEventListener('click', () => {
+                document.querySelectorAll('#pageRoleSelector .role-pill').forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+            });
+        });
+
+        function submitLoginPage() {
+            const alertBox = document.getElementById('authAlert');
+            const submitBtn = document.getElementById('pageSubmitBtn');
+            submitBtn.innerHTML = '<span>Authenticating...</span>';
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                alertBox.className = 'auth-alert alert-success';
+                alertBox.style.display = 'block';
+                alertBox.innerHTML = '✓ Authentication Successful! Redirecting to PulseX dashboard...';
+                
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1500);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

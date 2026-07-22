@@ -16,27 +16,32 @@
     <!-- ================= NAVBAR ================= -->
 
     <div class="navbar-container">
-        <nav class="navbar">
+        <nav class="navbar" aria-label="Main Navigation">
 
-            <div class="logo">
+            <a href="#home" class="logo" aria-label="PulseX Home">
                 <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
                 </svg>
                 <span>PulseX</span>
-            </div>
+            </a>
 
             <div class="nav-right">
                 <ul class="nav-links" id="navLinks">
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#how-it-works">How it works</a></li>
-                    <li><a href="#why-pulsex">Why PulseX</a></li>
-                    <li><a href="#testimonials">Testimonials</a></li>
-                    <li><a href="#" class="nav-link-signin">Sign in</a></li>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#book-appointment">Book Appointment</a></li>
+                    <li><a href="#emergency" class="nav-link-emergency">Emergency</a></li>
+                    <li><a href="#about-us">About Us</a></li>
+                    <li class="mobile-only-action"><a href="#signin" class="nav-link-signin">Sign In</a></li>
+                    <li class="mobile-only-action"><a href="/signup" class="btn-getstarted mobile-btn">Get Started</a></li>
                 </ul>
 
-                <a href="#" class="btn-getstarted">Get started</a>
+                <div class="nav-actions">
+                    <a href="#signin" class="nav-link-signin">Sign In</a>
+                    <a href="/signup" class="btn-getstarted">Get Started</a>
+                </div>
 
-                <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="3" y1="12" x2="21" y2="12"></line>
                         <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -52,7 +57,7 @@
 
     <!-- ================= HERO SECTION ================= -->
 
-    <section class="hero">
+    <section class="hero" id="home">
 
         <div class="hero-left">
 
@@ -288,7 +293,7 @@
 
     <!-- ================= FEATURES SECTION ================= -->
 
-    <section class="features" id="features">
+    <section class="features" id="services">
 
         <div class="section-tag">— FEATURES</div>
         <h2 class="reveal">Everything critical care<br>needs, in one platform.</h2>
@@ -397,7 +402,7 @@
 
     <!-- ================= HOW IT WORKS ================= -->
 
-    <section class="how-it-works" id="how-it-works">
+    <section class="how-it-works" id="book-appointment">
 
         <div class="section-tag">HOW IT WORKS</div>
         <h2 class="reveal">From SOS to arrival —<br><span class="gradient-text">in minutes.</span></h2>
@@ -471,7 +476,7 @@
 
     <!-- ================= WHY PULSEX ================= -->
 
-    <section class="why-pulsex" id="why-pulsex">
+    <section class="why-pulsex" id="about-us">
 
         <div class="section-tag">— WHY PULSEX</div>
         <h2 class="reveal">Built for the moments<br>that <span class="gradient-text">matter most.</span></h2>
@@ -681,7 +686,7 @@
 
     <!-- ================= FLOATING SOS BUTTON ================= -->
 
-    <a href="#" class="floating-sos-btn">
+    <a href="#" class="floating-sos-btn" id="emergency">
         <svg class="sos-siren-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
             <line x1="12" y1="9" x2="12" y2="13"></line>
@@ -764,7 +769,99 @@
             </div>
         </div>
 
-    </footer>
+    <!-- ================= LOGIN MODAL ================= -->
+    <div class="auth-modal-backdrop" id="loginModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+        <div class="auth-modal-card">
+            <button class="modal-close-btn" id="closeLoginModal" aria-label="Close modal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+
+            <div class="auth-header">
+                <div class="auth-brand">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+                    <span>PulseX Health</span>
+                </div>
+                <h2 id="modalTitle">Account Log In</h2>
+                <p class="auth-subtitle">Log in to access emergency care management, bed tracker & AI triage</p>
+            </div>
+
+            <!-- Role Selector -->
+            <div class="role-selector" id="modalRoleSelector">
+                <button type="button" class="role-pill active" data-role="patient">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    Patient
+                </button>
+                <button type="button" class="role-pill" data-role="doctor">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"></path></svg>
+                    Doctor
+                </button>
+                <button type="button" class="role-pill" data-role="hospital">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4 8 4v14M9 10h2m-2 4h2m4-4h2m-2 4h2"></path></svg>
+                    Hospital
+                </button>
+            </div>
+
+            <div class="auth-alert" id="modalAuthAlert" style="display: none;"></div>
+
+            <form class="auth-form" id="modalLoginForm">
+                <div class="form-group">
+                    <label for="modalLoginEmail">Email Address or Health ID</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        <input type="email" id="modalLoginEmail" placeholder="name@example.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-label-row">
+                        <label for="modalLoginPassword">Password</label>
+                        <a href="#" class="forgot-link">Forgot Password?</a>
+                    </div>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        <input type="password" id="modalLoginPassword" placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="modalRememberMe" checked>
+                        <span class="checkmark"></span>
+                        Remember me on this device
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-auth-submit" id="modalSubmitBtn">
+                    <span>Log In to Account</span>
+                    <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </button>
+            </form>
+
+            <div class="auth-divider">
+                <span>OR CONTINUE WITH</span>
+            </div>
+
+            <div class="social-login-grid">
+                <button type="button" class="btn-social">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.7 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.9C6.2 7.3 8.9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.3 14.7c-.2-.7-.4-1.5-.4-2.3s.2-1.6.4-2.3L1.6 7.2C.6 9.2 0 11.5 0 14s.6 4.8 1.6 6.8l3.7-2.9z"/><path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.3-6.7-5.3L1.6 16C3.5 19.8 7.4 23 12 23z"/></svg>
+                    Google
+                </button>
+                <button type="button" class="btn-social">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00b4ff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    ABHA / Health ID
+                </button>
+            </div>
+
+            <div class="auth-footer">
+                Don't have an account? <a href="/signup" id="toggleAuthMode">Sign up for free</a>
+            </div>
+        </div>
+    </div>
 
     <script src="/js/script.js"></script>
 
