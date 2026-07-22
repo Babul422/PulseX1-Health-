@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'PulseX Health Portal' %></title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/auth-layout.css">
+</head>
+<body class="auth-app-body">
+
+    <!-- FIXED TOP AUTHENTICATED NAVBAR -->
+    <div class="navbar-container auth-navbar-fixed" style="position:fixed; top:0; left:0; right:0; z-index:1000; background:rgba(11,19,41,0.9); backdrop-filter:blur(16px); border-bottom:1px solid rgba(255,255,255,0.08);">
+        <%- include('navbar') %>
+    </div>
+
+    <!-- MAIN CENTERED PAGE CONTAINER (MAX WIDTH 1400PX) -->
+    <div class="auth-page-wrapper">
+        <div class="auth-grid-container">

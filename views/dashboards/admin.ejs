@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin System Control - PulseX Health</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .dashboard-container { max-width: 1300px; margin: 0 auto; padding: 40px 20px; }
+        .dash-card { background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(16px); border-radius: 16px; padding: 24px; margin-bottom: 24px; }
+        .grid-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 16px; }
+        .stat-box { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); padding: 20px; border-radius: 12px; }
+        .stat-val { font-size: 2rem; font-weight: 800; color: #38bdf8; margin: 8px 0; }
+    </style>
+</head>
+<body class="auth-page-body">
+    <div class="dashboard-container">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+            <div>
+                <h1 style="color:#fff;">🛡️ System Admin Platform Control</h1>
+                <p style="color:#94a3b8;">Logged in as: System Administrator (Role: Admin)</p>
+            </div>
+            <a href="/login" class="btn-secondary" style="padding:10px 20px; border-radius:10px; text-decoration:none; color:#fff; background:rgba(255,255,255,0.08);">Sign Out</a>
+        </div>
+
+        <div class="dash-card">
+            <h2 style="color:#fff; font-size:1.2rem;">PulseX Health Infrastructure Status</h2>
+            <div class="grid-stats">
+                <div class="stat-box">
+                    <div style="color:#94a3b8; font-size:0.85rem; font-weight:600;">ACTIVE HOSPITALS</div>
+                    <div class="stat-val"><%= hospitals.length %></div>
+                </div>
+                <div class="stat-box">
+                    <div style="color:#94a3b8; font-size:0.85rem; font-weight:600;">VERIFIED DOCTORS</div>
+                    <div class="stat-val" style="color:#4ade80;"><%= doctors.length %></div>
+                </div>
+                <div class="stat-box">
+                    <div style="color:#94a3b8; font-size:0.85rem; font-weight:600;">AMBULANCE FLEET</div>
+                    <div class="stat-val" style="color:#facc15;"><%= ambulances.length %></div>
+                </div>
+                <div class="stat-box">
+                    <div style="color:#94a3b8; font-size:0.85rem; font-weight:600;">ACTIVE VOLUNTEERS</div>
+                    <div class="stat-val" style="color:#a855f7;"><%= volunteers.length %></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

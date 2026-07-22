@@ -1836,6 +1836,17 @@ h1, h2, h3, h4 {
     text-decoration: underline;
 }
 
+.nav-link-logout {
+    color: var(--color-text-secondary, #cbd5e1);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.nav-link-logout:hover {
+    color: #f87171;
+}
+
 .input-wrapper {
     position: relative;
     display: flex;

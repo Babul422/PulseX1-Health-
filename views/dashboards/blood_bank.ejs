@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blood Bank Management - PulseX Health</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .dashboard-container { max-width: 1300px; margin: 0 auto; padding: 40px 20px; }
+        .dash-card { background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(16px); border-radius: 16px; padding: 24px; margin-bottom: 24px; }
+        .grid-blood { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 16px; margin-top: 16px; }
+        .blood-card { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); padding: 16px; border-radius: 12px; text-align: center; }
+        .blood-type { font-size: 1.4rem; font-weight: 800; color: #f87171; }
+        .blood-units { font-size: 1.8rem; font-weight: 800; color: #fff; margin-top: 4px; }
+    </style>
+</head>
+<body class="auth-page-body">
+    <div class="dashboard-container">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+            <div>
+                <h1 style="color:#fff;">🩸 Blood Bank Matching & Inventory</h1>
+                <p style="color:#94a3b8;">Facility: <%= bloodBanks[0]?.name || 'Metro Blood Center' %> (Role: Blood Bank Admin)</p>
+            </div>
+            <a href="/login" class="btn-secondary" style="padding:10px 20px; border-radius:10px; text-decoration:none; color:#fff; background:rgba(255,255,255,0.08);">Sign Out</a>
+        </div>
+
+        <div class="dash-card">
+            <h2 style="color:#fff; font-size:1.2rem;">Live Blood Group Inventory (Units)</h2>
+            <div class="grid-blood">
+                <% Object.entries(bloodBanks[0]?.blood_inventory || {'A+':15, 'A-':4, 'B+':20, 'B-':3, 'AB+':8, 'AB-':2, 'O+':32, 'O-':6}).forEach(([group, units]) => { %>
+                    <div class="blood-card">
+                        <div class="blood-type"><%= group %></div>
+                        <div class="blood-units"><%= units %></div>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live SOS Ambulance Tracking - PulseX Health</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .tracking-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .tracking-card { background: rgba(15,23,42,0.85); border: 1px solid rgba(239,68,68,0.3); backdrop-filter: blur(20px); border-radius: 20px; padding: 32px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        .status-timeline { display: flex; justify-content: space-between; margin: 30px 0; position: relative; }
+        .status-timeline::before { content: ''; position: absolute; top: 20px; left: 0; right: 0; height: 4px; background: rgba(255,255,255,0.1); z-index: 1; }
+        .timeline-step { position: relative; z-index: 2; text-align: center; }
+        .step-circle { width: 44px; height: 44px; border-radius: 50%; background: #1e293b; border: 2px solid #64748b; color: #fff; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px auto; font-weight: 800; }
+        .step-circle.active { background: #ef4444; border-color: #f87171; box-shadow: 0 0 15px rgba(239,68,68,0.6); }
+        .eta-hero { font-size: 3.5rem; font-weight: 800; color: #4ade80; text-align: center; margin: 20px 0; }
+    </style>
+</head>
+<body class="auth-page-body">
+    <div class="tracking-container">
+        <div class="tracking-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <a href="/dashboard/patient" class="back-to-home">← Return to Dashboard</a>
+                    <h1 style="color:#fff; margin-top:10px;">🚨 Live Emergency SOS Tracking</h1>
+                    <p style="color:#94a3b8;">Request ID: <%= emergency.id %></p>
+                </div>
+                <span class="badge badge-danger" style="padding:8px 16px; font-size:0.9rem;">HIGH PRIORITY CRITICAL</span>
+            </div>
+
+            <div class="eta-hero">
+                <span id="etaCounter"><%= emergency.eta_minutes || 4 %></span> MINS
+                <div style="font-size:1rem; color:#cbd5e1; font-weight:500;">ESTIMATED AMBULANCE ARRIVAL TIME</div>
+            </div>
+
+            <div class="status-timeline">
+                <div class="timeline-step">
+                    <div class="step-circle active">✓</div>
+                    <div style="color:#fff; font-size:0.85rem; font-weight:700;">SOS Triggered</div>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-circle active">✓</div>
+                    <div style="color:#fff; font-size:0.85rem; font-weight:700;">AI Triage Done</div>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-circle active">🚑</div>
+                    <div style="color:#fff; font-size:0.85rem; font-weight:700;">Ambulance En Route</div>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-circle">🏥</div>
+                    <div style="color:#94a3b8; font-size:0.85rem; font-weight:700;">Hospital Bed Reserved</div>
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-top:30px;">
+                <div style="background:rgba(255,255,255,0.04); padding:20px; border-radius:12px; border:1px solid rgba(255,255,255,0.08);">
+                    <h3 style="color:#38bdf8; margin-bottom:10px;">🚑 Ambulance & Driver Info</h3>
+                    <p style="color:#fff; margin:4px 0;"><strong>Vehicle:</strong> <%= emergency.ambulance_vehicle || 'AMB-NYC-101 (Cardiac ICU)' %></p>
+                    <p style="color:#fff; margin:4px 0;"><strong>Driver:</strong> <%= emergency.driver_name || 'John Miller' %></p>
+                    <p style="color:#fff; margin:4px 0;"><strong>Phone:</strong> <a href="tel:<%= emergency.driver_phone || '+15550881' %>" style="color:#4ade80;"><%= emergency.driver_phone || '+1 555 0881' %></a></p>
+                </div>
+                <div style="background:rgba(255,255,255,0.04); padding:20px; border-radius:12px; border:1px solid rgba(255,255,255,0.08);">
+                    <h3 style="color:#38bdf8; margin-bottom:10px;">🏥 Destination Hospital</h3>
+                    <p style="color:#fff; margin:4px 0;"><strong>Hospital:</strong> <%= emergency.hospital_name || 'City Care Emergency Hospital' %></p>
+                    <p style="color:#fff; margin:4px 0;"><strong>Reserved ICU Bed:</strong> Confirmed</p>
+                    <p style="color:#fff; margin:4px 0;"><strong>Emergency Desk:</strong> +1 800 555 0199</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let mins = parseInt(document.getElementById('etaCounter').innerText) || 4;
+        setInterval(() => {
+            if (mins > 1) {
+                mins--;
+                document.getElementById('etaCounter').innerText = mins;
+            }
+        }, 15000);
+    </script>
+</body>
+</html>

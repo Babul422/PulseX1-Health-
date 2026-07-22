@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Volunteer Network - PulseX Health</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .dashboard-container { max-width: 1300px; margin: 0 auto; padding: 40px 20px; }
+        .dash-card { background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(16px); border-radius: 16px; padding: 24px; margin-bottom: 24px; }
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+        .data-table th, .data-table td { text-align: left; padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); color: #cbd5e1; }
+    </style>
+</head>
+<body class="auth-page-body">
+    <div class="dashboard-container">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+            <div>
+                <h1 style="color:#fff;">🤝 Volunteer First Responder Network</h1>
+                <p style="color:#94a3b8;">Logged in as: <%= user.full_name || 'Michael Chang' %> (Role: Volunteer)</p>
+            </div>
+            <a href="/login" class="btn-secondary" style="padding:10px 20px; border-radius:10px; text-decoration:none; color:#fff; background:rgba(255,255,255,0.08);">Sign Out</a>
+        </div>
+
+        <div class="dash-card">
+            <h2 style="color:#fff; font-size:1.2rem;">Nearby Registered First Responders</h2>
+            <table class="data-table">
+                <thead>
+                    <tr><th>Volunteer Name</th><th>Qualification</th><th>Status</th><th>Coverage Radius</th></tr>
+                </thead>
+                <tbody>
+                    <% volunteers.forEach(v => { %>
+                        <tr>
+                            <td><strong><%= v.full_name %></strong></td>
+                            <td><%= v.qualification %></td>
+                            <td><span style="color:#4ade80; font-weight:700;"><%= v.status %></span></td>
+                            <td><%= v.response_radius_km %> km</td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

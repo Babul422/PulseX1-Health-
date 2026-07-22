@@ -14,46 +14,7 @@
 <body>
 
     <!-- ================= NAVBAR ================= -->
-
-    <div class="navbar-container">
-        <nav class="navbar" aria-label="Main Navigation">
-
-            <a href="#home" class="logo" aria-label="PulseX Home">
-                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                </svg>
-                <span>PulseX</span>
-            </a>
-
-            <div class="nav-right">
-                <ul class="nav-links" id="navLinks">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#book-appointment">Book Appointment</a></li>
-                    <li><a href="#emergency" class="nav-link-emergency">Emergency</a></li>
-                    <li><a href="#about-us">About Us</a></li>
-                    <li class="mobile-only-action"><a href="#signin" class="nav-link-signin">Sign In</a></li>
-                    <li class="mobile-only-action"><a href="/signup" class="btn-getstarted mobile-btn">Get Started</a></li>
-                </ul>
-
-                <div class="nav-actions">
-                    <a href="#signin" class="nav-link-signin">Sign In</a>
-                    <a href="/signup" class="btn-getstarted">Get Started</a>
-                </div>
-
-                <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="3" y1="12" x2="21" y2="12"></line>
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <line x1="3" y1="18" x2="21" y2="18"></line>
-                    </svg>
-                </button>
-            </div>
-
-        </nav>
-    </div>
-
-
+    <%- include('partials/navbar') %>
 
     <!-- ================= HERO SECTION ================= -->
 
@@ -81,21 +42,35 @@
 
             <div class="hero-buttons">
 
-                <a href="#" class="btn-primary">
-                    Get Started
-                    <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                </a>
+                <% if (typeof user !== 'undefined' && user) { %>
+                    <a href="/dashboard/<%= user.role || 'patient' %>" class="btn-primary" style="padding: 16px 32px; font-size: 1.1rem; font-weight: 800;">
+                        Go to Dashboard
+                        <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </a>
 
-                <a href="#" class="btn-secondary">
-                    <svg class="btn-play-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polygon points="10 8 16 12 10 16 10 8"></polygon>
-                    </svg>
-                    Explore Features
-                </a>
+                    <a href="/profile" class="btn-secondary">
+                        👤 View Profile
+                    </a>
+                <% } else { %>
+                    <a href="/signup" class="btn-primary">
+                        Get Started
+                        <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </a>
+
+                    <a href="#services" class="btn-secondary">
+                        <svg class="btn-play-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                        </svg>
+                        Explore Features
+                    </a>
+                <% } %>
 
             </div>
 
@@ -398,6 +373,253 @@
 
         </div>
 
+    <!-- ================= SMART HOSPITAL FINDER ================= -->
+    <section class="features" id="hospitals" style="padding-top:60px;">
+        <div class="section-tag">— SMART HOSPITAL FINDER</div>
+        <h2 class="reveal">Real-Time Bed Tracker & Hospital Directory</h2>
+        <p class="section-subtitle reveal">Search partner hospitals by city or bed load. Select a hospital to reserve emergency admission.</p>
+
+        <div style="display:flex; gap:16px; margin: 24px 0; max-width: 600px;">
+            <input type="text" id="hospitalSearchInput" placeholder="Search by hospital name or city..." onkeyup="filterHospitals()" style="flex:1; padding:14px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(15,23,42,0.8); color:#fff;">
+            <select id="hospitalCityFilter" onchange="filterHospitals()" style="padding:14px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(15,23,42,0.8); color:#fff;">
+                <option value="">All Cities</option>
+                <option value="New York">New York</option>
+                <option value="Jersey City">Jersey City</option>
+            </select>
+        </div>
+
+        <div class="feature-container" id="hospitalGrid">
+            <div class="feature-card reveal hospital-item" data-name="City Care Emergency Hospital" data-city="New York">
+                <div class="icon feature-icon-map"><svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2"><path d="M3 21h18M5 21V7l8-4 8 4v14M9 10h2m-2 4h2m4-4h2m-2 4h2"></path></svg></div>
+                <h3>City Care Emergency Hospital</h3>
+                <p style="color:#94a3b8; font-size:0.9rem;">450 Healthcare Boulevard, New York</p>
+                <div style="margin:12px 0; font-size:0.95rem;">
+                    <span style="color:#4ade80; font-weight:700;">24 Available Beds</span> • <span style="color:#38bdf8; font-weight:700;">6 ICU Beds</span>
+                </div>
+                <button class="btn-secondary" style="width:100%; margin-top:10px; padding:10px; border-radius:8px; background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); font-weight:600; cursor:pointer;" onclick="openHospitalModal('City Care Emergency Hospital', '24 Available Beds', '6 ICU Beds', '+1 800 555 0199')">Reserve Emergency Bed</button>
+            </div>
+
+            <div class="feature-card reveal hospital-item" data-name="Apex Trauma & Cardiac Center" data-city="New York">
+                <div class="icon feature-icon-map"><svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2"><path d="M3 21h18M5 21V7l8-4 8 4v14M9 10h2m-2 4h2m4-4h2m-2 4h2"></path></svg></div>
+                <h3>Apex Trauma & Cardiac Center</h3>
+                <p style="color:#94a3b8; font-size:0.9rem;">88 Tech Medical Drive, New York</p>
+                <div style="margin:12px 0; font-size:0.95rem;">
+                    <span style="color:#4ade80; font-weight:700;">45 Available Beds</span> • <span style="color:#38bdf8; font-weight:700;">12 ICU Beds</span>
+                </div>
+                <button class="btn-secondary" style="width:100%; margin-top:10px; padding:10px; border-radius:8px; background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); font-weight:600; cursor:pointer;" onclick="openHospitalModal('Apex Trauma & Cardiac Center', '45 Available Beds', '12 ICU Beds', '+1 800 555 0200')">Reserve Emergency Bed</button>
+            </div>
+
+            <div class="feature-card reveal hospital-item" data-name="St. Jude General Hospital" data-city="Jersey City">
+                <div class="icon feature-icon-map"><svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2"><path d="M3 21h18M5 21V7l8-4 8 4v14M9 10h2m-2 4h2m4-4h2m-2 4h2"></path></svg></div>
+                <h3>St. Jude General Hospital</h3>
+                <p style="color:#94a3b8; font-size:0.9rem;">12 Hudson River Way, Jersey City</p>
+                <div style="margin:12px 0; font-size:0.95rem;">
+                    <span style="color:#4ade80; font-weight:700;">8 Available Beds</span> • <span style="color:#38bdf8; font-weight:700;">2 ICU Beds</span>
+                </div>
+                <button class="btn-secondary" style="width:100%; margin-top:10px; padding:10px; border-radius:8px; background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); font-weight:600; cursor:pointer;" onclick="openHospitalModal('St. Jude General Hospital', '8 Available Beds', '2 ICU Beds', '+1 800 555 0211')">Reserve Emergency Bed</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= DOCTOR FINDER & APPOINTMENTS ================= -->
+    <section class="features" id="doctors" style="padding-top:60px;">
+        <div class="section-tag">— DOCTOR FINDER & APPOINTMENTS</div>
+        <h2 class="reveal">Find Specialists & Book OPD Consultations</h2>
+        <p class="section-subtitle reveal">Search verified doctors by specialization, experience, and consultation fees.</p>
+
+        <div style="display:flex; gap:16px; margin: 24px 0; max-width: 600px;">
+            <input type="text" id="doctorSearchInput" placeholder="Search doctor by name or specialty..." onkeyup="filterDoctors()" style="flex:1; padding:14px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(15,23,42,0.8); color:#fff;">
+            <select id="doctorSpecialtyFilter" onchange="filterDoctors()" style="padding:14px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(15,23,42,0.8); color:#fff;">
+                <option value="">All Specialties</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Neurology">Neurology</option>
+                <option value="Pediatrics">Pediatrics</option>
+            </select>
+        </div>
+
+        <div class="feature-container" id="doctorGrid">
+            <div class="feature-card reveal doctor-item" data-name="Dr. Sarah Connor" data-specialty="Cardiology">
+                <div class="icon feature-icon-bot"><svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M12 2v20M2 12h20"></path></svg></div>
+                <h3>Dr. Sarah Connor</h3>
+                <p style="color:#38bdf8; font-weight:600; font-size:0.9rem;">Cardiology & Emergency Medicine</p>
+                <p style="color:#94a3b8; font-size:0.85rem; margin-top:4px;">14 Years Exp • ⭐ 4.9 Rating</p>
+                <p style="color:#4ade80; font-weight:700; margin:10px 0;">Consultation Fee: $150.00</p>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn-secondary" style="flex:1; padding:8px; border-radius:6px; background:rgba(255,255,255,0.06); color:#fff; border:none; cursor:pointer;" onclick="openDoctorProfile('Dr. Sarah Connor', 'Cardiology & Emergency Medicine', '14 Years', '$150.00', 'LIC-MED-88910')">View Profile</button>
+                    <button class="btn-primary" style="flex:1; padding:8px; border-radius:6px; font-weight:700; cursor:pointer;" onclick="openBookingModal('Dr. Sarah Connor', 'doc-01')">Book Appointment</button>
+                </div>
+            </div>
+
+            <div class="feature-card reveal doctor-item" data-name="Dr. Marcus Vance" data-specialty="Neurology">
+                <div class="icon feature-icon-bot"><svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M12 2v20M2 12h20"></path></svg></div>
+                <h3>Dr. Marcus Vance</h3>
+                <p style="color:#38bdf8; font-weight:600; font-size:0.9rem;">Neurology & Trauma Surgery</p>
+                <p style="color:#94a3b8; font-size:0.85rem; margin-top:4px;">18 Years Exp • ⭐ 4.95 Rating</p>
+                <p style="color:#4ade80; font-weight:700; margin:10px 0;">Consultation Fee: $200.00</p>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn-secondary" style="flex:1; padding:8px; border-radius:6px; background:rgba(255,255,255,0.06); color:#fff; border:none; cursor:pointer;" onclick="openDoctorProfile('Dr. Marcus Vance', 'Neurology & Trauma Surgery', '18 Years', '$200.00', 'LIC-MED-77123')">View Profile</button>
+                    <button class="btn-primary" style="flex:1; padding:8px; border-radius:6px; font-weight:700; cursor:pointer;" onclick="openBookingModal('Dr. Marcus Vance', 'doc-02')">Book Appointment</button>
+                </div>
+            </div>
+
+            <div class="feature-card reveal doctor-item" data-name="Dr. Elena Rostova" data-specialty="Pediatrics">
+                <div class="icon feature-icon-bot"><svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M12 2v20M2 12h20"></path></svg></div>
+                <h3>Dr. Elena Rostova</h3>
+                <p style="color:#38bdf8; font-weight:600; font-size:0.9rem;">Pediatrics & Intensive Care</p>
+                <p style="color:#94a3b8; font-size:0.85rem; margin-top:4px;">11 Years Exp • ⭐ 4.8 Rating</p>
+                <p style="color:#4ade80; font-weight:700; margin:10px 0;">Consultation Fee: $120.00</p>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn-secondary" style="flex:1; padding:8px; border-radius:6px; background:rgba(255,255,255,0.06); color:#fff; border:none; cursor:pointer;" onclick="openDoctorProfile('Dr. Elena Rostova', 'Pediatrics & Intensive Care', '11 Years', '$120.00', 'LIC-MED-99301')">View Profile</button>
+                    <button class="btn-primary" style="flex:1; padding:8px; border-radius:6px; font-weight:700; cursor:pointer;" onclick="openBookingModal('Dr. Elena Rostova', 'doc-03')">Book Appointment</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= BLOOD BANK REPOSITORY ================= -->
+    <section class="features" id="blood-bank" style="padding-top:60px;">
+        <div class="section-tag">— BLOOD BANK REPOSITORY</div>
+        <h2 class="reveal">Live Blood Inventory & Emergency Matching</h2>
+        <p class="section-subtitle reveal">Check live blood units available across network repositories and dispatch emergency requests.</p>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap:16px; margin: 24px 0;">
+            <div class="feature-card reveal" style="text-align:center; padding:16px;">
+                <span style="font-size:1.5rem; font-weight:800; color:#f87171;">A+</span>
+                <div style="font-size:1.8rem; font-weight:800; color:#fff; margin-top:4px;">15 Units</div>
+            </div>
+            <div class="feature-card reveal" style="text-align:center; padding:16px;">
+                <span style="font-size:1.5rem; font-weight:800; color:#f87171;">A-</span>
+                <div style="font-size:1.8rem; font-weight:800; color:#fff; margin-top:4px;">4 Units</div>
+            </div>
+            <div class="feature-card reveal" style="text-align:center; padding:16px;">
+                <span style="font-size:1.5rem; font-weight:800; color:#f87171;">B+</span>
+                <div style="font-size:1.8rem; font-weight:800; color:#fff; margin-top:4px;">20 Units</div>
+            </div>
+            <div class="feature-card reveal" style="text-align:center; padding:16px;">
+                <span style="font-size:1.5rem; font-weight:800; color:#f87171;">B-</span>
+                <div style="font-size:1.8rem; font-weight:800; color:#fff; margin-top:4px;">3 Units</div>
+            </div>
+            <div class="feature-card reveal" style="text-align:center; padding:16px;">
+                <span style="font-size:1.5rem; font-weight:800; color:#f87171;">AB+</span>
+                <div style="font-size:1.8rem; font-weight:800; color:#fff; margin-top:4px;">8 Units</div>
+            </div>
+            <div class="feature-card reveal" style="text-align:center; padding:16px;">
+                <span style="font-size:1.5rem; font-weight:800; color:#f87171;">AB-</span>
+                <div style="font-size:1.8rem; font-weight:800; color:#fff; margin-top:4px;">2 Units</div>
+            </div>
+            <div class="feature-card reveal" style="text-align:center; padding:16px;">
+                <span style="font-size:1.5rem; font-weight:800; color:#f87171;">O+</span>
+                <div style="font-size:1.8rem; font-weight:800; color:#fff; margin-top:4px;">32 Units</div>
+            </div>
+            <div class="feature-card reveal" style="text-align:center; padding:16px;">
+                <span style="font-size:1.5rem; font-weight:800; color:#f87171;">O-</span>
+                <div style="font-size:1.8rem; font-weight:800; color:#fff; margin-top:4px;">6 Units</div>
+            </div>
+        </div>
+
+        <button class="btn-primary" style="padding:14px 28px; border-radius:10px; font-weight:700; cursor:pointer;" onclick="requestBloodUnit()">Request Emergency Blood Units</button>
+    </section>
+
+    <!-- ================= AMBULANCE DISPATCH ================= -->
+    <section class="features" id="ambulances" style="padding-top:60px;">
+        <div class="section-tag">— AMBULANCE DISPATCH FLEET</div>
+        <h2 class="reveal">GPS Emergency Ambulance Fleet</h2>
+        <p class="section-subtitle reveal">Live cardiac ICU, neonatal, and trauma ambulances ready for instant dispatch.</p>
+
+        <div class="feature-container">
+            <div class="feature-card reveal">
+                <div class="icon feature-icon-ambulance"><svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon></svg></div>
+                <h3>Vehicle AMB-NYC-101</h3>
+                <p style="color:#94a3b8; font-size:0.9rem;">Cardiac ICU Ambulance • City Care Hospital</p>
+                <p style="color:#4ade80; font-weight:700; margin-top:8px;">Driver: John Miller (+1 555 0881)</p>
+                <button class="btn-dash-sos" style="margin-top:12px; padding:12px; font-size:0.95rem; border-radius:8px;" onclick="dispatchAmbulanceProgress('AMB-NYC-101')">Dispatch AMB-NYC-101</button>
+            </div>
+
+            <div class="feature-card reveal">
+                <div class="icon feature-icon-ambulance"><svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon></svg></div>
+                <h3>Vehicle AMB-NYC-305</h3>
+                <p style="color:#94a3b8; font-size:0.9rem;">Advanced Trauma Unit • Apex Center</p>
+                <p style="color:#4ade80; font-weight:700; margin-top:8px;">Driver: David Rossi (+1 555 0882)</p>
+                <button class="btn-dash-sos" style="margin-top:12px; padding:12px; font-size:0.95rem; border-radius:8px;" onclick="dispatchAmbulanceProgress('AMB-NYC-305')">Dispatch AMB-NYC-305</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= AI ASSISTANT CHAT ================= -->
+    <section class="features" id="ai-assistant" style="padding-top:60px;">
+        <div class="section-tag">— AI HEALTH ASSISTANT</div>
+        <h2 class="reveal">PulseX AI Clinical Triage</h2>
+        <p class="section-subtitle reveal">Describe your symptoms or pick a quick symptom for instant AI diagnostic triage and specialist recommendations.</p>
+
+        <div style="background:rgba(15,23,42,0.85); border:1px solid rgba(255,255,255,0.08); border-radius:20px; padding:28px; max-width:900px; box-shadow: 0 10px 40px rgba(0,0,0,0.4);">
+            
+            <!-- SUPPORTED QUICK SYMPTOM CHIPS -->
+            <div style="margin-bottom:20px;">
+                <label style="color:#94a3b8; font-size:0.8rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:10px;">Select Quick Symptom:</label>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <button class="symptom-chip" onclick="sendAIChat('Chest Pain and tightness')" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🩺 Chest Pain</button>
+                    <button class="symptom-chip" onclick="sendAIChat('Breathing Difficulty and shortness of breath')" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🫁 Breathing Difficulty</button>
+                    <button class="symptom-chip" onclick="sendAIChat('High Fever over 102 degrees')" style="background:rgba(245,158,11,0.15); color:#fbbf24; border:1px solid rgba(245,158,11,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🤒 High Fever</button>
+                    <button class="symptom-chip" onclick="sendAIChat('Severe Headache and throbbing pain')" style="background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🧠 Headache</button>
+                    <button class="symptom-chip" onclick="sendAIChat('Migraine with aura and light sensitivity')" style="background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">⚡ Migraine</button>
+                    <button class="symptom-chip" onclick="sendAIChat('Persistent Vomiting and nausea')" style="background:rgba(16,185,129,0.15); color:#4ade80; border:1px solid rgba(16,185,129,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🤢 Vomiting</button>
+                    <button class="symptom-chip" onclick="sendAIChat('Diarrhea and abdominal cramps')" style="background:rgba(16,185,129,0.15); color:#4ade80; border:1px solid rgba(16,185,129,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">💧 Diarrhea</button>
+                    <button class="symptom-chip" onclick="sendAIChat('Acute Stomach Pain')" style="background:rgba(245,158,11,0.15); color:#fbbf24; border:1px solid rgba(245,158,11,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🥊 Stomach Pain</button>
+                    <button class="symptom-chip" onclick="sendAIChat('Sudden Weakness and lethargy')" style="background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">💧 Weakness</button>
+                    <button class="symptom-chip" onclick="sendAIChat('Chronic Fatigue')" style="background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">😴 Fatigue</button>
+                    <button class="symptom-chip" onclick="sendAIChat('Dry Cough and throat pain')" style="background:rgba(16,185,129,0.15); color:#4ade80; border:1px solid rgba(16,185,129,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">😷 Cough</button>
+                    <button class="symptom-chip" onclick="sendAIChat('Common Cold and runny nose')" style="background:rgba(16,185,129,0.15); color:#4ade80; border:1px solid rgba(16,185,129,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🤧 Cold</button>
+                    <button class="symptom-chip" onclick="sendAIChat('Physical Injury and trauma')" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🩹 Injury</button>
+                    <button class="symptom-chip" onclick="sendAIChat('Bone Fracture and severe swelling')" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🦴 Fracture</button>
+                    <button class="symptom-chip" onclick="sendAIChat('Skin Burn injury')" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🔥 Burn</button>
+                    <button class="symptom-chip" onclick="sendAIChat('Active Bleeding cut')" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🩸 Bleeding</button>
+                    <button class="symptom-chip" onclick="sendAIChat('Pregnancy Concerns and abdominal discomfort')" style="background:rgba(168,85,247,0.15); color:#c084fc; border:1px solid rgba(168,85,247,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🤰 Pregnancy Concerns</button>
+                    <button class="symptom-chip" onclick="sendAIChat('Severe Skin Allergy')" style="background:rgba(16,185,129,0.15); color:#4ade80; border:1px solid rgba(16,185,129,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🛡️ Allergy</button>
+                    <button class="symptom-chip" onclick="sendAIChat('Itchy Rash across body')" style="background:rgba(16,185,129,0.15); color:#4ade80; border:1px solid rgba(16,185,129,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">✨ Rash</button>
+                    <button class="symptom-chip" onclick="sendAIChat('Dizziness and lightheadedness')" style="background:rgba(245,158,11,0.15); color:#fbbf24; border:1px solid rgba(245,158,11,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">💫 Dizziness</button>
+                    <button class="symptom-chip" onclick="sendAIChat('Unconsciousness and loss of responsiveness')" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🚨 Unconsciousness</button>
+                    <button class="symptom-chip" onclick="sendAIChat('Seizure and convulsions')" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">⚡ Seizure</button>
+                </div>
+            </div>
+
+            <!-- SYMPTOM INPUT FORM -->
+            <form onsubmit="event.preventDefault(); submitAIChatForm();" style="display:flex; gap:12px; margin-bottom:20px;">
+                <input type="text" id="aiChatInput" placeholder="Describe symptoms (e.g. chest pain, breathing difficulty, fever)..." style="flex:1; padding:14px 18px; border-radius:12px; border:1px solid rgba(255,255,255,0.12); background:rgba(15,23,42,0.9); color:#fff; font-size:0.95rem;" required>
+                <button type="submit" id="aiSubmitBtn" class="btn-primary" style="padding:14px 28px; border-radius:12px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:8px;">
+                    <span id="aiBtnText">Analyze Triage</span>
+                    <span id="aiBtnSpinner" style="display:none;" class="spinner-icon">🔄</span>
+                </button>
+            </form>
+
+            <!-- AI TRIAGE OUTPUT CONTAINER -->
+            <div id="aiChatOutput" style="display:none;"></div>
+
+        </div>
+    </section>
+
+    <!-- ================= VOLUNTEER NETWORK ================= -->
+    <section class="features" id="volunteers" style="padding-top:60px;">
+        <div class="section-tag">— VOLUNTEER NETWORK</div>
+        <h2 class="reveal">Crowdsourced First Responder Network</h2>
+        <p class="section-subtitle reveal">Certified EMTs and CPR-trained medical volunteers available nearby.</p>
+
+        <div class="feature-container">
+            <div class="feature-card reveal">
+                <div class="icon feature-icon-volunteer"><svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg></div>
+                <h3>Michael Chang</h3>
+                <p style="color:#94a3b8; font-size:0.9rem;">Certified First Responder / EMT Basic</p>
+                <p style="color:#4ade80; font-weight:700; margin-top:6px;">Status: Active • Radius: 8.5 km</p>
+                <button class="btn-secondary" style="width:100%; margin-top:12px; padding:10px; border-radius:8px; background:rgba(168,85,247,0.15); color:#c084fc; border:1px solid rgba(168,85,247,0.3); font-weight:600; cursor:pointer;" onclick="connectVolunteer('Michael Chang')">Connect Responder</button>
+            </div>
+
+            <div class="feature-card reveal">
+                <div class="icon feature-icon-volunteer"><svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg></div>
+                <h3>Sophia Martinez</h3>
+                <p style="color:#94a3b8; font-size:0.9rem;">Registered Nurse (RN) / CPR Trained</p>
+                <p style="color:#4ade80; font-weight:700; margin-top:6px;">Status: Active • Radius: 12.0 km</p>
+                <button class="btn-secondary" style="width:100%; margin-top:12px; padding:10px; border-radius:8px; background:rgba(168,85,247,0.15); color:#c084fc; border:1px solid rgba(168,85,247,0.3); font-weight:600; cursor:pointer;" onclick="connectVolunteer('Sophia Martinez')">Connect Responder</button>
+            </div>
+        </div>
     </section>
 
     <!-- ================= HOW IT WORKS ================= -->
@@ -686,7 +908,7 @@
 
     <!-- ================= FLOATING SOS BUTTON ================= -->
 
-    <a href="#" class="floating-sos-btn" id="emergency">
+    <a href="#" class="floating-sos-btn" id="emergency" onclick="event.preventDefault(); triggerSOSWorkflow();">
         <svg class="sos-siren-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
             <line x1="12" y1="9" x2="12" y2="13"></line>
@@ -863,7 +1085,389 @@
         </div>
     </div>
 
-    <script src="/js/script.js"></script>
+    <!-- ================= GENERIC ACTION MODAL ================= -->
+    <div class="auth-modal-backdrop" id="genericModal" aria-hidden="true" style="display:none; align-items:center; justify-content:center;">
+        <div class="auth-modal-card" style="max-width:500px; text-align:center;">
+            <h2 id="genericModalTitle" style="color:#fff; margin-bottom:12px;">Notice</h2>
+            <p id="genericModalBody" style="color:#cbd5e1; font-size:1rem; margin-bottom:20px;"></p>
+            <button class="btn-primary" style="padding:10px 24px; border-radius:8px;" onclick="closeGenericModal()">OK</button>
+        </div>
+    </div>
 
+    <!-- ================= DOCTOR PROFILE MODAL ================= -->
+    <div class="auth-modal-backdrop" id="doctorProfileModal" aria-hidden="true" style="display:none; align-items:center; justify-content:center;">
+        <div class="auth-modal-card" style="max-width:500px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <h2 id="profName" style="color:#fff;">Dr. Profile</h2>
+                <button class="modal-close-btn" onclick="closeDoctorProfileModal()">✕</button>
+            </div>
+            <p id="profSpecialty" style="color:#38bdf8; font-weight:700;"></p>
+            <p id="profExp" style="color:#94a3b8; font-size:0.9rem; margin-top:4px;"></p>
+            <p id="profFee" style="color:#4ade80; font-weight:700; margin-top:8px;"></p>
+            <p id="profLicense" style="color:#64748b; font-size:0.85rem; margin-top:4px;"></p>
+            <button class="btn-primary" id="profBookBtn" style="width:100%; margin-top:20px; padding:12px; border-radius:8px; font-weight:700;">Book Appointment Now</button>
+        </div>
+    </div>
+
+    <!-- ================= DOCTOR BOOKING MODAL ================= -->
+    <div class="auth-modal-backdrop" id="bookingModal" aria-hidden="true" style="display:none; align-items:center; justify-content:center;">
+        <div class="auth-modal-card" style="max-width:500px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <h2 style="color:#fff;">Book Appointment</h2>
+                <button class="modal-close-btn" onclick="closeBookingModal()">✕</button>
+            </div>
+            <p style="color:#94a3b8; margin-bottom:16px;">Doctor: <strong id="bookDocName" style="color:#fff;"></strong></p>
+            <form onsubmit="event.preventDefault(); submitDoctorBooking();">
+                <div class="form-group" style="margin-bottom:12px;">
+                    <label style="color:#cbd5e1; font-size:0.85rem;">Select Date & Time</label>
+                    <input type="datetime-local" id="bookDateTime" required style="width:100%; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:rgba(15,23,42,0.9); color:#fff;">
+                </div>
+                <div class="form-group" style="margin-bottom:16px;">
+                    <label style="color:#cbd5e1; font-size:0.85rem;">Reason for Consultation</label>
+                    <input type="text" id="bookReason" placeholder="e.g. Routine Cardiac Checkup" required style="width:100%; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:rgba(15,23,42,0.9); color:#fff;">
+                </div>
+                <button type="submit" class="btn-primary" style="width:100%; padding:12px; border-radius:8px; font-weight:700;">Confirm Appointment</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/script.js"></script>
+    <script>
+        // 1. Emergency SOS Workflow
+        async function triggerSOSWorkflow() {
+            if (!confirm("🚨 Emergency SOS Trigger\nDo you want to dispatch a cardiac ambulance and request immediate hospital bed reservation?")) return;
+
+            try {
+                const res = await fetch('/api/emergency/sos', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        emergency_type: 'Acute Emergency SOS',
+                        priority: 'critical',
+                        location: 'Current GPS Location (Simulated)'
+                    })
+                });
+
+                const data = await res.json();
+                if (data.success && data.data && data.data.tracking_url) {
+                    window.location.href = data.data.tracking_url;
+                } else {
+                    window.location.href = '/dashboard/patient';
+                }
+            } catch (err) {
+                window.location.href = '/dashboard/patient';
+            }
+        }
+
+        // 2. Generic Modal Helpers
+        function showGenericModal(title, message) {
+            document.getElementById('genericModalTitle').innerText = title;
+            document.getElementById('genericModalBody').innerText = message;
+            const modal = document.getElementById('genericModal');
+            modal.style.display = 'flex';
+        }
+        function closeGenericModal() {
+            document.getElementById('genericModal').style.display = 'none';
+        }
+
+        // 3. Hospital Search & Filter
+        function filterHospitals() {
+            const query = (document.getElementById('hospitalSearchInput').value || '').toLowerCase();
+            const cityFilter = (document.getElementById('hospitalCityFilter').value || '').toLowerCase();
+            document.querySelectorAll('.hospital-item').forEach(item => {
+                const name = (item.getAttribute('data-name') || '').toLowerCase();
+                const city = (item.getAttribute('data-city') || '').toLowerCase();
+                const matches = name.includes(query) && (!cityFilter || city.includes(cityFilter));
+                item.style.display = matches ? 'block' : 'none';
+            });
+        }
+
+        function openHospitalModal(name, beds, icu, phone) {
+            showGenericModal(
+                '🏥 Emergency Bed Reserved',
+                `Reserved bed at ${name}.\nAvailable: ${beds} | ICU: ${icu}\nEmergency Desk: ${phone}`
+            );
+        }
+
+        // 4. Doctor Search & Filter
+        function filterDoctors() {
+            const query = (document.getElementById('doctorSearchInput').value || '').toLowerCase();
+            const specialtyFilter = (document.getElementById('doctorSpecialtyFilter').value || '').toLowerCase();
+            document.querySelectorAll('.doctor-item').forEach(item => {
+                const name = (item.getAttribute('data-name') || '').toLowerCase();
+                const spec = (item.getAttribute('data-specialty') || '').toLowerCase();
+                const matches = name.includes(query) && (!specialtyFilter || spec.includes(specialtyFilter));
+                item.style.display = matches ? 'block' : 'none';
+            });
+        }
+
+        function openDoctorProfile(name, spec, exp, fee, license) {
+            document.getElementById('profName').innerText = name;
+            document.getElementById('profSpecialty').innerText = spec;
+            document.getElementById('profExp').innerText = `Experience: ${exp} • License: ${license}`;
+            document.getElementById('profFee').innerText = `Consultation Fee: ${fee}`;
+            document.getElementById('profBookBtn').onclick = () => {
+                closeDoctorProfileModal();
+                openBookingModal(name, 'doc-01');
+            };
+            document.getElementById('doctorProfileModal').style.display = 'flex';
+        }
+        function closeDoctorProfileModal() {
+            document.getElementById('doctorProfileModal').style.display = 'none';
+        }
+
+        // 5. Appointment Booking Modal & Submission
+        let currentBookingDoctor = '';
+        function openBookingModal(docName, docId) {
+            currentBookingDoctor = docName;
+            document.getElementById('bookDocName').innerText = docName;
+            document.getElementById('bookingModal').style.display = 'flex';
+        }
+        function closeBookingModal() {
+            document.getElementById('bookingModal').style.display = 'none';
+        }
+
+        async function submitDoctorBooking() {
+            const dateVal = document.getElementById('bookDateTime').value;
+            const reason = document.getElementById('bookReason').value;
+            closeBookingModal();
+
+            try {
+                await fetch('/api/appointments', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ doctor_name: currentBookingDoctor, appointment_date: dateVal, reason })
+                });
+            } catch(e) {}
+
+            showGenericModal(
+                '✓ Appointment Confirmed',
+                `Your appointment with ${currentBookingDoctor} is confirmed for ${dateVal || 'Tomorrow, 10:00 AM'}.\nReason: ${reason || 'Consultation'}`
+            );
+        }
+
+        // 6. Blood Bank Request
+        function requestBloodUnit() {
+            const group = prompt("Enter Blood Group needed (e.g. A+, O-, B+):", "O-");
+            if (!group) return;
+            showGenericModal(
+                '🩸 Blood Request Dispatched',
+                `Emergency request for ${group} blood units sent to Metro Blood Repository. Matching hospital units reserved.`
+            );
+        }
+
+        // 7. Ambulance Dispatch Simulator
+        function dispatchAmbulanceProgress(vehicle) {
+            showGenericModal("🚨 Dispatching Ambulance...", `Searching nearest active unit for ${vehicle}...`);
+            setTimeout(() => {
+                showGenericModal(
+                    "🚑 Ambulance Assigned!",
+                    `Unit ${vehicle} assigned!\nDriver: John Miller (+1 555 0881)\nETA: 4 Minutes (En Route)`
+                );
+            }, 1200);
+        }
+
+        // 8. AI Assistant Chat Evaluation
+        async function sendAIChat(symptomsText) {
+            document.getElementById('aiChatInput').value = symptomsText;
+            submitAIChatForm();
+        }
+
+        async function submitAIChatForm() {
+            const input = document.getElementById('aiChatInput');
+            const chatOutput = document.getElementById('aiChatOutput');
+            const submitBtn = document.getElementById('aiSubmitBtn');
+            const btnText = document.getElementById('aiBtnText');
+            const btnSpinner = document.getElementById('aiBtnSpinner');
+
+            const text = input.value.trim();
+            if (!text) return;
+
+            // Loading state: Spinner, Disable button, Show output container
+            if (submitBtn) submitBtn.disabled = true;
+            if (btnText) btnText.innerText = 'Analyzing...';
+            if (btnSpinner) btnSpinner.style.display = 'inline-block';
+
+            chatOutput.style.display = 'block';
+            chatOutput.innerHTML = `
+                <div style="background:rgba(0,0,0,0.4); padding:20px; border-radius:14px; text-align:center; border:1px solid rgba(14,165,233,0.3);">
+                    <div style="font-size:2rem; margin-bottom:10px; animation:spin 1s linear infinite;">🧠</div>
+                    <div style="color:#38bdf8; font-weight:700; font-size:1.05rem;">PulseX AI Clinical Triage in Progress...</div>
+                    <div style="color:#94a3b8; font-size:0.85rem; margin-top:4px;">Evaluating symptom telemetry against evidence-based medical triage protocols...</div>
+                    <div style="width:100%; height:4px; background:rgba(255,255,255,0.1); border-radius:2px; margin-top:14px; overflow:hidden;">
+                        <div style="width:75%; height:100%; background:linear-gradient(90deg, #0ea5e9, #10b981); animation:pulseProgress 1.5s infinite;"></div>
+                    </div>
+                </div>
+            `;
+
+            try {
+                const res = await fetch('/api/ai/triage', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ symptoms: text })
+                });
+
+                const result = await res.json();
+                const data = result.data || {};
+
+                const urgency = (data.urgency || 'MEDIUM').toUpperCase();
+                const isEmergency = urgency === 'EMERGENCY' || urgency === 'HIGH' || data.should_call_ambulance;
+
+                let urgencyColor = '#22c55e'; // Green LOW
+                let urgencyBg = 'rgba(34,197,94,0.15)';
+                let urgencyIcon = '🌱';
+
+                if (urgency === 'MEDIUM') {
+                    urgencyColor = '#eab308';
+                    urgencyBg = 'rgba(234,179,8,0.15)';
+                    urgencyIcon = '⚡';
+                } else if (urgency === 'HIGH') {
+                    urgencyColor = '#f97316';
+                    urgencyBg = 'rgba(249,115,22,0.15)';
+                    urgencyIcon = '⚠️';
+                } else if (urgency === 'EMERGENCY') {
+                    urgencyColor = '#ef4444';
+                    urgencyBg = 'rgba(239,68,68,0.2)';
+                    urgencyIcon = '🚨';
+                }
+
+                const confidencePct = Math.round((data.confidence || 0.92) * 100);
+
+                let html = `
+                    <div style="display:flex; flex-direction:column; gap:16px;">
+                        
+                        <!-- URGENCY & CONFIDENCE HEADER CARD -->
+                        <div style="background:${urgencyBg}; border:1px solid ${urgencyColor}; border-radius:14px; padding:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                            <div>
+                                <span style="background:${urgencyColor}; color:#fff; font-weight:800; font-size:0.8rem; padding:4px 12px; border-radius:20px; text-transform:uppercase; letter-spacing:0.5px;">${urgencyIcon} ${urgency} URGENCY</span>
+                                <h3 style="color:#fff; margin-top:8px; font-size:1.2rem;">${data.summary || 'Clinical Triage Evaluation'}</h3>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="color:#94a3b8; font-size:0.75rem; font-weight:700;">AI CONFIDENCE SCORE</div>
+                                <div style="color:${urgencyColor}; font-size:1.5rem; font-weight:800;">${confidencePct}%</div>
+                            </div>
+                        </div>
+
+                        <!-- POSSIBLE CONDITIONS & SPECIALIST CARD -->
+                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px;">
+                            
+                            <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:18px;">
+                                <div style="color:#38bdf8; font-weight:700; font-size:0.9rem; margin-bottom:8px;">🩺 Possible Clinical Conditions</div>
+                                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                                    ${(data.possible_conditions || []).map(c => `<span style="background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); padding:4px 10px; border-radius:12px; font-size:0.8rem;">${c}</span>`).join('')}
+                                </div>
+                            </div>
+
+                            <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:18px;">
+                                <div style="color:#4ade80; font-weight:700; font-size:0.9rem; margin-bottom:6px;">👨‍⚕️ Recommended Specialist & Department</div>
+                                <div style="color:#fff; font-weight:700; font-size:0.95rem;">${data.recommended_specialist || 'General Medicine'}</div>
+                                <div style="color:#94a3b8; font-size:0.85rem; margin-top:2px;">Department: ${data.recommended_department || 'Outpatient Clinic'}</div>
+                            </div>
+
+                        </div>
+
+                        <!-- FIRST AID & RED FLAGS CARD -->
+                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px;">
+                            
+                            <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:18px;">
+                                <div style="color:#4ade80; font-weight:700; font-size:0.9rem; margin-bottom:8px;">🩹 First-Aid Advice</div>
+                                <ul style="margin:0; padding-left:18px; color:#cbd5e1; font-size:0.85rem;">
+                                    ${(data.first_aid || []).map(fa => `<li style="margin-bottom:4px;">${fa}</li>`).join('')}
+                                </ul>
+                            </div>
+
+                            <div style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); border-radius:14px; padding:18px;">
+                                <div style="color:#f87171; font-weight:700; font-size:0.9rem; margin-bottom:8px;">⚠️ Red Flag Warning Symptoms</div>
+                                <ul style="margin:0; padding-left:18px; color:#fca5a5; font-size:0.85rem;">
+                                    ${(data.red_flags || []).map(rf => `<li style="margin-bottom:4px;">${rf}</li>`).join('')}
+                                </ul>
+                            </div>
+
+                        </div>
+
+                        <!-- RECOMMENDED TESTS CARD -->
+                        <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:18px;">
+                            <div style="color:#a855f7; font-weight:700; font-size:0.9rem; margin-bottom:8px;">🧪 Recommended Diagnostic Tests</div>
+                            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                ${(data.recommended_tests || []).map(t => `<span style="background:rgba(168,85,247,0.15); color:#c084fc; border:1px solid rgba(168,85,247,0.3); padding:4px 10px; border-radius:12px; font-size:0.8rem;">${t}</span>`).join('')}
+                            </div>
+                        </div>
+                `;
+
+                // EMERGENCY ACTIONS vs LOW/MEDIUM ACTIONS
+                if (isEmergency) {
+                    html += `
+                        <!-- AUTOMATIC EMERGENCY ACTION PANEL -->
+                        <div style="background:rgba(239,68,68,0.15); border:2px solid #ef4444; border-radius:14px; padding:20px; margin-top:8px;">
+                            <div style="color:#f87171; font-weight:800; font-size:1.1rem; margin-bottom:4px;">🚨 IMMEDIATE EMERGENCY ACTION REQUIRED</div>
+                            <div style="color:#cbd5e1; font-size:0.88rem; margin-bottom:16px;">Symptoms indicate a potential emergency. Please initiate emergency response protocols below immediately:</div>
+                            
+                            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:10px;">
+                                <button class="btn-primary" style="background:#ef4444; color:#fff; border:none; padding:12px; border-radius:10px; font-weight:700; cursor:pointer;" onclick="triggerSOSWorkflow()">🚑 Trigger Emergency SOS</button>
+                                <a href="#hospitals" class="btn-secondary" style="display:block; text-align:center; padding:12px; border-radius:10px; background:rgba(14,165,233,0.2); color:#38bdf8; border:1px solid rgba(14,165,233,0.4); text-decoration:none; font-weight:700;">🏥 Find Nearby Hospitals</a>
+                                <a href="#doctors" class="btn-secondary" style="display:block; text-align:center; padding:12px; border-radius:10px; background:rgba(16,185,129,0.2); color:#4ade80; border:1px solid rgba(16,185,129,0.4); text-decoration:none; font-weight:700;">👨‍⚕️ Find Available Doctors</a>
+                                <button class="btn-secondary" style="padding:12px; border-radius:10px; background:rgba(245,158,11,0.2); color:#fbbf24; border:1px solid rgba(245,158,11,0.4); font-weight:700; cursor:pointer;" onclick="openBookingModal('${data.recommended_specialist || 'Emergency Doctor'}', 'doc-01')">📅 Book Appointment</button>
+                                <button class="btn-secondary" style="padding:12px; border-radius:10px; background:rgba(239,68,68,0.2); color:#f87171; border:1px solid rgba(239,68,68,0.4); font-weight:700; cursor:pointer;" onclick="requestBloodUnit()">🩸 Blood Bank Repository</button>
+                                <button class="btn-secondary" style="padding:12px; border-radius:10px; background:rgba(168,85,247,0.2); color:#c084fc; border:1px solid rgba(168,85,247,0.4); font-weight:700; cursor:pointer;" onclick="dispatchAmbulanceProgress('Cardiac ICU Unit')">🚑 Request Ambulance</button>
+                            </div>
+
+                            <div style="margin-top:14px; font-weight:700; font-size:0.85rem; color:#fca5a5;">
+                                📞 Emergency Helpline Direct: 911 / 112 | PulseX Cardiac Emergency Line: +1 800 555 0199
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <!-- LOW / MEDIUM URGENCY ACTIONS -->
+                        <div style="background:rgba(14,165,233,0.08); border:1px solid rgba(14,165,233,0.2); border-radius:14px; padding:18px; margin-top:8px;">
+                            <div style="color:#38bdf8; font-weight:700; font-size:0.95rem; margin-bottom:8px;">👍 Self-Care Advice & OPD Consultation</div>
+                            <div style="color:#cbd5e1; font-size:0.85rem; margin-bottom:12px;">Symptoms appear manageable with outpatient care. Schedule an OPD appointment with a recommended doctor:</div>
+                            
+                            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                                <button class="btn-primary" style="padding:10px 20px; border-radius:10px; font-weight:700; cursor:pointer;" onclick="openBookingModal('${data.recommended_specialist || 'General Medicine Specialist'}', 'doc-01')">📅 Book Appointment</button>
+                                <a href="#doctors" class="btn-secondary" style="padding:10px 20px; border-radius:10px; background:rgba(255,255,255,0.06); color:#fff; text-decoration:none; font-weight:600;">👨‍⚕️ View Recommended Doctors</a>
+                            </div>
+
+                            ${(data.follow_up_questions && data.follow_up_questions.length > 0) ? `
+                                <div style="margin-top:14px; color:#94a3b8; font-size:0.82rem;">
+                                    <strong>Follow-up Questions to consider:</strong> ${data.follow_up_questions.join(' • ')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                }
+
+                // DISCLAIMER CARD
+                html += `
+                        <div style="color:#64748b; font-size:0.75rem; text-align:center; margin-top:8px; border-top:1px solid rgba(255,255,255,0.06); padding-top:10px;">
+                            🔒 ${data.disclaimer || 'This AI provides informational guidance only and is not a substitute for a licensed healthcare professional.'}
+                        </div>
+
+                    </div>
+                `;
+
+                chatOutput.innerHTML = html;
+
+            } catch (err) {
+                chatOutput.innerHTML = `
+                    <div style="background:rgba(239,68,68,0.15); border:1px solid #ef4444; border-radius:14px; padding:18px; color:#f87171;">
+                        <strong>⚠️ Triage Service Error:</strong> Failed to complete AI triage analysis. Please verify your connection or call emergency assistance directly if in distress.
+                    </div>
+                `;
+            } finally {
+                if (submitBtn) submitBtn.disabled = false;
+                if (btnText) btnText.innerText = 'Analyze Triage';
+                if (btnSpinner) btnSpinner.style.display = 'none';
+            }
+        }
+
+        // 9. Volunteer Network Connection
+        function connectVolunteer(volName) {
+            showGenericModal(
+                '🤝 First Responder Alerted',
+                `Alert notification sent to volunteer ${volName}. Proximity GPS tracking active.`
+            );
+        }
+    </script>
 </body>
 </html>

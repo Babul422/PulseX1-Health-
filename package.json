@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-"scripts": {
-  "start": "node app.js",
-  "dev": "nodemon app.js"
-},
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Babul422/PulseX1-Health-.git"
@@ -20,8 +20,13 @@
   },
   "homepage": "https://github.com/Babul422/PulseX1-Health-#readme",
   "dependencies": {
+    "@google/genai": "^2.13.0",
+    "@supabase/supabase-js": "^2.110.8",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.4.2",
     "ejs": "^6.0.1",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "multer": "^2.2.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
