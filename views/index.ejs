@@ -482,42 +482,189 @@
         <h2 class="reveal">Live Blood Inventory & Emergency Matching</h2>
         <p class="section-subtitle reveal">Check live blood units available across network repositories and dispatch emergency requests.</p>
 
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap:16px; margin: 24px 0;">
-            <div class="feature-card reveal" style="text-align:center; padding:16px;">
-                <span style="font-size:1.5rem; font-weight:800; color:#f87171;">A+</span>
-                <div style="font-size:1.8rem; font-weight:800; color:#fff; margin-top:4px;">15 Units</div>
+        <!-- 1. SUMMARY METRICS ROW -->
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin: 24px 0;">
+            <div class="feature-card reveal" style="padding:20px; display:flex; align-items:center; gap:16px;">
+                <div style="width:48px; height:48px; border-radius:12px; background:rgba(239,68,68,0.15); display:flex; align-items:center; justify-content:center; color:#f87171; font-size:1.4rem;">🩸</div>
+                <div>
+                    <div style="color:#94a3b8; font-size:0.8rem; font-weight:700; text-transform:uppercase;">Total Blood Units</div>
+                    <div style="color:#fff; font-size:1.6rem; font-weight:800; margin-top:2px;">90 Units</div>
+                </div>
             </div>
-            <div class="feature-card reveal" style="text-align:center; padding:16px;">
-                <span style="font-size:1.5rem; font-weight:800; color:#f87171;">A-</span>
-                <div style="font-size:1.8rem; font-weight:800; color:#fff; margin-top:4px;">4 Units</div>
+
+            <div class="feature-card reveal" style="padding:20px; display:flex; align-items:center; gap:16px;">
+                <div style="width:48px; height:48px; border-radius:12px; background:rgba(14,165,233,0.15); display:flex; align-items:center; justify-content:center; color:#38bdf8; font-size:1.4rem;">🏥</div>
+                <div>
+                    <div style="color:#94a3b8; font-size:0.8rem; font-weight:700; text-transform:uppercase;">Connected Repositories</div>
+                    <div style="color:#fff; font-size:1.6rem; font-weight:800; margin-top:2px;">18 Network Banks</div>
+                </div>
             </div>
-            <div class="feature-card reveal" style="text-align:center; padding:16px;">
-                <span style="font-size:1.5rem; font-weight:800; color:#f87171;">B+</span>
-                <div style="font-size:1.8rem; font-weight:800; color:#fff; margin-top:4px;">20 Units</div>
+
+            <div class="feature-card reveal" style="padding:20px; display:flex; align-items:center; gap:16px;">
+                <div style="width:48px; height:48px; border-radius:12px; background:rgba(245,158,11,0.15); display:flex; align-items:center; justify-content:center; color:#fbbf24; font-size:1.4rem;">🚨</div>
+                <div>
+                    <div style="color:#94a3b8; font-size:0.8rem; font-weight:700; text-transform:uppercase;">Emergency Requests</div>
+                    <div style="color:#fff; font-size:1.6rem; font-weight:800; margin-top:2px;">6 Active</div>
+                </div>
             </div>
-            <div class="feature-card reveal" style="text-align:center; padding:16px;">
-                <span style="font-size:1.5rem; font-weight:800; color:#f87171;">B-</span>
-                <div style="font-size:1.8rem; font-weight:800; color:#fff; margin-top:4px;">3 Units</div>
-            </div>
-            <div class="feature-card reveal" style="text-align:center; padding:16px;">
-                <span style="font-size:1.5rem; font-weight:800; color:#f87171;">AB+</span>
-                <div style="font-size:1.8rem; font-weight:800; color:#fff; margin-top:4px;">8 Units</div>
-            </div>
-            <div class="feature-card reveal" style="text-align:center; padding:16px;">
-                <span style="font-size:1.5rem; font-weight:800; color:#f87171;">AB-</span>
-                <div style="font-size:1.8rem; font-weight:800; color:#fff; margin-top:4px;">2 Units</div>
-            </div>
-            <div class="feature-card reveal" style="text-align:center; padding:16px;">
-                <span style="font-size:1.5rem; font-weight:800; color:#f87171;">O+</span>
-                <div style="font-size:1.8rem; font-weight:800; color:#fff; margin-top:4px;">32 Units</div>
-            </div>
-            <div class="feature-card reveal" style="text-align:center; padding:16px;">
-                <span style="font-size:1.5rem; font-weight:800; color:#f87171;">O-</span>
-                <div style="font-size:1.8rem; font-weight:800; color:#fff; margin-top:4px;">6 Units</div>
+
+            <div class="feature-card reveal" style="padding:20px; display:flex; align-items:center; gap:16px;">
+                <div style="width:48px; height:48px; border-radius:12px; background:rgba(16,185,129,0.15); display:flex; align-items:center; justify-content:center; color:#4ade80; font-size:1.4rem;">⚡</div>
+                <div>
+                    <div style="color:#94a3b8; font-size:0.8rem; font-weight:700; text-transform:uppercase;">Avg Response Time</div>
+                    <div style="color:#fff; font-size:1.6rem; font-weight:800; margin-top:2px;">4.2 Mins</div>
+                </div>
             </div>
         </div>
 
-        <button class="btn-primary" style="padding:14px 28px; border-radius:10px; font-weight:700; cursor:pointer;" onclick="requestBloodUnit()">Request Emergency Blood Units</button>
+        <!-- 2. SEARCH & FILTER BAR -->
+        <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:18px 24px; margin-bottom:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+            <div style="flex:1; min-width:240px;">
+                <input type="text" id="bloodSearchInput" placeholder="Filter by blood group (e.g. A+, O-, B+)..." onkeyup="filterBloodGroupCards()" style="width:100%; padding:12px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.12); background:rgba(0,0,0,0.4); color:#fff; font-size:0.9rem;">
+            </div>
+
+            <div style="display:flex; gap:8px; flex-wrap:wrap;" id="bloodPillFilters">
+                <button class="blood-filter-pill active" onclick="setBloodPillFilter('ALL', this)">All</button>
+                <button class="blood-filter-pill" onclick="setBloodPillFilter('A+', this)">A+</button>
+                <button class="blood-filter-pill" onclick="setBloodPillFilter('A-', this)">A-</button>
+                <button class="blood-filter-pill" onclick="setBloodPillFilter('B+', this)">B+</button>
+                <button class="blood-filter-pill" onclick="setBloodPillFilter('B-', this)">B-</button>
+                <button class="blood-filter-pill" onclick="setBloodPillFilter('AB+', this)">AB+</button>
+                <button class="blood-filter-pill" onclick="setBloodPillFilter('AB-', this)">AB-</button>
+                <button class="blood-filter-pill" onclick="setBloodPillFilter('O+', this)">O+</button>
+                <button class="blood-filter-pill" onclick="setBloodPillFilter('O-', this)">O-</button>
+            </div>
+        </div>
+
+        <!-- 3. BALANCED RESPONSIVE GRID OF BLOOD GROUP CARDS -->
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap:20px; margin: 24px 0;" id="bloodGridContainer">
+            
+            <div class="blood-card reveal blood-group-item" data-group="A+">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <span style="font-size:1.8rem; font-weight:800; color:#f87171;">A+</span>
+                    <span class="blood-stock-badge stock-good">Good Stock</span>
+                </div>
+                <div style="font-size:2rem; font-weight:800; color:#fff; margin-top:8px;">15 Units</div>
+                <div style="color:#94a3b8; font-size:0.75rem; margin-top:4px;">Updated 5 mins ago</div>
+                <button class="btn-secondary" style="width:100%; margin-top:14px; padding:8px; border-radius:8px; background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); font-weight:600; cursor:pointer;" onclick="requestBloodGroupUnit('A+')">Request A+</button>
+            </div>
+
+            <div class="blood-card reveal blood-group-item" data-group="A-">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <span style="font-size:1.8rem; font-weight:800; color:#f87171;">A-</span>
+                    <span class="blood-stock-badge stock-critical">Critical</span>
+                </div>
+                <div style="font-size:2rem; font-weight:800; color:#fff; margin-top:8px;">4 Units</div>
+                <div style="color:#94a3b8; font-size:0.75rem; margin-top:4px;">Updated 12 mins ago</div>
+                <button class="btn-secondary" style="width:100%; margin-top:14px; padding:8px; border-radius:8px; background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); font-weight:600; cursor:pointer;" onclick="requestBloodGroupUnit('A-')">Request A-</button>
+            </div>
+
+            <div class="blood-card reveal blood-group-item" data-group="B+">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <span style="font-size:1.8rem; font-weight:800; color:#f87171;">B+</span>
+                    <span class="blood-stock-badge stock-good">Good Stock</span>
+                </div>
+                <div style="font-size:2rem; font-weight:800; color:#fff; margin-top:8px;">20 Units</div>
+                <div style="color:#94a3b8; font-size:0.75rem; margin-top:4px;">Updated 8 mins ago</div>
+                <button class="btn-secondary" style="width:100%; margin-top:14px; padding:8px; border-radius:8px; background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); font-weight:600; cursor:pointer;" onclick="requestBloodGroupUnit('B+')">Request B+</button>
+            </div>
+
+            <div class="blood-card reveal blood-group-item" data-group="B-">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <span style="font-size:1.8rem; font-weight:800; color:#f87171;">B-</span>
+                    <span class="blood-stock-badge stock-critical">Critical</span>
+                </div>
+                <div style="font-size:2rem; font-weight:800; color:#fff; margin-top:8px;">3 Units</div>
+                <div style="color:#94a3b8; font-size:0.75rem; margin-top:4px;">Updated 15 mins ago</div>
+                <button class="btn-secondary" style="width:100%; margin-top:14px; padding:8px; border-radius:8px; background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); font-weight:600; cursor:pointer;" onclick="requestBloodGroupUnit('B-')">Request B-</button>
+            </div>
+
+            <div class="blood-card reveal blood-group-item" data-group="AB+">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <span style="font-size:1.8rem; font-weight:800; color:#f87171;">AB+</span>
+                    <span class="blood-stock-badge stock-limited">Limited</span>
+                </div>
+                <div style="font-size:2rem; font-weight:800; color:#fff; margin-top:8px;">8 Units</div>
+                <div style="color:#94a3b8; font-size:0.75rem; margin-top:4px;">Updated 2 mins ago</div>
+                <button class="btn-secondary" style="width:100%; margin-top:14px; padding:8px; border-radius:8px; background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); font-weight:600; cursor:pointer;" onclick="requestBloodGroupUnit('AB+')">Request AB+</button>
+            </div>
+
+            <div class="blood-card reveal blood-group-item" data-group="AB-">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <span style="font-size:1.8rem; font-weight:800; color:#f87171;">AB-</span>
+                    <span class="blood-stock-badge stock-critical">Critical</span>
+                </div>
+                <div style="font-size:2rem; font-weight:800; color:#fff; margin-top:8px;">2 Units</div>
+                <div style="color:#94a3b8; font-size:0.75rem; margin-top:4px;">Updated 20 mins ago</div>
+                <button class="btn-secondary" style="width:100%; margin-top:14px; padding:8px; border-radius:8px; background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); font-weight:600; cursor:pointer;" onclick="requestBloodGroupUnit('AB-')">Request AB-</button>
+            </div>
+
+            <div class="blood-card reveal blood-group-item" data-group="O+">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <span style="font-size:1.8rem; font-weight:800; color:#f87171;">O+</span>
+                    <span class="blood-stock-badge stock-good">Good Stock</span>
+                </div>
+                <div style="font-size:2rem; font-weight:800; color:#fff; margin-top:8px;">32 Units</div>
+                <div style="color:#94a3b8; font-size:0.75rem; margin-top:4px;">Updated 1 min ago</div>
+                <button class="btn-secondary" style="width:100%; margin-top:14px; padding:8px; border-radius:8px; background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); font-weight:600; cursor:pointer;" onclick="requestBloodGroupUnit('O+')">Request O+</button>
+            </div>
+
+            <div class="blood-card reveal blood-group-item" data-group="O-">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <span style="font-size:1.8rem; font-weight:800; color:#f87171;">O-</span>
+                    <span class="blood-stock-badge stock-limited">Limited</span>
+                </div>
+                <div style="font-size:2rem; font-weight:800; color:#fff; margin-top:8px;">6 Units</div>
+                <div style="color:#94a3b8; font-size:0.75rem; margin-top:4px;">Updated 4 mins ago</div>
+                <button class="btn-secondary" style="width:100%; margin-top:14px; padding:8px; border-radius:8px; background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); font-weight:600; cursor:pointer;" onclick="requestBloodGroupUnit('O-')">Request O-</button>
+            </div>
+
+        </div>
+
+        <!-- 4. ENHANCED EMERGENCY CALL-TO-ACTION BUTTONS -->
+        <div style="display:flex; gap:14px; flex-wrap:wrap; margin:24px 0;">
+            <button class="btn-primary" style="padding:14px 28px; border-radius:12px; font-weight:700; cursor:pointer; background:#ef4444; color:#fff; border:none; display:flex; align-items:center; gap:8px;" onclick="requestBloodUnit()">
+                <span>🩸 Request Emergency Blood</span>
+            </button>
+
+            <button class="btn-secondary" style="padding:14px 28px; border-radius:12px; font-weight:700; cursor:pointer; background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); display:flex; align-items:center; gap:8px;" onclick="findNearbyBloodBanks()">
+                <span>🏥 Find Nearby Blood Banks</span>
+            </button>
+
+            <button class="btn-secondary" style="padding:14px 28px; border-radius:12px; font-weight:700; cursor:pointer; background:rgba(16,185,129,0.15); color:#4ade80; border:1px solid rgba(16,185,129,0.3); display:flex; align-items:center; gap:8px;" onclick="openDonorModal()">
+                <span>🤝 Become a Blood Donor</span>
+            </button>
+        </div>
+
+        <!-- 5. RECENT BLOOD ACTIVITY PANEL -->
+        <div style="background:rgba(15,23,42,0.85); border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:20px; margin-top:24px;">
+            <div style="color:#38bdf8; font-weight:700; font-size:0.95rem; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+                <span>⚡ Live Blood Bank Feed & Recent Activity</span>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                <div style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); padding:10px 14px; border-radius:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                    <div style="color:#f87171; font-weight:600; font-size:0.88rem;">🚨 Emergency Request: 2 Units O- requested by Apex Cardiac ICU</div>
+                    <span style="color:#94a3b8; font-size:0.78rem;">5 mins ago</span>
+                </div>
+
+                <div style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.2); padding:10px 14px; border-radius:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                    <div style="color:#4ade80; font-weight:600; font-size:0.88rem;">🩸 Donation Received: 1 Unit A+ donated by Alex Johnson at Metro Blood Center</div>
+                    <span style="color:#94a3b8; font-size:0.78rem;">14 mins ago</span>
+                </div>
+
+                <div style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); padding:10px 14px; border-radius:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                    <div style="color:#f87171; font-weight:600; font-size:0.88rem;">🚨 Emergency Request: 3 Units B+ requested by St. Jude Trauma Unit</div>
+                    <span style="color:#94a3b8; font-size:0.78rem;">32 mins ago</span>
+                </div>
+
+                <div style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.2); padding:10px 14px; border-radius:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                    <div style="color:#4ade80; font-weight:600; font-size:0.88rem;">🩸 Donation Received: 2 Units O+ donated by Sarah Jenkins</div>
+                    <span style="color:#94a3b8; font-size:0.78rem;">45 mins ago</span>
+                </div>
+            </div>
+        </div>
+
     </section>
 
     <!-- ================= AMBULANCE DISPATCH ================= -->
@@ -1466,6 +1613,57 @@
             showGenericModal(
                 '🤝 First Responder Alerted',
                 `Alert notification sent to volunteer ${volName}. Proximity GPS tracking active.`
+            );
+        }
+
+        // 10. Blood Bank Filter & Actions
+        function filterBloodGroupCards() {
+            const query = document.getElementById('bloodSearchInput').value.trim().toUpperCase();
+            const cards = document.querySelectorAll('.blood-group-item');
+
+            cards.forEach(card => {
+                const group = card.getAttribute('data-group').toUpperCase();
+                if (!query || group.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function setBloodPillFilter(selectedGroup, btnElement) {
+            document.querySelectorAll('#bloodPillFilters .blood-filter-pill').forEach(pill => pill.classList.remove('active'));
+            if (btnElement) btnElement.classList.add('active');
+
+            const cards = document.querySelectorAll('.blood-group-item');
+            cards.forEach(card => {
+                const group = card.getAttribute('data-group');
+                if (selectedGroup === 'ALL' || group === selectedGroup) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function requestBloodGroupUnit(group) {
+            showGenericModal(
+                `🩸 Request ${group} Blood Units`,
+                `Emergency dispatch initiated for ${group} blood group across 18 connected repositories. Estimated reserve confirmation: 2 minutes.`
+            );
+        }
+
+        function findNearbyBloodBanks() {
+            showGenericModal(
+                '🏥 Nearby Blood Bank Repositories',
+                `1. Metro Central Blood Bank (1.2 km) - Open 24/7\n2. St. Jude Blood Repository (3.4 km) - Open 24/7\n3. Apex Trauma Blood Center (5.1 km) - Open 24/7`
+            );
+        }
+
+        function openDonorModal() {
+            showGenericModal(
+                '🤝 PulseX Blood Donor Registration',
+                `Thank you for offering to donate! Your voluntary blood donation saves lives.\n\nPlease confirm your blood type at your nearest PulseX partner hospital or book a donation slot in your profile settings.`
             );
         }
     </script>
