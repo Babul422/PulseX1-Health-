@@ -266,112 +266,187 @@
     </div>
 
 
-    <!-- ================= FEATURES SECTION ================= -->
+    <!-- ================= FEATURES SECTION ===========    <section class="features" id="services">
 
-    <section class="features" id="services">
-
-        <div class="section-tag">— FEATURES</div>
+        <div class="section-tag">— FEATURE SHOWCASE</div>
         <h2 class="reveal">Everything critical care<br>needs, in one platform.</h2>
-        <p class="section-subtitle reveal">A modular, intelligent stack built for hospitals, doctors, patients, blood banks and volunteers.</p>
+        <p class="section-subtitle reveal">A modular, intelligent stack built for hospitals, doctors, patients, blood banks, and emergency responders.</p>
 
-        <div class="feature-container">
+        <!-- COMPACT SUMMARY ROW -->
+        <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin: 20px 0 32px 0;">
+            <span style="background:rgba(14,165,233,0.12); color:#38bdf8; border:1px solid rgba(14,165,233,0.25); padding:6px 16px; border-radius:20px; font-size:0.85rem; font-weight:700;">⚡ 8 Core Modules</span>
+            <span style="background:rgba(168,85,247,0.12); color:#c084fc; border:1px solid rgba(168,85,247,0.25); padding:6px 16px; border-radius:20px; font-size:0.85rem; font-weight:700;">🤖 AI Powered Triage</span>
+            <span style="background:rgba(34,197,94,0.12); color:#4ade80; border:1px solid rgba(34,197,94,0.25); padding:6px 16px; border-radius:20px; font-size:0.85rem; font-weight:700;">🌐 Real-Time Network</span>
+            <span style="background:rgba(239,68,68,0.12); color:#f87171; border:1px solid rgba(239,68,68,0.25); padding:6px 16px; border-radius:20px; font-size:0.85rem; font-weight:700;">🚨 24/7 Emergency Support</span>
+        </div>
 
-            <div class="feature-card reveal">
-                <div class="icon feature-icon-bot">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                        <circle cx="12" cy="16" r="1"></circle>
-                    </svg>
+        <!-- FEATURE SHOWCASE GRID -->
+        <div class="feature-showcase-grid">
+
+            <!-- 1. FEATURED CARD (SPANS 2 COLUMNS) - AI HEALTH ASSISTANT -->
+            <a href="#ai-assistant" class="feature-showcase-card featured-card reveal">
+                <span class="showcase-badge badge-ai">🤖 AI TRIAGE v2.5</span>
+                <div>
+                    <div class="icon-wrapper" style="width:60px; height:60px; background:rgba(14,165,233,0.2); border-color:rgba(14,165,233,0.4);">
+                        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:28px; height:28px;">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            <circle cx="12" cy="16" r="1"></circle>
+                        </svg>
+                    </div>
+                    <h3 style="font-size:1.4rem; font-weight:800; color:#fff; margin-bottom:8px;">PulseX AI Clinical Triage Assistant</h3>
+                    <p style="color:#cbd5e1; font-size:0.95rem; line-height:1.6; max-width:540px;">24/7 medical triage and evidence-based symptom analysis powered by Google Gemini 2.5 Flash. Delivers instant risk urgency rating, recommended specialist department, first-aid steps, and red-flag alerts.</p>
+                    <div style="margin-top:14px; display:flex; gap:16px; align-items:center;">
+                        <span style="color:#4ade80; font-weight:700; font-size:0.88rem;">✓ 98% Triage Accuracy</span>
+                        <span style="color:#94a3b8; font-size:0.85rem;">• Instant Analysis</span>
+                    </div>
                 </div>
-                <h3>AI Health Assistant</h3>
-                <p>24/7 medical triage and symptom analysis powered by clinical LLMs.</p>
-            </div>
-
-            <div class="feature-card reveal">
-                <div class="icon feature-icon-map">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                        <circle cx="12" cy="10" r="3"></circle>
-                    </svg>
+                <div class="card-action-link" style="font-size:0.95rem; margin-top:20px;">
+                    Try AI Triage Assistant <span style="font-size:1.1rem;">→</span>
                 </div>
-                <h3>Smart Hospital Finder</h3>
-                <p>Locate the best-fit hospital by specialty, distance and load.</p>
-            </div>
+            </a>
 
-            <div class="feature-card reveal">
-                <div class="icon feature-icon-bed">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M2 4v16M2 11h20M22 4v16M2 17h20M6 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
-                    </svg>
+            <!-- 2. SMART HOSPITAL FINDER -->
+            <a href="#hospitals" class="feature-showcase-card reveal">
+                <span class="showcase-badge badge-live">LIVE</span>
+                <div>
+                    <div class="icon-wrapper">
+                        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px; height:24px;">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                    </div>
+                    <h3 style="font-size:1.15rem; font-weight:700; color:#fff; margin-bottom:6px;">Smart Hospital Finder</h3>
+                    <p style="color:#94a3b8; font-size:0.88rem;">Locate best-fit hospitals by specialty, distance and live bed load.</p>
+                    <div style="color:#4ade80; font-weight:700; font-size:0.85rem; margin-top:10px;">📊 640+ Hospitals Connected</div>
                 </div>
-                <h3>Real-Time Bed Availability</h3>
-                <p>Live ICU, ward and OT bed counts across the network.</p>
-            </div>
+                <div class="card-action-link">
+                    Find Hospitals <span>→</span>
+                </div>
+            </a>
 
-            <div class="feature-card reveal">
-                <div class="icon feature-icon-ambulance">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="1" y="3" width="15" height="13"></rect>
-                        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-                        <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                        <circle cx="18.5" cy="18.5" r="2.5"></circle>
-                    </svg>
+            <!-- 3. REAL-TIME BED AVAILABILITY -->
+            <a href="#hospitals" class="feature-showcase-card reveal">
+                <span class="showcase-badge badge-live">LIVE</span>
+                <div>
+                    <div class="icon-wrapper">
+                        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px; height:24px;">
+                            <path d="M2 4v16M2 11h20M22 4v16M2 17h20M6 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
+                        </svg>
+                    </div>
+                    <h3 style="font-size:1.15rem; font-weight:700; color:#fff; margin-bottom:6px;">Real-Time Bed Tracker</h3>
+                    <p style="color:#94a3b8; font-size:0.88rem;">Live ICU, trauma ward and operating theater bed counts.</p>
+                    <div style="color:#38bdf8; font-weight:700; font-size:0.85rem; margin-top:10px;">🛏️ 1,420+ Beds Available</div>
                 </div>
-                <h3>Ambulance Tracking</h3>
-                <p>GPS routing with traffic-aware ETA and paramedic comms.</p>
-            </div>
+                <div class="card-action-link">
+                    Track Beds <span>→</span>
+                </div>
+            </a>
 
-            <div class="feature-card reveal">
-                <div class="icon feature-icon-blood">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2a9 9 0 0 0-9 9c0 5 9 11 9 11s9-6 9-11a9 9 0 0 0-9-9z"></path>
-                    </svg>
+            <!-- 4. AMBULANCE TRACKING -->
+            <a href="#ambulances" class="feature-showcase-card reveal">
+                <span class="showcase-badge badge-247">24/7</span>
+                <div>
+                    <div class="icon-wrapper">
+                        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px; height:24px;">
+                            <rect x="1" y="3" width="15" height="13"></rect>
+                            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                        </svg>
+                    </div>
+                    <h3 style="font-size:1.15rem; font-weight:700; color:#fff; margin-bottom:6px;">Ambulance Fleet GPS</h3>
+                    <p style="color:#94a3b8; font-size:0.88rem;">GPS routing with traffic-aware ETA and paramedic telemetry.</p>
+                    <div style="color:#fbbf24; font-weight:700; font-size:0.85rem; margin-top:10px;">⚡ 4.2 Min Avg Response</div>
                 </div>
-                <h3>Blood Bank Matching</h3>
-                <p>Real-time inventory and instant requests for critical cases.</p>
-            </div>
+                <div class="card-action-link">
+                    Track Ambulances <span>→</span>
+                </div>
+            </a>
 
-            <div class="feature-card reveal">
-                <div class="icon feature-icon-sos">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                        <path d="M12 8v4"></path>
-                        <path d="M12 16h.01"></path>
-                    </svg>
+            <!-- 5. BLOOD BANK MATCHING -->
+            <a href="#blood-bank" class="feature-showcase-card reveal">
+                <span class="showcase-badge badge-new">NEW</span>
+                <div>
+                    <div class="icon-wrapper">
+                        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px; height:24px;">
+                            <path d="M12 2a9 9 0 0 0-9 9c0 5 9 11 9 11s9-6 9-11a9 9 0 0 0-9-9z"></path>
+                        </svg>
+                    </div>
+                    <h3 style="font-size:1.15rem; font-weight:700; color:#fff; margin-bottom:6px;">Blood Bank Repository</h3>
+                    <p style="color:#94a3b8; font-size:0.88rem;">Live inventory matching and instant dispatch for critical cases.</p>
+                    <div style="color:#f87171; font-weight:700; font-size:0.85rem; margin-top:10px;">🩸 90 Blood Units Online</div>
                 </div>
-                <h3>Live Geolocation SOS</h3>
-                <p>One-tap dispatch sharing GPS coordinates.</p>
-            </div>
+                <div class="card-action-link">
+                    View Inventory <span>→</span>
+                </div>
+            </a>
 
-            <div class="feature-card reveal">
-                <div class="icon feature-icon-volunteer">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="9" cy="7" r="4"></circle>
-                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                    </svg>
+            <!-- 6. LIVE GEOLOCATION SOS -->
+            <a href="#emergency" class="feature-showcase-card reveal">
+                <span class="showcase-badge badge-critical">CRITICAL</span>
+                <div>
+                    <div class="icon-wrapper">
+                        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px; height:24px;">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            <path d="M12 8v4"></path>
+                            <path d="M12 16h.01"></path>
+                        </svg>
+                    </div>
+                    <h3 style="font-size:1.15rem; font-weight:700; color:#fff; margin-bottom:6px;">Live Geolocation SOS</h3>
+                    <p style="color:#94a3b8; font-size:0.88rem;">One-tap emergency dispatch broadcasting live GPS coordinates.</p>
+                    <div style="color:#f87171; font-weight:700; font-size:0.85rem; margin-top:10px;">🚨 Instant SOS Dispatch</div>
                 </div>
-                <h3>Volunteer Network</h3>
-                <p>Crowdsourced first-responder notifications based on proximity.</p>
-            </div>
+                <div class="card-action-link">
+                    Trigger SOS <span>→</span>
+                </div>
+            </a>
 
-            <div class="feature-card reveal">
-                <div class="icon feature-icon-ehr">
-                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                        <line x1="16" y1="13" x2="8" y2="13"></line>
-                        <line x1="16" y1="17" x2="8" y2="17"></line>
-                        <polyline points="10 9 9 9 8 9"></polyline>
-                    </svg>
+            <!-- 7. VOLUNTEER NETWORK -->
+            <a href="#volunteers" class="feature-showcase-card reveal">
+                <span class="showcase-badge badge-247">24/7</span>
+                <div>
+                    <div class="icon-wrapper">
+                        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px; height:24px;">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <h3 style="font-size:1.15rem; font-weight:700; color:#fff; margin-bottom:6px;">Volunteer Network</h3>
+                    <p style="color:#94a3b8; font-size:0.88rem;">Crowdsourced EMT and CPR-certified first-responder network.</p>
+                    <div style="color:#c084fc; font-weight:700; font-size:0.85rem; margin-top:10px;">🤝 120+ Active Responders</div>
                 </div>
-                <h3>EHR Integration</h3>
-                <p>Secure medical history sharing for faster check-in.</p>
-            </div>
+                <div class="card-action-link">
+                    Connect Responders <span>→</span>
+                </div>
+            </a>
+
+            <!-- 8. EHR INTEGRATION -->
+            <a href="/profile" class="feature-showcase-card reveal">
+                <span class="showcase-badge badge-live">SECURE</span>
+                <div>
+                    <div class="icon-wrapper">
+                        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px; height:24px;">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                        </svg>
+                    </div>
+                    <h3 style="font-size:1.15rem; font-weight:700; color:#fff; margin-bottom:6px;">EHR Records Integration</h3>
+                    <p style="color:#94a3b8; font-size:0.88rem;">Encrypted medical record sharing for accelerated ER intake.</p>
+                    <div style="color:#38bdf8; font-weight:700; font-size:0.85rem; margin-top:10px;">🔒 Encrypted Health Vault</div>
+                </div>
+                <div class="card-action-link">
+                    Open Records <span>→</span>
+                </div>
+            </a>
 
         </div>
+
+    </section>
 
     <!-- ================= SMART HOSPITAL FINDER ================= -->
     <section class="features" id="hospitals" style="padding-top:60px;">
