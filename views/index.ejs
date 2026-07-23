@@ -668,58 +668,283 @@
         </div>
     </section>
 
-    <!-- ================= DOCTOR FINDER & APPOINTMENTS ================= -->
+    <!-- ================= DOCTOR COMMAND CENTER & APPOINTMENTS ================= -->
     <section class="features" id="doctors" style="padding-top:60px;">
-        <div class="section-tag">— DOCTOR FINDER & APPOINTMENTS</div>
+        <div class="section-tag">— DOCTOR COMMAND CENTER</div>
         <h2 class="reveal">Find Specialists & Book OPD Consultations</h2>
-        <p class="section-subtitle reveal">Search verified doctors by specialization, experience, and consultation fees.</p>
+        <p class="section-subtitle reveal">Search verified doctors, review real-time availability, and schedule instant OPD appointments across partner hospital networks.</p>
 
-        <div style="display:flex; gap:16px; margin: 24px 0; max-width: 600px;">
-            <input type="text" id="doctorSearchInput" placeholder="Search doctor by name or specialty..." onkeyup="filterDoctors()" style="flex:1; padding:14px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(15,23,42,0.8); color:#fff;">
-            <select id="doctorSpecialtyFilter" onchange="filterDoctors()" style="padding:14px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(15,23,42,0.8); color:#fff;">
-                <option value="">All Specialties</option>
-                <option value="Cardiology">Cardiology</option>
-                <option value="Neurology">Neurology</option>
-                <option value="Pediatrics">Pediatrics</option>
-            </select>
+        <!-- 1. SUMMARY STATISTICS ROW -->
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin: 24px 0;">
+            <div class="feature-card reveal" style="padding:20px; display:flex; align-items:center; gap:16px;">
+                <div style="width:48px; height:48px; border-radius:12px; background:rgba(0,180,255,0.15); display:flex; align-items:center; justify-content:center; color:#00b4ff; font-size:1.4rem;">🩺</div>
+                <div>
+                    <div style="color:#94a3b8; font-size:0.8rem; font-weight:700; text-transform:uppercase;">Verified Doctors</div>
+                    <div style="color:#fff; font-size:1.6rem; font-weight:800; margin-top:2px;">240+ Specialists</div>
+                </div>
+            </div>
+
+            <div class="feature-card reveal" style="padding:20px; display:flex; align-items:center; gap:16px;">
+                <div style="width:48px; height:48px; border-radius:12px; background:rgba(16,185,129,0.15); display:flex; align-items:center; justify-content:center; color:#10b981; font-size:1.4rem;">🟢</div>
+                <div>
+                    <div style="color:#94a3b8; font-size:0.8rem; font-weight:700; text-transform:uppercase;">Doctors Online</div>
+                    <div style="color:#fff; font-size:1.6rem; font-weight:800; margin-top:2px;">85 Active Now</div>
+                </div>
+            </div>
+
+            <div class="feature-card reveal" style="padding:20px; display:flex; align-items:center; gap:16px;">
+                <div style="width:48px; height:48px; border-radius:12px; background:rgba(14,165,233,0.15); display:flex; align-items:center; justify-content:center; color:#38bdf8; font-size:1.4rem;">🏥</div>
+                <div>
+                    <div style="color:#94a3b8; font-size:0.8rem; font-weight:700; text-transform:uppercase;">Partner Hospitals</div>
+                    <div style="color:#fff; font-size:1.6rem; font-weight:800; margin-top:2px;">640+ Network</div>
+                </div>
+            </div>
+
+            <div class="feature-card reveal" style="padding:20px; display:flex; align-items:center; gap:16px;">
+                <div style="width:48px; height:48px; border-radius:12px; background:rgba(245,158,11,0.15); display:flex; align-items:center; justify-content:center; color:#fbbf24; font-size:1.4rem;">⭐</div>
+                <div>
+                    <div style="color:#94a3b8; font-size:0.8rem; font-weight:700; text-transform:uppercase;">Average Rating</div>
+                    <div style="color:#fff; font-size:1.6rem; font-weight:800; margin-top:2px;">4.9 / 5.0</div>
+                </div>
+            </div>
         </div>
 
-        <div class="feature-container" id="doctorGrid">
-            <div class="feature-card reveal doctor-item" data-name="Dr. Sarah Connor" data-specialty="Cardiology">
-                <div class="icon feature-icon-bot"><svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M12 2v20M2 12h20"></path></svg></div>
-                <h3>Dr. Sarah Connor</h3>
-                <p style="color:#38bdf8; font-weight:600; font-size:0.9rem;">Cardiology & Emergency Medicine</p>
-                <p style="color:#94a3b8; font-size:0.85rem; margin-top:4px;">14 Years Exp • ⭐ 4.9 Rating</p>
-                <p style="color:#4ade80; font-weight:700; margin:10px 0;">Consultation Fee: $150.00</p>
-                <div style="display:flex; gap:8px;">
-                    <button class="btn-secondary" style="flex:1; padding:8px; border-radius:6px; background:rgba(255,255,255,0.06); color:#fff; border:none; cursor:pointer;" onclick="openDoctorProfile('Dr. Sarah Connor', 'Cardiology & Emergency Medicine', '14 Years', '$150.00', 'LIC-MED-88910')">View Profile</button>
-                    <button class="btn-primary" style="flex:1; padding:8px; border-radius:6px; font-weight:700; cursor:pointer;" onclick="openBookingModal('Dr. Sarah Connor', 'doc-01')">Book Appointment</button>
+        <!-- 2. ADVANCED SEARCH & MULTI-FILTER BAR -->
+        <div style="background:rgba(8,17,28,0.85); border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:20px; margin-bottom:28px; display:flex; flex-direction:column; gap:16px;">
+            <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                <div style="flex:2; min-width:240px;">
+                    <input type="text" id="doctorSearchInput" placeholder="Search doctor by name, specialty, or hospital..." onkeyup="filterDoctors()" style="width:100%; padding:12px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.12); background:rgba(0,0,0,0.4); color:#fff; font-size:0.9rem;">
+                </div>
+
+                <button class="btn-secondary" style="padding:12px 18px; border-radius:10px; background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3); font-weight:600; cursor:pointer; display:flex; align-items:center; gap:6px;" onclick="useCurrentLocationDoctors()">
+                    <span>📍 Near Me</span>
+                </button>
+
+                <select id="doctorSpecialtyFilter" onchange="filterDoctors()" style="padding:12px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.12); background:rgba(0,0,0,0.4); color:#fff; font-size:0.9rem;">
+                    <option value="">All Specialties</option>
+                    <option value="Cardiology">Cardiology</option>
+                    <option value="Neurology">Neurology</option>
+                    <option value="Pediatrics">Pediatrics</option>
+                    <option value="Orthopedics">Orthopedics</option>
+                    <option value="General Medicine">General Medicine</option>
+                </select>
+
+                <select id="doctorHospitalFilter" onchange="filterDoctors()" style="padding:12px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.12); background:rgba(0,0,0,0.4); color:#fff; font-size:0.9rem;">
+                    <option value="">All Hospitals</option>
+                    <option value="Apex Trauma">Apex Trauma & Cardiac</option>
+                    <option value="City Care">City Care Emergency</option>
+                    <option value="Metro ICU">Metro ICU Institute</option>
+                    <option value="St. Jude">St. Jude Hospital</option>
+                </select>
+
+                <select id="doctorRatingFilter" onchange="filterDoctors()" style="padding:12px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.12); background:rgba(0,0,0,0.4); color:#fff; font-size:0.9rem;">
+                    <option value="">All Ratings</option>
+                    <option value="4.9">⭐ 4.9+ Stars</option>
+                    <option value="4.8">⭐ 4.8+ Stars</option>
+                </select>
+
+                <select id="doctorFeeFilter" onchange="filterDoctors()" style="padding:12px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.12); background:rgba(0,0,0,0.4); color:#fff; font-size:0.9rem;">
+                    <option value="">All Consultation Fees</option>
+                    <option value="under150">Under $150</option>
+                    <option value="150to200">$150 - $200</option>
+                    <option value="above200">$200+</option>
+                </select>
+
+                <label style="display:flex; align-items:center; gap:8px; color:#cbd5e1; font-weight:600; font-size:0.88rem; cursor:pointer; background:rgba(255,255,255,0.05); padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.1);">
+                    <input type="checkbox" id="doctorAvailableToggle" onchange="filterDoctors()" style="accent-color:#10b981; width:16px; height:16px;">
+                    <span>🟢 Available Now Only</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- 3. DOCTOR COMMAND CENTER GRID -->
+        <div class="doctor-command-grid" id="doctorGrid">
+            
+            <!-- FEATURED / TOP RECOMMENDED DOCTOR CARD (SPANS FULL ROW) -->
+            <div class="doctor-command-card recommended-card reveal doctor-item" data-name="Dr. Sarah Connor" data-specialty="Cardiology" data-hospital="Apex Trauma" data-rating="4.9" data-fee="150" data-available="true" data-distance="1.8">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+                    <div style="display:flex; align-items:center; gap:18px;">
+                        <div class="doctor-avatar-wrapper" style="width:76px; height:76px;">
+                            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=200" alt="Dr. Sarah Connor" onerror="this.src='https://ui-avatars.com/api/?name=Dr+Sarah+Connor&background=00b4ff&color=fff'">
+                        </div>
+                        <div>
+                            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                                <span style="background:rgba(245,158,11,0.2); color:#fbbf24; border:1px solid rgba(245,158,11,0.4); padding:3px 10px; border-radius:10px; font-size:0.72rem; font-weight:800; text-transform:uppercase;">⭐ TOP RECOMMENDED CHIEF CARDIOLOGIST</span>
+                                <span class="doc-verified-pill">✓ VERIFIED SPECIALIST</span>
+                                <span class="doc-avail-pill available">🟢 AVAILABLE NOW</span>
+                            </div>
+                            <h3 style="font-size:1.5rem; font-weight:800; color:#fff; margin-top:4px;">Dr. Sarah Connor</h3>
+                            <div style="color:#00b4ff; font-weight:700; font-size:0.95rem; margin-top:2px;">Cardiology & Emergency Medicine Specialist</div>
+                            <div style="color:#94a3b8; font-size:0.88rem; margin-top:2px;">🏥 Apex Trauma & Cardiac Center • 📍 1.8 km away • ⏱️ Next Available: 2:30 PM Today</div>
+                        </div>
+                    </div>
+
+                    <div style="text-align:right;">
+                        <div style="color:#fbbf24; font-weight:800; font-size:1.2rem;">⭐ 4.9 <span style="color:#94a3b8; font-size:0.8rem; font-weight:500;">(142 Reviews)</span></div>
+                        <div style="color:#4ade80; font-weight:800; font-size:1.1rem; margin-top:4px;">$150.00 <span style="color:#94a3b8; font-size:0.75rem; font-weight:500;">/ Consultation</span></div>
+                    </div>
+                </div>
+
+                <!-- METRICS GRID -->
+                <div class="doc-meta-grid">
+                    <div class="doc-meta-item">
+                        <span class="doc-meta-label">Experience</span>
+                        <span class="doc-meta-val">14+ Years</span>
+                    </div>
+                    <div class="doc-meta-item">
+                        <span class="doc-meta-label">Hospital</span>
+                        <span class="doc-meta-val">Apex Trauma</span>
+                    </div>
+                    <div class="doc-meta-item">
+                        <span class="doc-meta-label">Next Slot</span>
+                        <span class="doc-meta-val" style="color:#4ade80;">2:30 PM Today</span>
+                    </div>
+                    <div class="doc-meta-item">
+                        <span class="doc-meta-label">Distance</span>
+                        <span class="doc-meta-val">1.8 km</span>
+                    </div>
+                </div>
+
+                <!-- ACTION BUTTONS -->
+                <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:6px;">
+                    <button class="btn-primary doc-action-btn" style="flex:2; min-width:180px; padding:12px; border-radius:10px; font-weight:700; cursor:pointer;" onclick="openBookingModal('Dr. Sarah Connor', 'doc-01')">📅 Book OPD Appointment</button>
+                    <button class="btn-secondary doc-action-btn" style="flex:1; min-width:140px; padding:12px; border-radius:10px; background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3); font-weight:600; cursor:pointer;" onclick="openDoctorProfile('Dr. Sarah Connor', 'Cardiology & Emergency Medicine', '14 Years', '$150.00', 'LIC-MED-88910')">👤 View Profile</button>
+                    <button class="btn-secondary doc-action-btn" style="flex:1; min-width:120px; padding:12px; border-radius:10px; background:rgba(16,185,129,0.15); color:#4ade80; border:1px solid rgba(16,185,129,0.3); font-weight:600; cursor:pointer;" onclick="openDoctorChat('Dr. Sarah Connor')">💬 Instant Chat</button>
                 </div>
             </div>
 
-            <div class="feature-card reveal doctor-item" data-name="Dr. Marcus Vance" data-specialty="Neurology">
-                <div class="icon feature-icon-bot"><svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M12 2v20M2 12h20"></path></svg></div>
-                <h3>Dr. Marcus Vance</h3>
-                <p style="color:#38bdf8; font-weight:600; font-size:0.9rem;">Neurology & Trauma Surgery</p>
-                <p style="color:#94a3b8; font-size:0.85rem; margin-top:4px;">18 Years Exp • ⭐ 4.95 Rating</p>
-                <p style="color:#4ade80; font-weight:700; margin:10px 0;">Consultation Fee: $200.00</p>
-                <div style="display:flex; gap:8px;">
-                    <button class="btn-secondary" style="flex:1; padding:8px; border-radius:6px; background:rgba(255,255,255,0.06); color:#fff; border:none; cursor:pointer;" onclick="openDoctorProfile('Dr. Marcus Vance', 'Neurology & Trauma Surgery', '18 Years', '$200.00', 'LIC-MED-77123')">View Profile</button>
-                    <button class="btn-primary" style="flex:1; padding:8px; border-radius:6px; font-weight:700; cursor:pointer;" onclick="openBookingModal('Dr. Marcus Vance', 'doc-02')">Book Appointment</button>
+            <!-- REGULAR DOCTOR CARD 1: DR. MARCUS VANCE -->
+            <div class="doctor-command-card reveal doctor-item" data-name="Dr. Marcus Vance" data-specialty="Neurology" data-hospital="Apex Trauma" data-rating="4.95" data-fee="200" data-available="false" data-distance="2.4">
+                <div>
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+                        <div style="display:flex; align-items:center; gap:14px;">
+                            <div class="doctor-avatar-wrapper">
+                                <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=200" alt="Dr. Marcus Vance" onerror="this.src='https://ui-avatars.com/api/?name=Dr+Marcus+Vance&background=00b4ff&color=fff'">
+                            </div>
+                            <div>
+                                <h3 style="font-size:1.2rem; font-weight:800; color:#fff;">Dr. Marcus Vance</h3>
+                                <div style="color:#00b4ff; font-weight:600; font-size:0.85rem;">Neurology & Trauma Surgery</div>
+                                <div style="color:#94a3b8; font-size:0.8rem; margin-top:2px;">🏥 Apex Trauma • 📍 2.4 km</div>
+                            </div>
+                        </div>
+                        <span class="doc-avail-pill nextslot">NEXT: 4:00 PM</span>
+                    </div>
+
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; background:rgba(0,0,0,0.2); padding:10px 14px; border-radius:10px;">
+                        <div><span style="color:#fbbf24; font-weight:800; font-size:0.9rem;">⭐ 4.95</span> <span style="color:#94a3b8; font-size:0.75rem;">(198)</span></div>
+                        <div><span style="color:#94a3b8; font-size:0.75rem;">18 Yrs Exp</span></div>
+                        <div><span style="color:#4ade80; font-weight:800; font-size:0.95rem;">$200.00</span></div>
+                    </div>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:8px; margin-top:16px;">
+                    <button class="btn-primary doc-action-btn" style="padding:10px; border-radius:8px; font-weight:700; cursor:pointer;" onclick="openBookingModal('Dr. Marcus Vance', 'doc-02')">Book Appointment</button>
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn-secondary doc-action-btn" style="flex:1; padding:8px; border-radius:8px; background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3); font-size:0.8rem; font-weight:600; cursor:pointer;" onclick="openDoctorProfile('Dr. Marcus Vance', 'Neurology & Trauma Surgery', '18 Years', '$200.00', 'LIC-MED-77123')">Profile</button>
+                        <button class="btn-secondary doc-action-btn" style="flex:1; padding:8px; border-radius:8px; background:rgba(16,185,129,0.15); color:#4ade80; border:1px solid rgba(16,185,129,0.3); font-size:0.8rem; font-weight:600; cursor:pointer;" onclick="openDoctorChat('Dr. Marcus Vance')">Chat</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="feature-card reveal doctor-item" data-name="Dr. Elena Rostova" data-specialty="Pediatrics">
-                <div class="icon feature-icon-bot"><svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M12 2v20M2 12h20"></path></svg></div>
-                <h3>Dr. Elena Rostova</h3>
-                <p style="color:#38bdf8; font-weight:600; font-size:0.9rem;">Pediatrics & Intensive Care</p>
-                <p style="color:#94a3b8; font-size:0.85rem; margin-top:4px;">11 Years Exp • ⭐ 4.8 Rating</p>
-                <p style="color:#4ade80; font-weight:700; margin:10px 0;">Consultation Fee: $120.00</p>
-                <div style="display:flex; gap:8px;">
-                    <button class="btn-secondary" style="flex:1; padding:8px; border-radius:6px; background:rgba(255,255,255,0.06); color:#fff; border:none; cursor:pointer;" onclick="openDoctorProfile('Dr. Elena Rostova', 'Pediatrics & Intensive Care', '11 Years', '$120.00', 'LIC-MED-99301')">View Profile</button>
-                    <button class="btn-primary" style="flex:1; padding:8px; border-radius:6px; font-weight:700; cursor:pointer;" onclick="openBookingModal('Dr. Elena Rostova', 'doc-03')">Book Appointment</button>
+            <!-- REGULAR DOCTOR CARD 2: DR. ELENA ROSTOVA -->
+            <div class="doctor-command-card reveal doctor-item" data-name="Dr. Elena Rostova" data-specialty="Pediatrics" data-hospital="City Care" data-rating="4.8" data-fee="120" data-available="true" data-distance="3.1">
+                <div>
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+                        <div style="display:flex; align-items:center; gap:14px;">
+                            <div class="doctor-avatar-wrapper">
+                                <img src="https://images.unsplash.com/photo-1594824813566-78a93542a222?auto=format&fit=crop&q=80&w=200" alt="Dr. Elena Rostova" onerror="this.src='https://ui-avatars.com/api/?name=Dr+Elena+Rostova&background=00b4ff&color=fff'">
+                            </div>
+                            <div>
+                                <h3 style="font-size:1.2rem; font-weight:800; color:#fff;">Dr. Elena Rostova</h3>
+                                <div style="color:#00b4ff; font-weight:600; font-size:0.85rem;">Pediatrics & Intensive Care</div>
+                                <div style="color:#94a3b8; font-size:0.8rem; margin-top:2px;">🏥 City Care Emergency • 📍 3.1 km</div>
+                            </div>
+                        </div>
+                        <span class="doc-avail-pill available">🟢 ONLINE</span>
+                    </div>
+
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; background:rgba(0,0,0,0.2); padding:10px 14px; border-radius:10px;">
+                        <div><span style="color:#fbbf24; font-weight:800; font-size:0.9rem;">⭐ 4.8</span> <span style="color:#94a3b8; font-size:0.75rem;">(96)</span></div>
+                        <div><span style="color:#94a3b8; font-size:0.75rem;">11 Yrs Exp</span></div>
+                        <div><span style="color:#4ade80; font-weight:800; font-size:0.95rem;">$120.00</span></div>
+                    </div>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:8px; margin-top:16px;">
+                    <button class="btn-primary doc-action-btn" style="padding:10px; border-radius:8px; font-weight:700; cursor:pointer;" onclick="openBookingModal('Dr. Elena Rostova', 'doc-03')">Book Appointment</button>
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn-secondary doc-action-btn" style="flex:1; padding:8px; border-radius:8px; background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3); font-size:0.8rem; font-weight:600; cursor:pointer;" onclick="openDoctorProfile('Dr. Elena Rostova', 'Pediatrics & Intensive Care', '11 Years', '$120.00', 'LIC-MED-99301')">Profile</button>
+                        <button class="btn-secondary doc-action-btn" style="flex:1; padding:8px; border-radius:8px; background:rgba(16,185,129,0.15); color:#4ade80; border:1px solid rgba(16,185,129,0.3); font-size:0.8rem; font-weight:600; cursor:pointer;" onclick="openDoctorChat('Dr. Elena Rostova')">Chat</button>
+                    </div>
                 </div>
             </div>
+
+            <!-- REGULAR DOCTOR CARD 3: DR. DAVID CHEN -->
+            <div class="doctor-command-card reveal doctor-item" data-name="Dr. David Chen" data-specialty="Orthopedics" data-hospital="Metro ICU" data-rating="4.9" data-fee="180" data-available="false" data-distance="4.5">
+                <div>
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+                        <div style="display:flex; align-items:center; gap:14px;">
+                            <div class="doctor-avatar-wrapper">
+                                <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=200" alt="Dr. David Chen" onerror="this.src='https://ui-avatars.com/api/?name=Dr+David+Chen&background=00b4ff&color=fff'">
+                            </div>
+                            <div>
+                                <h3 style="font-size:1.2rem; font-weight:800; color:#fff;">Dr. David Chen</h3>
+                                <div style="color:#00b4ff; font-weight:600; font-size:0.85rem;">Orthopedics & Joint Surgery</div>
+                                <div style="color:#94a3b8; font-size:0.8rem; margin-top:2px;">🏥 Metro ICU Institute • 📍 4.5 km</div>
+                            </div>
+                        </div>
+                        <span class="doc-avail-pill busy">🔴 BUSY IN SURGERY</span>
+                    </div>
+
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; background:rgba(0,0,0,0.2); padding:10px 14px; border-radius:10px;">
+                        <div><span style="color:#fbbf24; font-weight:800; font-size:0.9rem;">⭐ 4.9</span> <span style="color:#94a3b8; font-size:0.75rem;">(115)</span></div>
+                        <div><span style="color:#94a3b8; font-size:0.75rem;">15 Yrs Exp</span></div>
+                        <div><span style="color:#4ade80; font-weight:800; font-size:0.95rem;">$180.00</span></div>
+                    </div>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:8px; margin-top:16px;">
+                    <button class="btn-primary doc-action-btn" style="padding:10px; border-radius:8px; font-weight:700; cursor:pointer;" onclick="openBookingModal('Dr. David Chen', 'doc-04')">Book Appointment</button>
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn-secondary doc-action-btn" style="flex:1; padding:8px; border-radius:8px; background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3); font-size:0.8rem; font-weight:600; cursor:pointer;" onclick="openDoctorProfile('Dr. David Chen', 'Orthopedics & Joint Surgery', '15 Years', '$180.00', 'LIC-MED-66109')">Profile</button>
+                        <button class="btn-secondary doc-action-btn" style="flex:1; padding:8px; border-radius:8px; background:rgba(16,185,129,0.15); color:#4ade80; border:1px solid rgba(16,185,129,0.3); font-size:0.8rem; font-weight:600; cursor:pointer;" onclick="openDoctorChat('Dr. David Chen')">Chat</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REGULAR DOCTOR CARD 4: DR. PRIYA SHARMA -->
+            <div class="doctor-command-card reveal doctor-item" data-name="Dr. Priya Sharma" data-specialty="General Medicine" data-hospital="St. Jude" data-rating="4.85" data-fee="100" data-available="true" data-distance="1.2">
+                <div>
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+                        <div style="display:flex; align-items:center; gap:14px;">
+                            <div class="doctor-avatar-wrapper">
+                                <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=200" alt="Dr. Priya Sharma" onerror="this.src='https://ui-avatars.com/api/?name=Dr+Priya+Sharma&background=00b4ff&color=fff'">
+                            </div>
+                            <div>
+                                <h3 style="font-size:1.2rem; font-weight:800; color:#fff;">Dr. Priya Sharma</h3>
+                                <div style="color:#00b4ff; font-weight:600; font-size:0.85rem;">General Medicine & Internal Care</div>
+                                <div style="color:#94a3b8; font-size:0.8rem; margin-top:2px;">🏥 St. Jude Hospital • 📍 1.2 km</div>
+                            </div>
+                        </div>
+                        <span class="doc-avail-pill available">🟢 ONLINE</span>
+                    </div>
+
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; background:rgba(0,0,0,0.2); padding:10px 14px; border-radius:10px;">
+                        <div><span style="color:#fbbf24; font-weight:800; font-size:0.9rem;">⭐ 4.85</span> <span style="color:#94a3b8; font-size:0.75rem;">(210)</span></div>
+                        <div><span style="color:#94a3b8; font-size:0.75rem;">10 Yrs Exp</span></div>
+                        <div><span style="color:#4ade80; font-weight:800; font-size:0.95rem;">$100.00</span></div>
+                    </div>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:8px; margin-top:16px;">
+                    <button class="btn-primary doc-action-btn" style="padding:10px; border-radius:8px; font-weight:700; cursor:pointer;" onclick="openBookingModal('Dr. Priya Sharma', 'doc-05')">Book Appointment</button>
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn-secondary doc-action-btn" style="flex:1; padding:8px; border-radius:8px; background:rgba(0,180,255,0.15); color:#00b4ff; border:1px solid rgba(0,180,255,0.3); font-size:0.8rem; font-weight:600; cursor:pointer;" onclick="openDoctorProfile('Dr. Priya Sharma', 'General Medicine & Internal Care', '10 Years', '$100.00', 'LIC-MED-44102')">Profile</button>
+                        <button class="btn-secondary doc-action-btn" style="flex:1; padding:8px; border-radius:8px; background:rgba(16,185,129,0.15); color:#4ade80; border:1px solid rgba(16,185,129,0.3); font-size:0.8rem; font-weight:600; cursor:pointer;" onclick="openDoctorChat('Dr. Priya Sharma')">Chat</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -1626,16 +1851,45 @@
             );
         }
 
-        // 4. Doctor Search & Filter
+        // 4. Doctor Search & Multi-Filter
         function filterDoctors() {
-            const query = (document.getElementById('doctorSearchInput').value || '').toLowerCase();
-            const specialtyFilter = (document.getElementById('doctorSpecialtyFilter').value || '').toLowerCase();
+            const query = (document.getElementById('doctorSearchInput')?.value || '').toLowerCase();
+            const specialtyFilter = (document.getElementById('doctorSpecialtyFilter')?.value || '').toLowerCase();
+            const hospitalFilter = (document.getElementById('doctorHospitalFilter')?.value || '').toLowerCase();
+            const ratingFilter = parseFloat(document.getElementById('doctorRatingFilter')?.value || '0');
+            const feeFilter = document.getElementById('doctorFeeFilter')?.value || '';
+            const availOnly = document.getElementById('doctorAvailableToggle')?.checked || false;
+
             document.querySelectorAll('.doctor-item').forEach(item => {
                 const name = (item.getAttribute('data-name') || '').toLowerCase();
                 const spec = (item.getAttribute('data-specialty') || '').toLowerCase();
-                const matches = name.includes(query) && (!specialtyFilter || spec.includes(specialtyFilter));
-                item.style.display = matches ? 'block' : 'none';
+                const hosp = (item.getAttribute('data-hospital') || '').toLowerCase();
+                const rating = parseFloat(item.getAttribute('data-rating') || '0');
+                const fee = parseFloat(item.getAttribute('data-fee') || '0');
+                const avail = item.getAttribute('data-available') === 'true';
+
+                let matchesQuery = !query || name.includes(query) || spec.includes(query) || hosp.includes(query);
+                let matchesSpec = !specialtyFilter || spec.includes(specialtyFilter);
+                let matchesHosp = !hospitalFilter || hosp.includes(hospitalFilter);
+                let matchesRating = !ratingFilter || rating >= ratingFilter;
+                let matchesAvail = !availOnly || avail;
+
+                let matchesFee = true;
+                if (feeFilter === 'under150') matchesFee = fee <= 150;
+                else if (feeFilter === '150to200') matchesFee = fee >= 150 && fee <= 200;
+                else if (feeFilter === 'above200') matchesFee = fee > 200;
+
+                const isMatch = matchesQuery && matchesSpec && matchesHosp && matchesRating && matchesAvail && matchesFee;
+                item.style.display = isMatch ? 'flex' : 'none';
             });
+        }
+
+        function useCurrentLocationDoctors() {
+            showGenericModal('📍 Proximity Specialist Filter', 'Filter applied! Verified doctors sorted by nearest distance to your current GPS location.');
+        }
+
+        function openDoctorChat(docName) {
+            showGenericModal('💬 Direct Consultation Chat', `Initiating encrypted instant chat with ${docName}.\nConnecting to secure Telehealth channel...`);
         }
 
         function openDoctorProfile(name, spec, exp, fee, license) {
