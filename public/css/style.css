@@ -2302,3 +2302,114 @@ h1, h2, h3, h4 {
     transform: translateX(4px);
     color: #0ea5e9;
 }
+
+/* HOSPITAL COMMAND CENTER STYLES */
+.hospital-command-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 24px;
+}
+
+@media (max-width: 1024px) {
+    .hospital-command-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .hospital-command-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.hospital-card {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hospital-card.recommended-card {
+    grid-column: span 3;
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.12) 0%, rgba(15, 23, 42, 0.95) 60%);
+    border: 1px solid rgba(14, 165, 233, 0.4);
+    box-shadow: 0 10px 30px rgba(14, 165, 233, 0.12);
+}
+
+@media (max-width: 1024px) {
+    .hospital-card.recommended-card {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 640px) {
+    .hospital-card.recommended-card {
+        grid-column: span 1;
+    }
+}
+
+.hospital-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(14, 165, 233, 0.5);
+    box-shadow: 0 16px 40px rgba(14, 165, 233, 0.18), 0 0 20px rgba(14, 165, 233, 0.08);
+}
+
+.hospital-badge-pulse {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-ready-pulse {
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.badge-ready-pulse::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 8px #4ade80;
+    animation: livePulseDot 1.5s infinite;
+}
+
+@keyframes livePulseDot {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.4; }
+}
+
+.bed-progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.bed-progress-bar {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #10b981, #0ea5e9);
+    transition: width 0.6s ease;
+}
+
+.bed-progress-bar.warning {
+    background: linear-gradient(90deg, #f59e0b, #ef4444);
+}

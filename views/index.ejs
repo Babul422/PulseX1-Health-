@@ -448,51 +448,223 @@
 
     </section>
 
-    <!-- ================= SMART HOSPITAL FINDER ================= -->
+    <!-- ================= SMART HOSPITAL COMMAND CENTER ================= -->
     <section class="features" id="hospitals" style="padding-top:60px;">
-        <div class="section-tag">— SMART HOSPITAL FINDER</div>
+        <div class="section-tag">— HOSPITAL COMMAND CENTER</div>
         <h2 class="reveal">Real-Time Bed Tracker & Hospital Directory</h2>
-        <p class="section-subtitle reveal">Search partner hospitals by city or bed load. Select a hospital to reserve emergency admission.</p>
+        <p class="section-subtitle reveal">Live ICU bed load telemetry, emergency room capacity, and instant bed reservation across partner hospitals.</p>
 
-        <div style="display:flex; gap:16px; margin: 24px 0; max-width: 600px;">
-            <input type="text" id="hospitalSearchInput" placeholder="Search by hospital name or city..." onkeyup="filterHospitals()" style="flex:1; padding:14px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(15,23,42,0.8); color:#fff;">
-            <select id="hospitalCityFilter" onchange="filterHospitals()" style="padding:14px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(15,23,42,0.8); color:#fff;">
-                <option value="">All Cities</option>
-                <option value="New York">New York</option>
-                <option value="Jersey City">Jersey City</option>
-            </select>
+        <!-- 1. SUMMARY STATISTICS ROW -->
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin: 24px 0;">
+            <div class="feature-card reveal" style="padding:20px; display:flex; align-items:center; gap:16px;">
+                <div style="width:48px; height:48px; border-radius:12px; background:rgba(14,165,233,0.15); display:flex; align-items:center; justify-content:center; color:#38bdf8; font-size:1.4rem;">🏥</div>
+                <div>
+                    <div style="color:#94a3b8; font-size:0.8rem; font-weight:700; text-transform:uppercase;">Connected Hospitals</div>
+                    <div style="color:#fff; font-size:1.6rem; font-weight:800; margin-top:2px;">640+ Hospitals</div>
+                </div>
+            </div>
+
+            <div class="feature-card reveal" style="padding:20px; display:flex; align-items:center; gap:16px;">
+                <div style="width:48px; height:48px; border-radius:12px; background:rgba(34,197,94,0.15); display:flex; align-items:center; justify-content:center; color:#4ade80; font-size:1.4rem;">🛏️</div>
+                <div>
+                    <div style="color:#94a3b8; font-size:0.8rem; font-weight:700; text-transform:uppercase;">Available Beds</div>
+                    <div style="color:#fff; font-size:1.6rem; font-weight:800; margin-top:2px;">1,420 Beds Free</div>
+                </div>
+            </div>
+
+            <div class="feature-card reveal" style="padding:20px; display:flex; align-items:center; gap:16px;">
+                <div style="width:48px; height:48px; border-radius:12px; background:rgba(245,158,11,0.15); display:flex; align-items:center; justify-content:center; color:#fbbf24; font-size:1.4rem;">🚨</div>
+                <div>
+                    <div style="color:#94a3b8; font-size:0.8rem; font-weight:700; text-transform:uppercase;">Emergency Ready</div>
+                    <div style="color:#fff; font-size:1.6rem; font-weight:800; margin-top:2px;">512 Hospitals</div>
+                </div>
+            </div>
+
+            <div class="feature-card reveal" style="padding:20px; display:flex; align-items:center; gap:16px;">
+                <div style="width:48px; height:48px; border-radius:12px; background:rgba(168,85,247,0.15); display:flex; align-items:center; justify-content:center; color:#c084fc; font-size:1.4rem;">⚡</div>
+                <div>
+                    <div style="color:#94a3b8; font-size:0.8rem; font-weight:700; text-transform:uppercase;">Average Emergency ETA</div>
+                    <div style="color:#fff; font-size:1.6rem; font-weight:800; margin-top:2px;">4.2 Mins</div>
+                </div>
+            </div>
         </div>
 
-        <div class="feature-container" id="hospitalGrid">
-            <div class="feature-card reveal hospital-item" data-name="City Care Emergency Hospital" data-city="New York">
-                <div class="icon feature-icon-map"><svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2"><path d="M3 21h18M5 21V7l8-4 8 4v14M9 10h2m-2 4h2m4-4h2m-2 4h2"></path></svg></div>
-                <h3>City Care Emergency Hospital</h3>
-                <p style="color:#94a3b8; font-size:0.9rem;">450 Healthcare Boulevard, New York</p>
-                <div style="margin:12px 0; font-size:0.95rem;">
-                    <span style="color:#4ade80; font-weight:700;">24 Available Beds</span> • <span style="color:#38bdf8; font-weight:700;">6 ICU Beds</span>
+        <!-- 2. IMPROVED SEARCH & FILTER BAR -->
+        <div style="background:rgba(15,23,42,0.85); border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:20px; margin-bottom:28px; display:flex; flex-direction:column; gap:16px;">
+            <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                <div style="flex:1; min-width:240px; position:relative;">
+                    <input type="text" id="hospitalSearchInput" placeholder="Search hospital name, street address, or specialty..." onkeyup="filterHospitals()" style="width:100%; padding:12px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.12); background:rgba(0,0,0,0.4); color:#fff; font-size:0.9rem;">
                 </div>
-                <button class="btn-secondary" style="width:100%; margin-top:10px; padding:10px; border-radius:8px; background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); font-weight:600; cursor:pointer;" onclick="openHospitalModal('City Care Emergency Hospital', '24 Available Beds', '6 ICU Beds', '+1 800 555 0199')">Reserve Emergency Bed</button>
+
+                <button class="btn-secondary" style="padding:12px 18px; border-radius:10px; background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); font-weight:600; cursor:pointer; display:flex; align-items:center; gap:6px;" onclick="useCurrentLocation()">
+                    <span>📍 Near Me</span>
+                </button>
+
+                <select id="hospitalCityFilter" onchange="filterHospitals()" style="padding:12px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.12); background:rgba(0,0,0,0.4); color:#fff; font-size:0.9rem;">
+                    <option value="">All Cities</option>
+                    <option value="New York">New York</option>
+                    <option value="Jersey City">Jersey City</option>
+                </select>
+
+                <select id="hospitalSpecialtyFilter" onchange="filterHospitals()" style="padding:12px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.12); background:rgba(0,0,0,0.4); color:#fff; font-size:0.9rem;">
+                    <option value="">All Specialties</option>
+                    <option value="Trauma & Cardiac">Trauma & Cardiac</option>
+                    <option value="Emergency ICU">Emergency ICU</option>
+                    <option value="General Medicine">General Medicine</option>
+                </select>
+
+                <label style="display:flex; align-items:center; gap:8px; color:#cbd5e1; font-weight:600; font-size:0.88rem; cursor:pointer; background:rgba(255,255,255,0.05); padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.1);">
+                    <input type="checkbox" id="hospitalEmergencyToggle" onchange="filterHospitals()" style="accent-color:#ef4444; width:16px; height:16px;">
+                    <span>🚨 Emergency Only</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- 3. HOSPITAL COMMAND CENTER GRID -->
+        <div class="hospital-command-grid" id="hospitalGrid">
+            
+            <!-- FEATURED / RECOMMENDED HOSPITAL (SPANS FULL TOP ROW) -->
+            <div class="hospital-card recommended-card reveal hospital-item" data-name="Apex Trauma & Cardiac Center" data-city="New York" data-specialty="Trauma & Cardiac" data-emergency="true">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;">
+                    <div style="display:flex; align-items:center; gap:14px;">
+                        <div style="width:54px; height:54px; border-radius:14px; background:rgba(14,165,233,0.2); border:1px solid rgba(14,165,233,0.4); display:flex; align-items:center; justify-content:center; color:#38bdf8; font-size:1.6rem;">🏥</div>
+                        <div>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <span style="background:rgba(245,158,11,0.2); color:#fbbf24; border:1px solid rgba(245,158,11,0.4); padding:2px 8px; border-radius:10px; font-size:0.7rem; font-weight:800; text-transform:uppercase;">⭐ RECOMMENDED LEVEL-1 TRAUMA</span>
+                                <span class="hospital-badge-pulse badge-ready-pulse">OPEN NOW • EMERGENCY READY</span>
+                            </div>
+                            <h3 style="font-size:1.4rem; font-weight:800; color:#fff; margin-top:4px;">Apex Trauma & Cardiac Center</h3>
+                            <div style="color:#94a3b8; font-size:0.88rem; margin-top:2px;">📍 88 Tech Medical Drive, New York • 📍 1.8 km away • ⏱️ ETA: 6 mins</div>
+                        </div>
+                    </div>
+
+                    <div style="text-align:right;">
+                        <div style="color:#fbbf24; font-weight:800; font-size:1.1rem;">⭐ 4.9 <span style="color:#94a3b8; font-size:0.8rem; font-weight:500;">(1,240 Reviews)</span></div>
+                        <div style="color:#94a3b8; font-size:0.75rem; margin-top:4px;">Updated 2 mins ago</div>
+                    </div>
+                </div>
+
+                <!-- VISUAL BED CAPACITY & PROGRESS BAR -->
+                <div style="margin:20px 0; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.06); padding:16px; border-radius:12px;">
+                    <div style="display:flex; justify-content:space-between; font-weight:700; font-size:0.9rem;">
+                        <span style="color:#4ade80;">🛏️ 45 / 50 Available Beds (90% Free)</span>
+                        <span style="color:#38bdf8;">⚡ 12 ICU Beds Free</span>
+                    </div>
+                    <div class="bed-progress-bar-container">
+                        <div class="bed-progress-bar" style="width: 90%;"></div>
+                    </div>
+                </div>
+
+                <!-- ACTION BUTTONS -->
+                <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:6px;">
+                    <button class="btn-primary" style="flex:2; min-width:180px; padding:12px; border-radius:10px; font-weight:700; background:#0ea5e9; color:#fff; border:none; cursor:pointer;" onclick="openHospitalModal('Apex Trauma & Cardiac Center', '45 Available Beds', '12 ICU Beds', '+1 800 555 0200')">🛏️ Reserve Emergency Bed</button>
+                    <button class="btn-secondary" style="flex:1; min-width:140px; padding:12px; border-radius:10px; background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); font-weight:600; cursor:pointer;" onclick="getHospitalDirections('Apex Trauma & Cardiac Center')">🗺️ Get Directions</button>
+                    <button class="btn-secondary" style="flex:1; min-width:120px; padding:12px; border-radius:10px; background:rgba(34,197,94,0.15); color:#4ade80; border:1px solid rgba(34,197,94,0.3); font-weight:600; cursor:pointer;" onclick="callHospitalNumber('+1 800 555 0200')">📞 Call Hospital</button>
+                </div>
             </div>
 
-            <div class="feature-card reveal hospital-item" data-name="Apex Trauma & Cardiac Center" data-city="New York">
-                <div class="icon feature-icon-map"><svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2"><path d="M3 21h18M5 21V7l8-4 8 4v14M9 10h2m-2 4h2m4-4h2m-2 4h2"></path></svg></div>
-                <h3>Apex Trauma & Cardiac Center</h3>
-                <p style="color:#94a3b8; font-size:0.9rem;">88 Tech Medical Drive, New York</p>
-                <div style="margin:12px 0; font-size:0.95rem;">
-                    <span style="color:#4ade80; font-weight:700;">45 Available Beds</span> • <span style="color:#38bdf8; font-weight:700;">12 ICU Beds</span>
+            <!-- REGULAR HOSPITAL CARD 1: CITY CARE EMERGENCY HOSPITAL -->
+            <div class="hospital-card reveal hospital-item" data-name="City Care Emergency Hospital" data-city="New York" data-specialty="Emergency ICU" data-emergency="true">
+                <div>
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                        <div style="width:44px; height:44px; border-radius:12px; background:rgba(14,165,233,0.15); display:flex; align-items:center; justify-content:center; color:#38bdf8; font-size:1.3rem;">🏥</div>
+                        <span class="hospital-badge-pulse badge-ready-pulse">OPEN NOW</span>
+                    </div>
+
+                    <h3 style="font-size:1.15rem; font-weight:700; color:#fff; margin-top:12px;">City Care Emergency Hospital</h3>
+                    <div style="color:#94a3b8; font-size:0.82rem; margin-top:2px;">📍 450 Healthcare Blvd, New York</div>
+                    <div style="color:#cbd5e1; font-size:0.8rem; margin-top:4px;">📍 3.2 km away • ⏱️ ETA: 10 mins • ⭐ 4.8</div>
+
+                    <!-- BED PROGRESS BAR -->
+                    <div style="margin:14px 0;">
+                        <div style="display:flex; justify-content:space-between; font-size:0.82rem; font-weight:700;">
+                            <span style="color:#4ade80;">24 / 30 Beds Free</span>
+                            <span style="color:#38bdf8;">6 ICU Free</span>
+                        </div>
+                        <div class="bed-progress-bar-container">
+                            <div class="bed-progress-bar" style="width: 80%;"></div>
+                        </div>
+                        <div style="color:#94a3b8; font-size:0.72rem; margin-top:4px;">Updated 5 mins ago</div>
+                    </div>
                 </div>
-                <button class="btn-secondary" style="width:100%; margin-top:10px; padding:10px; border-radius:8px; background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); font-weight:600; cursor:pointer;" onclick="openHospitalModal('Apex Trauma & Cardiac Center', '45 Available Beds', '12 ICU Beds', '+1 800 555 0200')">Reserve Emergency Bed</button>
+
+                <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+                    <button class="btn-primary" style="padding:10px; border-radius:8px; font-weight:700; background:#0ea5e9; color:#fff; border:none; cursor:pointer;" onclick="openHospitalModal('City Care Emergency Hospital', '24 Available Beds', '6 ICU Beds', '+1 800 555 0199')">Reserve Bed</button>
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn-secondary" style="flex:1; padding:8px; border-radius:8px; background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); font-size:0.8rem; font-weight:600; cursor:pointer;" onclick="getHospitalDirections('City Care Emergency Hospital')">Directions</button>
+                        <button class="btn-secondary" style="flex:1; padding:8px; border-radius:8px; background:rgba(34,197,94,0.15); color:#4ade80; border:1px solid rgba(34,197,94,0.3); font-size:0.8rem; font-weight:600; cursor:pointer;" onclick="callHospitalNumber('+1 800 555 0199')">Call</button>
+                    </div>
+                </div>
             </div>
 
-            <div class="feature-card reveal hospital-item" data-name="St. Jude General Hospital" data-city="Jersey City">
-                <div class="icon feature-icon-map"><svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2"><path d="M3 21h18M5 21V7l8-4 8 4v14M9 10h2m-2 4h2m4-4h2m-2 4h2"></path></svg></div>
-                <h3>St. Jude General Hospital</h3>
-                <p style="color:#94a3b8; font-size:0.9rem;">12 Hudson River Way, Jersey City</p>
-                <div style="margin:12px 0; font-size:0.95rem;">
-                    <span style="color:#4ade80; font-weight:700;">8 Available Beds</span> • <span style="color:#38bdf8; font-weight:700;">2 ICU Beds</span>
+            <!-- REGULAR HOSPITAL CARD 2: ST. JUDE GENERAL HOSPITAL -->
+            <div class="hospital-card reveal hospital-item" data-name="St. Jude General Hospital" data-city="Jersey City" data-specialty="General Medicine" data-emergency="true">
+                <div>
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                        <div style="width:44px; height:44px; border-radius:12px; background:rgba(245,158,11,0.15); display:flex; align-items:center; justify-content:center; color:#fbbf24; font-size:1.3rem;">🏥</div>
+                        <span style="background:rgba(245,158,11,0.15); color:#fbbf24; border:1px solid rgba(245,158,11,0.3); padding:4px 10px; border-radius:12px; font-size:0.72rem; font-weight:800;">LIMITED BEDS</span>
+                    </div>
+
+                    <h3 style="font-size:1.15rem; font-weight:700; color:#fff; margin-top:12px;">St. Jude General Hospital</h3>
+                    <div style="color:#94a3b8; font-size:0.82rem; margin-top:2px;">📍 12 Hudson River Way, Jersey City</div>
+                    <div style="color:#cbd5e1; font-size:0.8rem; margin-top:4px;">📍 5.4 km away • ⏱️ ETA: 14 mins • ⭐ 4.7</div>
+
+                    <!-- BED PROGRESS BAR -->
+                    <div style="margin:14px 0;">
+                        <div style="display:flex; justify-content:space-between; font-size:0.82rem; font-weight:700;">
+                            <span style="color:#fbbf24;">8 / 25 Beds Free</span>
+                            <span style="color:#38bdf8;">2 ICU Free</span>
+                        </div>
+                        <div class="bed-progress-bar-container">
+                            <div class="bed-progress-bar warning" style="width: 32%;"></div>
+                        </div>
+                        <div style="color:#94a3b8; font-size:0.72rem; margin-top:4px;">Updated 8 mins ago</div>
+                    </div>
                 </div>
-                <button class="btn-secondary" style="width:100%; margin-top:10px; padding:10px; border-radius:8px; background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); font-weight:600; cursor:pointer;" onclick="openHospitalModal('St. Jude General Hospital', '8 Available Beds', '2 ICU Beds', '+1 800 555 0211')">Reserve Emergency Bed</button>
+
+                <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+                    <button class="btn-primary" style="padding:10px; border-radius:8px; font-weight:700; background:#0ea5e9; color:#fff; border:none; cursor:pointer;" onclick="openHospitalModal('St. Jude General Hospital', '8 Available Beds', '2 ICU Beds', '+1 800 555 0211')">Reserve Bed</button>
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn-secondary" style="flex:1; padding:8px; border-radius:8px; background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); font-size:0.8rem; font-weight:600; cursor:pointer;" onclick="getHospitalDirections('St. Jude General Hospital')">Directions</button>
+                        <button class="btn-secondary" style="flex:1; padding:8px; border-radius:8px; background:rgba(34,197,94,0.15); color:#4ade80; border:1px solid rgba(34,197,94,0.3); font-size:0.8rem; font-weight:600; cursor:pointer;" onclick="callHospitalNumber('+1 800 555 0211')">Call</button>
+                    </div>
+                </div>
             </div>
+
+            <!-- REGULAR HOSPITAL CARD 3: METRO CARDIAC & ICU INSTITUTE -->
+            <div class="hospital-card reveal hospital-item" data-name="Metro Cardiac & ICU Institute" data-city="New York" data-specialty="Trauma & Cardiac" data-emergency="true">
+                <div>
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                        <div style="width:44px; height:44px; border-radius:12px; background:rgba(16,185,129,0.15); display:flex; align-items:center; justify-content:center; color:#4ade80; font-size:1.3rem;">🏥</div>
+                        <span class="hospital-badge-pulse badge-ready-pulse">LEVEL-1 ICU</span>
+                    </div>
+
+                    <h3 style="font-size:1.15rem; font-weight:700; color:#fff; margin-top:12px;">Metro Cardiac & ICU Institute</h3>
+                    <div style="color:#94a3b8; font-size:0.82rem; margin-top:2px;">📍 210 Park Avenue, New York</div>
+                    <div style="color:#cbd5e1; font-size:0.8rem; margin-top:4px;">📍 2.5 km away • ⏱️ ETA: 8 mins • ⭐ 4.9</div>
+
+                    <!-- BED PROGRESS BAR -->
+                    <div style="margin:14px 0;">
+                        <div style="display:flex; justify-content:space-between; font-size:0.82rem; font-weight:700;">
+                            <span style="color:#4ade80;">30 / 40 Beds Free</span>
+                            <span style="color:#38bdf8;">10 ICU Free</span>
+                        </div>
+                        <div class="bed-progress-bar-container">
+                            <div class="bed-progress-bar" style="width: 75%;"></div>
+                        </div>
+                        <div style="color:#94a3b8; font-size:0.72rem; margin-top:4px;">Updated 1 min ago</div>
+                    </div>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+                    <button class="btn-primary" style="padding:10px; border-radius:8px; font-weight:700; background:#0ea5e9; color:#fff; border:none; cursor:pointer;" onclick="openHospitalModal('Metro Cardiac & ICU Institute', '30 Available Beds', '10 ICU Beds', '+1 800 555 0344')">Reserve Bed</button>
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn-secondary" style="flex:1; padding:8px; border-radius:8px; background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); font-size:0.8rem; font-weight:600; cursor:pointer;" onclick="getHospitalDirections('Metro Cardiac & ICU Institute')">Directions</button>
+                        <button class="btn-secondary" style="flex:1; padding:8px; border-radius:8px; background:rgba(34,197,94,0.15); color:#4ade80; border:1px solid rgba(34,197,94,0.3); font-size:0.8rem; font-weight:600; cursor:pointer;" onclick="callHospitalNumber('+1 800 555 0344')">Call</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -1392,16 +1564,59 @@
             document.getElementById('genericModal').style.display = 'none';
         }
 
-        // 3. Hospital Search & Filter
+        // 3. Hospital Search & Filter & Command Actions
         function filterHospitals() {
-            const query = (document.getElementById('hospitalSearchInput').value || '').toLowerCase();
-            const cityFilter = (document.getElementById('hospitalCityFilter').value || '').toLowerCase();
+            const query = (document.getElementById('hospitalSearchInput')?.value || '').toLowerCase().trim();
+            const cityFilter = (document.getElementById('hospitalCityFilter')?.value || '').toLowerCase().trim();
+            const specialtyFilter = (document.getElementById('hospitalSpecialtyFilter')?.value || '').toLowerCase().trim();
+            const emergencyOnly = document.getElementById('hospitalEmergencyToggle')?.checked || false;
+
             document.querySelectorAll('.hospital-item').forEach(item => {
                 const name = (item.getAttribute('data-name') || '').toLowerCase();
                 const city = (item.getAttribute('data-city') || '').toLowerCase();
-                const matches = name.includes(query) && (!cityFilter || city.includes(cityFilter));
-                item.style.display = matches ? 'block' : 'none';
+                const specialty = (item.getAttribute('data-specialty') || '').toLowerCase();
+                const isEmergency = item.getAttribute('data-emergency') === 'true';
+
+                const matchesQuery = !query || name.includes(query) || city.includes(query) || specialty.includes(query);
+                const matchesCity = !cityFilter || city.includes(cityFilter);
+                const matchesSpecialty = !specialtyFilter || specialty.includes(specialtyFilter);
+                const matchesEmergency = !emergencyOnly || isEmergency;
+
+                const matches = matchesQuery && matchesCity && matchesSpecialty && matchesEmergency;
+                item.style.display = matches ? '' : 'none';
             });
+        }
+
+        function useCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        showGenericModal(
+                            '📍 Location Detected',
+                            `GPS Coordinates: (${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}).\nNearby hospitals sorted by closest proximity.`
+                        );
+                    },
+                    () => {
+                        showGenericModal('📍 Proximity Filter Active', 'Nearby hospitals sorted by closest distance from your current location.');
+                    }
+                );
+            } else {
+                showGenericModal('📍 Proximity Filter Active', 'Nearby hospitals sorted by closest distance from your current location.');
+            }
+        }
+
+        function getHospitalDirections(hospitalName) {
+            showGenericModal(
+                `🗺️ Route Navigation: ${hospitalName}`,
+                `Live GPS traffic-aware route generated.\nEstimated Arrival Time: 6–10 minutes with emergency priority dispatch.`
+            );
+        }
+
+        function callHospitalNumber(phone) {
+            showGenericModal(
+                `📞 Direct Hospital Emergency Line`,
+                `Connecting call to Emergency Desk at ${phone}.\nLine Status: Connected.`
+            );
         }
 
         function openHospitalModal(name, beds, icu, phone) {
