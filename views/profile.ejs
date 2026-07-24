@@ -6,62 +6,205 @@
 <!-- RIGHT MAIN CONTENT -->
 <div class="auth-main-content">
 
-    <!-- STATS CARDS -->
+    <!-- 1. HEALTHCARE & CARE ACTIVITY (4 STATISTIC CARDS) -->
     <div class="auth-card">
         <div class="auth-card-title">
             <span>📊 Healthcare & Care Activity</span>
         </div>
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-num"><%= stats.totalAppointments %></div>
-                <div class="stat-lbl">APPOINTMENTS</div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px;">
+            
+            <!-- Card 1: Appointments -->
+            <div class="stat-card-enhanced appts">
+                <div class="stat-enhanced-icon" style="background:rgba(56,189,248,0.12); color:#38bdf8; border:1px solid rgba(56,189,248,0.25);">📅</div>
+                <div>
+                    <div style="font-size:1.6rem; font-weight:800; color:#fff; line-height:1.1;"><%= stats.totalAppointments %></div>
+                    <div style="font-size:0.75rem; font-weight:700; color:var(--color-text-gray); text-transform:uppercase; margin-top:2px;">APPOINTMENTS</div>
+                    <div style="font-size:0.72rem; color:#38bdf8; font-weight:600; margin-top:3px;">Scheduled Consultations</div>
+                </div>
             </div>
-            <div class="stat-card" style="background:rgba(239,68,68,0.08); border-color:rgba(239,68,68,0.2);">
-                <div class="stat-num" style="color:#f87171;"><%= stats.totalEmergencies %></div>
-                <div class="stat-lbl">SOS DISPATCHES</div>
+
+            <!-- Card 2: SOS Dispatches -->
+            <div class="stat-card-enhanced sos">
+                <div class="stat-enhanced-icon" style="background:rgba(239,68,68,0.12); color:#f87171; border:1px solid rgba(239,68,68,0.25);">🚨</div>
+                <div>
+                    <div style="font-size:1.6rem; font-weight:800; color:#f87171; line-height:1.1;"><%= stats.totalEmergencies %></div>
+                    <div style="font-size:0.75rem; font-weight:700; color:var(--color-text-gray); text-transform:uppercase; margin-top:2px;">SOS DISPATCHES</div>
+                    <div style="font-size:0.72rem; color:#f87171; font-weight:600; margin-top:3px;">24/7 ICU Proximity Mesh</div>
+                </div>
             </div>
-            <div class="stat-card" style="background:rgba(34,197,94,0.08); border-color:rgba(34,197,94,0.2);">
-                <div class="stat-num" style="color:#4ade80;"><%= stats.medicalReports %></div>
-                <div class="stat-lbl">MEDICAL RECORDS</div>
+
+            <!-- Card 3: Medical Records -->
+            <div class="stat-card-enhanced records">
+                <div class="stat-enhanced-icon" style="background:rgba(34,197,94,0.12); color:#4ade80; border:1px solid rgba(34,197,94,0.25);">📄</div>
+                <div>
+                    <div style="font-size:1.6rem; font-weight:800; color:#4ade80; line-height:1.1;"><%= stats.medicalReports %></div>
+                    <div style="font-size:0.75rem; font-weight:700; color:var(--color-text-gray); text-transform:uppercase; margin-top:2px;">MEDICAL RECORDS</div>
+                    <div style="font-size:0.72rem; color:#4ade80; font-weight:600; margin-top:3px;">Encrypted EHR Files</div>
+                </div>
             </div>
-            <div class="stat-card" style="background:rgba(168,85,247,0.08); border-color:rgba(168,85,247,0.2);">
-                <div class="stat-num" style="color:#c084fc;"><%= stats.bloodRequests %></div>
-                <div class="stat-lbl">BLOOD REQUESTS</div>
+
+            <!-- Card 4: Blood Requests -->
+            <div class="stat-card-enhanced blood">
+                <div class="stat-enhanced-icon" style="background:rgba(168,85,247,0.12); color:#c084fc; border:1px solid rgba(168,85,247,0.25);">🩸</div>
+                <div>
+                    <div style="font-size:1.6rem; font-weight:800; color:#c084fc; line-height:1.1;"><%= stats.bloodRequests %></div>
+                    <div style="font-size:0.75rem; font-weight:700; color:var(--color-text-gray); text-transform:uppercase; margin-top:2px;">BLOOD REQUESTS</div>
+                    <div style="font-size:0.72rem; color:#c084fc; font-weight:600; margin-top:3px;">18 Repositories Active</div>
+                </div>
             </div>
+
         </div>
     </div>
 
-    <!-- PERSONAL & HEALTH INFO CARD -->
+    <!-- 2. PERSONAL & HEALTH VITALS (RESPONSIVE GRID WITH ICONS) -->
     <div class="auth-card">
         <div class="auth-card-title">
-            <span>🩺 Personal & Health Vitals</span>
-            <button style="background:none; border:none; color:#38bdf8; font-weight:700; cursor:pointer;" onclick="openEditProfileModal()">Edit</button>
+            <span style="display:flex; align-items:center; gap:8px;">
+                <span>🩺</span> Personal & Health Vitals
+            </span>
+            <button class="btn-edit-profile-prem" onclick="openEditProfileModal()">
+                <span>✏️</span> Edit Profile
+            </button>
         </div>
-        <div class="info-grid">
-            <div class="info-box">
-                <div class="info-label">BLOOD GROUP</div>
-                <div class="info-val" style="color:#f87171;"><%= user.blood_group || 'O+' %></div>
+
+        <div style="display:flex; flex-direction:column; gap:20px;">
+            
+            <!-- GROUP 1: DEMOGRAPHICS -->
+            <div>
+                <div style="font-size:0.78rem; font-weight:800; color:#38bdf8; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:10px;">
+                    📌 Demographics & Patient Information
+                </div>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px;">
+                    <div class="vitals-box">
+                        <span style="font-size:1.3rem;">🩸</span>
+                        <div>
+                            <div style="font-size:0.7rem; color:var(--color-text-gray); font-weight:700; text-transform:uppercase;">Blood Group</div>
+                            <div style="font-size:1.05rem; font-weight:800; color:#f87171;"><%= user.blood_group || 'O+' %></div>
+                        </div>
+                    </div>
+
+                    <div class="vitals-box">
+                        <span style="font-size:1.3rem;">👤</span>
+                        <div>
+                            <div style="font-size:0.7rem; color:var(--color-text-gray); font-weight:700; text-transform:uppercase;">Age</div>
+                            <div style="font-size:1.05rem; font-weight:800; color:#fff;"><%= user.age || 28 %> Yrs</div>
+                        </div>
+                    </div>
+
+                    <div class="vitals-box">
+                        <span style="font-size:1.3rem;">⚧</span>
+                        <div>
+                            <div style="font-size:0.7rem; color:var(--color-text-gray); font-weight:700; text-transform:uppercase;">Gender</div>
+                            <div style="font-size:1.05rem; font-weight:800; color:#fff;"><%= user.gender || 'Male' %></div>
+                        </div>
+                    </div>
+
+                    <div class="vitals-box">
+                        <span style="font-size:1.3rem;">🎂</span>
+                        <div>
+                            <div style="font-size:0.7rem; color:var(--color-text-gray); font-weight:700; text-transform:uppercase;">Date of Birth</div>
+                            <div style="font-size:1.05rem; font-weight:800; color:#fff;"><%= user.date_of_birth || '1998-05-14' %></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="info-box">
-                <div class="info-label">AGE</div>
-                <div class="info-val"><%= user.age || 28 %> Yrs</div>
+
+            <!-- GROUP 2: CONTACT & ADDRESS -->
+            <div>
+                <div style="font-size:0.78rem; font-weight:800; color:#38bdf8; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:10px;">
+                    📞 Contact & Emergency Routing
+                </div>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
+                    <div class="vitals-box">
+                        <span style="font-size:1.3rem;">📞</span>
+                        <div>
+                            <div style="font-size:0.7rem; color:var(--color-text-gray); font-weight:700; text-transform:uppercase;">Emergency Contact</div>
+                            <div style="font-size:1.05rem; font-weight:800; color:#4ade80;"><%= user.emergency_contact || '+1 800 555 0199' %></div>
+                        </div>
+                    </div>
+
+                    <div class="vitals-box">
+                        <span style="font-size:1.3rem;">🏠</span>
+                        <div>
+                            <div style="font-size:0.7rem; color:var(--color-text-gray); font-weight:700; text-transform:uppercase;">Residential Address</div>
+                            <div style="font-size:0.95rem; font-weight:700; color:#fff;"><%= user.address || '45 Broad Street, New York, NY 10004' %></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="info-box">
-                <div class="info-label">GENDER</div>
-                <div class="info-val"><%= user.gender || 'Male' %></div>
+
+            <!-- GROUP 3: LIVE BIO-TELEMETRY VITALS -->
+            <div>
+                <div style="font-size:0.78rem; font-weight:800; color:#38bdf8; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:10px;">
+                    ❤️ Real-Time Bio-Telemetry Vitals
+                </div>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px;">
+                    <div class="vitals-box">
+                        <span style="font-size:1.3rem;">❤️</span>
+                        <div>
+                            <div style="font-size:0.7rem; color:var(--color-text-gray); font-weight:700; text-transform:uppercase;">Heart Rate</div>
+                            <div style="font-size:1.05rem; font-weight:800; color:#f87171;">72 <span style="font-size:0.75rem; color:#94a3b8;">BPM</span></div>
+                        </div>
+                    </div>
+
+                    <div class="vitals-box">
+                        <span style="font-size:1.3rem;">🩸</span>
+                        <div>
+                            <div style="font-size:0.7rem; color:var(--color-text-gray); font-weight:700; text-transform:uppercase;">Blood Pressure</div>
+                            <div style="font-size:1.05rem; font-weight:800; color:#4ade80;">120/80 <span style="font-size:0.75rem; color:#94a3b8;">mmHg</span></div>
+                        </div>
+                    </div>
+
+                    <div class="vitals-box">
+                        <span style="font-size:1.3rem;">🌡️</span>
+                        <div>
+                            <div style="font-size:0.7rem; color:var(--color-text-gray); font-weight:700; text-transform:uppercase;">Temperature</div>
+                            <div style="font-size:1.05rem; font-weight:800; color:#fbbf24;">98.6 <span style="font-size:0.75rem; color:#94a3b8;">°F</span></div>
+                        </div>
+                    </div>
+
+                    <div class="vitals-box">
+                        <span style="font-size:1.3rem;">🫁</span>
+                        <div>
+                            <div style="font-size:0.7rem; color:var(--color-text-gray); font-weight:700; text-transform:uppercase;">Oxygen Saturation</div>
+                            <div style="font-size:1.05rem; font-weight:800; color:#38bdf8;">99% <span style="font-size:0.75rem; color:#94a3b8;">SpO2</span></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="info-box">
-                <div class="info-label">DATE OF BIRTH</div>
-                <div class="info-val"><%= user.date_of_birth || '1998-05-14' %></div>
+
+            <!-- GROUP 4: HEALTH STATUS & AI SCORE -->
+            <div>
+                <div style="font-size:0.78rem; font-weight:800; color:#38bdf8; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:10px;">
+                    🤖 AI Clinical Assessment & Sync Status
+                </div>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px;">
+                    <div class="vitals-box">
+                        <span style="font-size:1.3rem;">🛡️</span>
+                        <div>
+                            <div style="font-size:0.7rem; color:var(--color-text-gray); font-weight:700; text-transform:uppercase;">Health Status</div>
+                            <div style="font-size:0.95rem; font-weight:800; color:#4ade80;">● Normal Vitals</div>
+                        </div>
+                    </div>
+
+                    <div class="vitals-box">
+                        <span style="font-size:1.3rem;">⏱️</span>
+                        <div>
+                            <div style="font-size:0.7rem; color:var(--color-text-gray); font-weight:700; text-transform:uppercase;">Last Updated</div>
+                            <div style="font-size:0.9rem; font-weight:700; color:#fff;">Today, 10:45 AM</div>
+                        </div>
+                    </div>
+
+                    <div class="vitals-box" style="grid-column: span 2;">
+                        <span style="font-size:1.3rem;">🤖</span>
+                        <div>
+                            <div style="font-size:0.7rem; color:var(--color-text-gray); font-weight:700; text-transform:uppercase;">AI Health Score</div>
+                            <div style="font-size:1.05rem; font-weight:800; color:#c084fc;">94 / 100 <span style="font-size:0.75rem; color:#4ade80; margin-left:6px;">(Optimal Vital Index)</span></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="info-box" style="grid-column: span 2;">
-                <div class="info-label">EMERGENCY CONTACT</div>
-                <div class="info-val" style="color:#4ade80;"><%= user.emergency_contact || '+1 800 555 0199' %></div>
-            </div>
-            <div class="info-box" style="grid-column: span 2;">
-                <div class="info-label">RESIDENTIAL ADDRESS</div>
-                <div class="info-val" style="font-size:0.95rem;"><%= user.address || '45 Broad Street, New York, NY 10004' %></div>
-            </div>
+
         </div>
     </div>
 

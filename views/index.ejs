@@ -9,6 +9,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
+    <!-- Leaflet Interactive Maps CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- PulseX Google Maps System & Hospital Services -->
+    <script src="/js/pulseX-google-maps.js"></script>
+    <script src="/js/pulseX-hospital-service.js"></script>
+    <% if (typeof googleMapsApiKey !== 'undefined' && googleMapsApiKey) { %>
+        <script src="https://maps.googleapis.com/maps/api/js?key=<%= googleMapsApiKey %>&libraries=places,visualization&callback=initGoogleMapsEngine" async defer></script>
+    <% } %>
 </head>
 
 <body>
@@ -1140,179 +1149,1072 @@
     </section>
 
     <!-- ================= AMBULANCE DISPATCH ================= -->
+    <!-- ================= AMBULANCE DISPATCH COMMAND CENTER ================= -->
     <section class="features" id="ambulances" style="padding-top:60px;">
-        <div class="section-tag">— AMBULANCE DISPATCH FLEET</div>
+        <div class="section-tag">— EMERGENCY DISPATCH COMMAND CENTER</div>
         <h2 class="reveal">GPS Emergency Ambulance Fleet</h2>
-        <p class="section-subtitle reveal">Live cardiac ICU, neonatal, and trauma ambulances ready for instant dispatch.</p>
+        <p class="section-subtitle reveal">Real-time GPS telemetry, specialized life-support equipment, and instant emergency dispatch control.</p>
 
-        <div class="feature-container">
-            <div class="feature-card reveal">
-                <div class="icon feature-icon-ambulance"><svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon></svg></div>
-                <h3>Vehicle AMB-NYC-101</h3>
-                <p style="color:#94a3b8; font-size:0.9rem;">Cardiac ICU Ambulance • City Care Hospital</p>
-                <p style="color:#4ade80; font-weight:700; margin-top:8px;">Driver: John Miller (+1 555 0881)</p>
-                <button class="btn-dash-sos" style="margin-top:12px; padding:12px; font-size:0.95rem; border-radius:8px;" onclick="dispatchAmbulanceProgress('AMB-NYC-101')">Dispatch AMB-NYC-101</button>
+        <div class="fleet-command-wrapper reveal">
+            
+            <!-- 1. Telemetry Summary Metrics Row -->
+            <div class="fleet-summary-grid">
+                <div class="fleet-summary-card">
+                    <div class="fleet-summary-icon total">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                    </div>
+                    <div class="fleet-summary-info">
+                        <span class="fleet-summary-val">12</span>
+                        <span class="fleet-summary-lbl">Total Ambulances</span>
+                    </div>
+                </div>
+
+                <div class="fleet-summary-card">
+                    <div class="fleet-summary-icon avail">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    </div>
+                    <div class="fleet-summary-info">
+                        <span class="fleet-summary-val" style="color:#4ade80;">08</span>
+                        <span class="fleet-summary-lbl">Available Units</span>
+                    </div>
+                </div>
+
+                <div class="fleet-summary-card">
+                    <div class="fleet-summary-icon mission">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    </div>
+                    <div class="fleet-summary-info">
+                        <span class="fleet-summary-val" style="color:#facc15;">03</span>
+                        <span class="fleet-summary-lbl">On Mission</span>
+                    </div>
+                </div>
+
+                <div class="fleet-summary-card">
+                    <div class="fleet-summary-icon eta">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    </div>
+                    <div class="fleet-summary-info">
+                        <span class="fleet-summary-val" style="color:#f87171;">4.2<span style="font-size:1.0rem;">m</span></span>
+                        <span class="fleet-summary-lbl">Average Fleet ETA</span>
+                    </div>
+                </div>
             </div>
 
-            <div class="feature-card reveal">
-                <div class="icon feature-icon-ambulance"><svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon></svg></div>
-                <h3>Vehicle AMB-NYC-305</h3>
-                <p style="color:#94a3b8; font-size:0.9rem;">Advanced Trauma Unit • Apex Center</p>
-                <p style="color:#4ade80; font-weight:700; margin-top:8px;">Driver: David Rossi (+1 555 0882)</p>
-                <button class="btn-dash-sos" style="margin-top:12px; padding:12px; font-size:0.95rem; border-radius:8px;" onclick="dispatchAmbulanceProgress('AMB-NYC-305')">Dispatch AMB-NYC-305</button>
+            <!-- 2. Live GPS Interactive Map Panel -->
+            <div class="fleet-map-panel">
+                <div class="fleet-map-header" style="flex-wrap:wrap; gap:12px; padding:14px 18px;">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span style="color:#fff; font-weight:800; font-size:1.05rem;">🛰️ Live Fleet Interactive GPS Map</span>
+                        <div class="fleet-telemetry-badge">
+                            <span class="telemetry-pulse-dot"></span>
+                            <span id="mapEngineStatusBadge">GPS Lock: Detecting Location...</span>
+                        </div>
+                    </div>
+
+                    <!-- Places Search Input Box -->
+                    <div style="position:relative; display:flex; align-items:center;">
+                        <input type="text" id="mapSearchInput" placeholder="🔍 Search Hospital, Address, City, Landmark..." style="background:rgba(15,23,42,0.85); border:1px solid rgba(56,189,248,0.35); color:#ffffff; padding:6px 14px; border-radius:10px; font-size:0.8rem; font-weight:600; width:260px; outline:none; transition:all 0.25s ease;" />
+                    </div>
+
+                    <!-- Layers Toggles Bar -->
+                    <div style="display:flex; align-items:center; gap:6px;">
+                        <span style="font-size:0.75rem; color:var(--color-text-gray); font-weight:800; text-transform:uppercase; margin-right:4px;">Layers:</span>
+                        <button class="layer-toggle-btn active" data-layer="ambulances" onclick="toggleMapLayer('ambulances', this)" style="background:rgba(56,189,248,0.15); border:1px solid rgba(56,189,248,0.35); color:#38bdf8; padding:4px 10px; border-radius:8px; font-size:0.75rem; font-weight:800; cursor:pointer;">🚑 Ambulances</button>
+                        <button class="layer-toggle-btn active" data-layer="hospitals" onclick="toggleMapLayer('hospitals', this)" style="background:rgba(34,197,94,0.15); border:1px solid rgba(34,197,94,0.35); color:#4ade80; padding:4px 10px; border-radius:8px; font-size:0.75rem; font-weight:800; cursor:pointer;">🏥 Hospitals</button>
+                        <button class="layer-toggle-btn active" data-layer="trauma" onclick="toggleMapLayer('trauma', this)" style="background:rgba(234,179,8,0.15); border:1px solid rgba(234,179,8,0.35); color:#facc15; padding:4px 10px; border-radius:8px; font-size:0.75rem; font-weight:800; cursor:pointer;">⚡ Trauma</button>
+                        <button class="layer-toggle-btn active" data-layer="blood" onclick="toggleMapLayer('blood', this)" style="background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.35); color:#f87171; padding:4px 10px; border-radius:8px; font-size:0.75rem; font-weight:800; cursor:pointer;">🩸 Blood</button>
+                    </div>
+                </div>
+
+                <!-- Interactive Real Map Container -->
+                <div id="liveFleetInteractiveMap" style="width:100%; height:340px; border-radius:14px; position:relative; overflow:hidden; border:1px solid rgba(255,255,255,0.08); z-index:1;"></div>
+
+                <!-- 3. Filter Bar -->
+                <div class="fleet-filter-bar">
+                    <div class="filter-pills">
+                        <button class="filter-pill-btn active" onclick="filterAmbulanceFleet('all', this)">All Units (4)</button>
+                        <button class="filter-pill-btn" onclick="filterAmbulanceFleet('available', this)">Available (2)</button>
+                        <button class="filter-pill-btn" onclick="filterAmbulanceFleet('responding', this)">Responding (1)</button>
+                        <button class="filter-pill-btn" onclick="filterAmbulanceFleet('busy', this)">Busy (1)</button>
+                    </div>
+                    <div style="font-size:0.8rem; color:var(--color-text-gray); font-weight:600;">
+                        Auto-refreshing live telemetry • Signal 99.8%
+                    </div>
+                </div>
             </div>
+
+            <!-- 4. Fleet Cards Responsive Grid -->
+            <div class="fleet-cards-grid" id="fleetCardsContainer">
+                
+                <!-- Card 1 -->
+                <div class="fleet-card" data-status="available">
+                    <div class="fleet-card-header">
+                        <div class="fleet-card-title-group">
+                            <div class="fleet-icon-wrapper">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                            </div>
+                            <div>
+                                <h3 class="fleet-id">AMB-NYC-101</h3>
+                                <div class="fleet-type">Cardiac ICU Ambulance</div>
+                            </div>
+                        </div>
+                        <div class="status-badge available">
+                            <span class="dot"></span>
+                            <span>Available</span>
+                        </div>
+                    </div>
+
+                    <div class="fleet-card-metrics">
+                        <div class="metric-item">
+                            <span class="metric-lbl">Attached Hospital</span>
+                            <span class="metric-val">City Care General</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-lbl">Distance & ETA</span>
+                            <span class="metric-val highlight">1.2 km (3 mins)</span>
+                        </div>
+                    </div>
+
+                    <div class="fleet-equipment-container">
+                        <span class="equipment-lbl">Onboard Equipment</span>
+                        <div class="equipment-tags">
+                            <span class="equipment-tag">⚡ Cardiac ICU</span>
+                            <span class="equipment-tag">🫁 Oxygen Tank</span>
+                            <span class="equipment-tag">🌬️ Ventilator</span>
+                            <span class="equipment-tag">📊 Monitor</span>
+                        </div>
+                    </div>
+
+                    <div class="fleet-driver-row">
+                        <div class="driver-info">
+                            <span>👨‍✈️ Driver: John Miller</span>
+                        </div>
+                        <span class="last-updated">Updated 5s ago</span>
+                    </div>
+
+                    <div class="fleet-action-group">
+                        <button class="btn-fleet-dispatch" onclick="dispatchAmbulanceProgress('AMB-NYC-101')">
+                            <span>🚨 Dispatch</span>
+                        </button>
+                        <button class="btn-fleet-track" onclick="trackAmbulanceLive('AMB-NYC-101')">
+                            <span>📡 Track</span>
+                        </button>
+                        <button class="btn-fleet-call" onclick="callAmbulanceDriver('AMB-NYC-101', 'John Miller', '+1 555 0881')">
+                            <span>📞 Call</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="fleet-card" data-status="responding">
+                    <div class="fleet-card-header">
+                        <div class="fleet-card-title-group">
+                            <div class="fleet-icon-wrapper" style="background:rgba(56,189,248,0.12); border-color:rgba(56,189,248,0.3); color:#38bdf8;">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                            </div>
+                            <div>
+                                <h3 class="fleet-id">AMB-NYC-305</h3>
+                                <div class="fleet-type">Advanced Trauma Unit</div>
+                            </div>
+                        </div>
+                        <div class="status-badge responding">
+                            <span class="dot"></span>
+                            <span>Responding</span>
+                        </div>
+                    </div>
+
+                    <div class="fleet-card-metrics">
+                        <div class="metric-item">
+                            <span class="metric-lbl">Attached Hospital</span>
+                            <span class="metric-val">Apex Trauma Center</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-lbl">Distance & ETA</span>
+                            <span class="metric-val highlight">3.5 km (6 mins)</span>
+                        </div>
+                    </div>
+
+                    <div class="fleet-equipment-container">
+                        <span class="equipment-lbl">Onboard Equipment</span>
+                        <div class="equipment-tags">
+                            <span class="equipment-tag">🩸 Trauma Kit</span>
+                            <span class="equipment-tag">🫁 Oxygen Tank</span>
+                            <span class="equipment-tag">⚡ Defibrillator</span>
+                            <span class="equipment-tag">💉 IV Pumps</span>
+                        </div>
+                    </div>
+
+                    <div class="fleet-driver-row">
+                        <div class="driver-info">
+                            <span>👨‍✈️ Driver: David Rossi</span>
+                        </div>
+                        <span class="last-updated">Updated 12s ago</span>
+                    </div>
+
+                    <div class="fleet-action-group">
+                        <button class="btn-fleet-dispatch" onclick="dispatchAmbulanceProgress('AMB-NYC-305')">
+                            <span>🚨 Dispatch</span>
+                        </button>
+                        <button class="btn-fleet-track" onclick="trackAmbulanceLive('AMB-NYC-305')">
+                            <span>📡 Track</span>
+                        </button>
+                        <button class="btn-fleet-call" onclick="callAmbulanceDriver('AMB-NYC-305', 'David Rossi', '+1 555 0882')">
+                            <span>📞 Call</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="fleet-card" data-status="available">
+                    <div class="fleet-card-header">
+                        <div class="fleet-card-title-group">
+                            <div class="fleet-icon-wrapper" style="background:rgba(168,85,247,0.12); border-color:rgba(168,85,247,0.3); color:#c084fc;">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                            </div>
+                            <div>
+                                <h3 class="fleet-id">AMB-NYC-408</h3>
+                                <div class="fleet-type">Neonatal & Pediatric Care</div>
+                            </div>
+                        </div>
+                        <div class="status-badge available">
+                            <span class="dot"></span>
+                            <span>Available</span>
+                        </div>
+                    </div>
+
+                    <div class="fleet-card-metrics">
+                        <div class="metric-item">
+                            <span class="metric-lbl">Attached Hospital</span>
+                            <span class="metric-val">St. Jude Children's</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-lbl">Distance & ETA</span>
+                            <span class="metric-val highlight">2.1 km (4 mins)</span>
+                        </div>
+                    </div>
+
+                    <div class="fleet-equipment-container">
+                        <span class="equipment-lbl">Onboard Equipment</span>
+                        <div class="equipment-tags">
+                            <span class="equipment-tag">👶 Infant Incubator</span>
+                            <span class="equipment-tag">🫁 Pediatric O2</span>
+                            <span class="equipment-tag">🍼 Neonatal ICU</span>
+                        </div>
+                    </div>
+
+                    <div class="fleet-driver-row">
+                        <div class="driver-info">
+                            <span>👩‍✈️ Driver: Sarah Jenkins</span>
+                        </div>
+                        <span class="last-updated">Updated 8s ago</span>
+                    </div>
+
+                    <div class="fleet-action-group">
+                        <button class="btn-fleet-dispatch" onclick="dispatchAmbulanceProgress('AMB-NYC-408')">
+                            <span>🚨 Dispatch</span>
+                        </button>
+                        <button class="btn-fleet-track" onclick="trackAmbulanceLive('AMB-NYC-408')">
+                            <span>📡 Track</span>
+                        </button>
+                        <button class="btn-fleet-call" onclick="callAmbulanceDriver('AMB-NYC-408', 'Sarah Jenkins', '+1 555 0883')">
+                            <span>📞 Call</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="fleet-card" data-status="busy">
+                    <div class="fleet-card-header">
+                        <div class="fleet-card-title-group">
+                            <div class="fleet-icon-wrapper" style="background:rgba(234,179,8,0.12); border-color:rgba(234,179,8,0.3); color:#facc15;">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                            </div>
+                            <div>
+                                <h3 class="fleet-id">AMB-NYC-502</h3>
+                                <div class="fleet-type">Cardiac Critical Support</div>
+                            </div>
+                        </div>
+                        <div class="status-badge busy">
+                            <span class="dot"></span>
+                            <span>Busy</span>
+                        </div>
+                    </div>
+
+                    <div class="fleet-card-metrics">
+                        <div class="metric-item">
+                            <span class="metric-lbl">Attached Hospital</span>
+                            <span class="metric-val">Metro Heart Institute</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-lbl">Distance & ETA</span>
+                            <span class="metric-val highlight">4.8 km (11 mins)</span>
+                        </div>
+                    </div>
+
+                    <div class="fleet-equipment-container">
+                        <span class="equipment-lbl">Onboard Equipment</span>
+                        <div class="equipment-tags">
+                            <span class="equipment-tag">⚡ ECG Monitor</span>
+                            <span class="equipment-tag">🫁 Oxygen Tank</span>
+                            <span class="equipment-tag">💉 Cardiac Meds</span>
+                        </div>
+                    </div>
+
+                    <div class="fleet-driver-row">
+                        <div class="driver-info">
+                            <span>👨‍✈️ Driver: Marcus Vance</span>
+                        </div>
+                        <span class="last-updated">Updated 2s ago</span>
+                    </div>
+
+                    <div class="fleet-action-group">
+                        <button class="btn-fleet-dispatch" onclick="dispatchAmbulanceProgress('AMB-NYC-502')">
+                            <span>🚨 Dispatch</span>
+                        </button>
+                        <button class="btn-fleet-track" onclick="trackAmbulanceLive('AMB-NYC-502')">
+                            <span>📡 Track</span>
+                        </button>
+                        <button class="btn-fleet-call" onclick="callAmbulanceDriver('AMB-NYC-502', 'Marcus Vance', '+1 555 0884')">
+                            <span>📞 Call</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
     </section>
 
     <!-- ================= AI ASSISTANT CHAT ================= -->
     <section class="features" id="ai-assistant" style="padding-top:60px;">
-        <div class="section-tag">— AI HEALTH ASSISTANT</div>
+        <div class="section-tag">— CLINICAL TRIAGE ENGINE</div>
         <h2 class="reveal">PulseX AI Clinical Triage</h2>
-        <p class="section-subtitle reveal">Describe your symptoms or pick a quick symptom for instant AI diagnostic triage and specialist recommendations.</p>
+        <p class="section-subtitle reveal">Describe symptoms in natural language or choose a quick clinical signal for instant, evidence-based triage and specialist routing.</p>
 
-        <div style="background:rgba(15,23,42,0.85); border:1px solid rgba(255,255,255,0.08); border-radius:20px; padding:28px; max-width:900px; box-shadow: 0 10px 40px rgba(0,0,0,0.4);">
-            
-            <!-- SUPPORTED QUICK SYMPTOM CHIPS -->
-            <div style="margin-bottom:20px;">
-                <label style="color:#94a3b8; font-size:0.8rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:10px;">Select Quick Symptom:</label>
-                <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                    <button class="symptom-chip" onclick="sendAIChat('Chest Pain and tightness')" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🩺 Chest Pain</button>
-                    <button class="symptom-chip" onclick="sendAIChat('Breathing Difficulty and shortness of breath')" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🫁 Breathing Difficulty</button>
-                    <button class="symptom-chip" onclick="sendAIChat('High Fever over 102 degrees')" style="background:rgba(245,158,11,0.15); color:#fbbf24; border:1px solid rgba(245,158,11,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🤒 High Fever</button>
-                    <button class="symptom-chip" onclick="sendAIChat('Severe Headache and throbbing pain')" style="background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🧠 Headache</button>
-                    <button class="symptom-chip" onclick="sendAIChat('Migraine with aura and light sensitivity')" style="background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">⚡ Migraine</button>
-                    <button class="symptom-chip" onclick="sendAIChat('Persistent Vomiting and nausea')" style="background:rgba(16,185,129,0.15); color:#4ade80; border:1px solid rgba(16,185,129,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🤢 Vomiting</button>
-                    <button class="symptom-chip" onclick="sendAIChat('Diarrhea and abdominal cramps')" style="background:rgba(16,185,129,0.15); color:#4ade80; border:1px solid rgba(16,185,129,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">💧 Diarrhea</button>
-                    <button class="symptom-chip" onclick="sendAIChat('Acute Stomach Pain')" style="background:rgba(245,158,11,0.15); color:#fbbf24; border:1px solid rgba(245,158,11,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🥊 Stomach Pain</button>
-                    <button class="symptom-chip" onclick="sendAIChat('Sudden Weakness and lethargy')" style="background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">💧 Weakness</button>
-                    <button class="symptom-chip" onclick="sendAIChat('Chronic Fatigue')" style="background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">😴 Fatigue</button>
-                    <button class="symptom-chip" onclick="sendAIChat('Dry Cough and throat pain')" style="background:rgba(16,185,129,0.15); color:#4ade80; border:1px solid rgba(16,185,129,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">😷 Cough</button>
-                    <button class="symptom-chip" onclick="sendAIChat('Common Cold and runny nose')" style="background:rgba(16,185,129,0.15); color:#4ade80; border:1px solid rgba(16,185,129,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🤧 Cold</button>
-                    <button class="symptom-chip" onclick="sendAIChat('Physical Injury and trauma')" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🩹 Injury</button>
-                    <button class="symptom-chip" onclick="sendAIChat('Bone Fracture and severe swelling')" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🦴 Fracture</button>
-                    <button class="symptom-chip" onclick="sendAIChat('Skin Burn injury')" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🔥 Burn</button>
-                    <button class="symptom-chip" onclick="sendAIChat('Active Bleeding cut')" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🩸 Bleeding</button>
-                    <button class="symptom-chip" onclick="sendAIChat('Pregnancy Concerns and abdominal discomfort')" style="background:rgba(168,85,247,0.15); color:#c084fc; border:1px solid rgba(168,85,247,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🤰 Pregnancy Concerns</button>
-                    <button class="symptom-chip" onclick="sendAIChat('Severe Skin Allergy')" style="background:rgba(16,185,129,0.15); color:#4ade80; border:1px solid rgba(16,185,129,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🛡️ Allergy</button>
-                    <button class="symptom-chip" onclick="sendAIChat('Itchy Rash across body')" style="background:rgba(16,185,129,0.15); color:#4ade80; border:1px solid rgba(16,185,129,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">✨ Rash</button>
-                    <button class="symptom-chip" onclick="sendAIChat('Dizziness and lightheadedness')" style="background:rgba(245,158,11,0.15); color:#fbbf24; border:1px solid rgba(245,158,11,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">💫 Dizziness</button>
-                    <button class="symptom-chip" onclick="sendAIChat('Unconsciousness and loss of responsiveness')" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">🚨 Unconsciousness</button>
-                    <button class="symptom-chip" onclick="sendAIChat('Seizure and convulsions')" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); padding:6px 12px; border-radius:20px; font-size:0.8rem; cursor:pointer;">⚡ Seizure</button>
+        <div class="ai-triage-wrapper reveal">
+
+            <!-- 1. AI Workflow Visualization Pipeline -->
+            <div class="ai-workflow-pipeline">
+                <div class="workflow-node">
+                    <span class="workflow-num">1</span>
+                    <span>Symptoms Input</span>
+                </div>
+                <span class="workflow-arrow">→</span>
+                <div class="workflow-node">
+                    <span class="workflow-num">2</span>
+                    <span>AI Analysis</span>
+                </div>
+                <span class="workflow-arrow">→</span>
+                <div class="workflow-node">
+                    <span class="workflow-num">3</span>
+                    <span>Risk Assessment</span>
+                </div>
+                <span class="workflow-arrow">→</span>
+                <div class="workflow-node">
+                    <span class="workflow-num">4</span>
+                    <span>Specialist Match</span>
+                </div>
+                <span class="workflow-arrow">→</span>
+                <div class="workflow-node">
+                    <span class="workflow-num">5</span>
+                    <span>Next Action</span>
                 </div>
             </div>
 
-            <!-- SYMPTOM INPUT FORM -->
-            <form onsubmit="event.preventDefault(); submitAIChatForm();" style="display:flex; gap:12px; margin-bottom:20px;">
-                <input type="text" id="aiChatInput" placeholder="Describe symptoms (e.g. chest pain, breathing difficulty, fever)..." style="flex:1; padding:14px 18px; border-radius:12px; border:1px solid rgba(255,255,255,0.12); background:rgba(15,23,42,0.9); color:#fff; font-size:0.95rem;" required>
-                <button type="submit" id="aiSubmitBtn" class="btn-primary" style="padding:14px 28px; border-radius:12px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:8px;">
-                    <span id="aiBtnText">Analyze Triage</span>
-                    <span id="aiBtnSpinner" style="display:none;" class="spinner-icon">🔄</span>
-                </button>
-            </form>
+            <!-- 2. Trust Indicators Bar -->
+            <div class="ai-trust-bar">
+                <div class="trust-badge gemini">
+                    <span>⚡ Powered by Google Gemini</span>
+                </div>
+                <div class="trust-badge guidance">
+                    <span>🩺 AI Assisted Medical Guidance</span>
+                </div>
+                <div class="trust-badge safety">
+                    <span>🚨 Emergency Risk Detection</span>
+                </div>
+                <div class="trust-badge disclaimer">
+                    <span>🔒 Not a Medical Diagnosis</span>
+                </div>
+            </div>
 
-            <!-- AI TRIAGE OUTPUT CONTAINER -->
-            <div id="aiChatOutput" style="display:none;"></div>
+            <!-- 3. AI Info Specs Grid -->
+            <div class="ai-specs-grid">
+                <div class="ai-spec-card">
+                    <div class="ai-spec-icon" style="background:rgba(56,189,248,0.12); color:#38bdf8; border:1px solid rgba(56,189,248,0.3);">🧠</div>
+                    <div>
+                        <div class="ai-spec-title">AI Engine</div>
+                        <div class="ai-spec-value">Gemini 2.0 Flash Clinical</div>
+                    </div>
+                </div>
+
+                <div class="ai-spec-card">
+                    <div class="ai-spec-icon" style="background:rgba(34,197,94,0.12); color:#4ade80; border:1px solid rgba(34,197,94,0.3);">⚡</div>
+                    <div>
+                        <div class="ai-spec-title">Response Speed</div>
+                        <div class="ai-spec-value">&lt; 1.2s Average Speed</div>
+                    </div>
+                </div>
+
+                <div class="ai-spec-card">
+                    <div class="ai-spec-icon" style="background:rgba(234,179,8,0.12); color:#facc15; border:1px solid rgba(234,179,8,0.3);">🕒</div>
+                    <div>
+                        <div class="ai-spec-title">Availability</div>
+                        <div class="ai-spec-value">24/7 Real-Time Triage</div>
+                    </div>
+                </div>
+
+                <div class="ai-spec-card">
+                    <div class="ai-spec-icon" style="background:rgba(168,85,247,0.12); color:#c084fc; border:1px solid rgba(168,85,247,0.3);">🔐</div>
+                    <div>
+                        <div class="ai-spec-title">Data Privacy</div>
+                        <div class="ai-spec-value">HIPAA & Encrypted</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Categorized Symptoms & Main Triage Box -->
+            <div style="background:rgba(15,23,42,0.85); backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,0.08); border-radius:20px; padding:28px; box-shadow: 0 16px 40px rgba(0,0,0,0.4);">
+                
+                <div style="margin-bottom:20px;">
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
+                        <label style="color:#94a3b8; font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;">Select Quick Symptom by Category:</label>
+                        <span style="color:var(--color-text-gray); font-size:0.75rem;">Click any chip for immediate clinical triage</span>
+                    </div>
+
+                    <!-- Category Pills Navigation -->
+                    <div class="symptom-category-pills">
+                        <button class="symptom-cat-btn active" onclick="filterSymptomCategory('all', this)">All Symptoms</button>
+                        <button class="symptom-cat-btn" onclick="filterSymptomCategory('emergency', this)">🚨 Emergency</button>
+                        <button class="symptom-cat-btn" onclick="filterSymptomCategory('general', this)">🤒 General</button>
+                        <button class="symptom-cat-btn" onclick="filterSymptomCategory('neuro', this)">🧠 Neurology</button>
+                        <button class="symptom-cat-btn" onclick="filterSymptomCategory('digestive', this)">🥊 Digestive</button>
+                        <button class="symptom-cat-btn" onclick="filterSymptomCategory('special', this)">🛡️ Special Conditions</button>
+                    </div>
+
+                    <!-- Categorized Chips Grid -->
+                    <div class="symptom-chip-grid" id="symptomChipsContainer">
+                        <!-- Emergency -->
+                        <span class="symptom-chip-item cat-emergency" onclick="sendAIChat('Chest Pain and tightness')">🩺 Chest Pain</span>
+                        <span class="symptom-chip-item cat-emergency" onclick="sendAIChat('Breathing Difficulty and shortness of breath')">🫁 Shortness of Breath</span>
+                        <span class="symptom-chip-item cat-emergency" onclick="sendAIChat('Sudden Numbness and stroke warning signs')">⚡ Sudden Numbness</span>
+                        <span class="symptom-chip-item cat-emergency" onclick="sendAIChat('Active Bleeding cut and severe trauma')">🩸 Severe Bleeding</span>
+                        <span class="symptom-chip-item cat-emergency" onclick="sendAIChat('Unconsciousness and loss of responsiveness')">🚨 Unconsciousness</span>
+                        <span class="symptom-chip-item cat-emergency" onclick="sendAIChat('Seizure and convulsions')">⚡ Seizure</span>
+
+                        <!-- General -->
+                        <span class="symptom-chip-item cat-general" onclick="sendAIChat('High Fever over 102 degrees and chills')">🤒 Fever & Chills</span>
+                        <span class="symptom-chip-item cat-general" onclick="sendAIChat('Chronic Fatigue and lethargy')">😴 Fatigue</span>
+                        <span class="symptom-chip-item cat-general" onclick="sendAIChat('Body Ache and muscle soreness')">💪 Body Ache</span>
+                        <span class="symptom-chip-item cat-general" onclick="sendAIChat('Dizziness and lightheadedness')">💫 Dizziness</span>
+                        <span class="symptom-chip-item cat-general" onclick="sendAIChat('Dry Cough and throat pain')">😷 Cold & Cough</span>
+
+                        <!-- Neurology -->
+                        <span class="symptom-chip-item cat-neuro" onclick="sendAIChat('Migraine with aura and severe headache')">⚡ Migraine / Headache</span>
+                        <span class="symptom-chip-item cat-neuro" onclick="sendAIChat('Blurred Vision and eye pressure')">👁️ Blurred Vision</span>
+                        <span class="symptom-chip-item cat-neuro" onclick="sendAIChat('Sudden Confusion and disorientation')">🧩 Confusion</span>
+                        <span class="symptom-chip-item cat-neuro" onclick="sendAIChat('Memory Loss and cognitive clouding')">🧠 Memory Concerns</span>
+
+                        <!-- Digestive -->
+                        <span class="symptom-chip-item cat-digestive" onclick="sendAIChat('Acute Stomach Pain and severe abdominal cramps')">🥊 Severe Stomach Pain</span>
+                        <span class="symptom-chip-item cat-digestive" onclick="sendAIChat('Persistent Vomiting and nausea')">🤢 Nausea & Vomiting</span>
+                        <span class="symptom-chip-item cat-digestive" onclick="sendAIChat('Diarrhea and dehydration')">💧 Persistent Diarrhea</span>
+                        <span class="symptom-chip-item cat-digestive" onclick="sendAIChat('Heartburn and severe acid reflux')">🔥 Heartburn</span>
+
+                        <!-- Special Conditions -->
+                        <span class="symptom-chip-item cat-special" onclick="sendAIChat('High Blood Pressure spike and headache')">🩺 High Blood Pressure</span>
+                        <span class="symptom-chip-item cat-special" onclick="sendAIChat('Severe Skin Allergy and facial swelling')">🛡️ Allergic Reaction</span>
+                        <span class="symptom-chip-item cat-special" onclick="sendAIChat('Joint Swelling and inflammation')">🦴 Joint Swelling</span>
+                        <span class="symptom-chip-item cat-special" onclick="sendAIChat('Pregnancy Concerns and abdominal discomfort')">🤰 Pregnancy Concerns</span>
+                    </div>
+                </div>
+
+                <!-- SYMPTOM INPUT FORM WITH REALISTIC PLACEHOLDER -->
+                <form onsubmit="event.preventDefault(); submitAIChatForm();" style="display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap;">
+                    <input type="text" id="aiChatInput" placeholder="Describe symptoms in detail (e.g., 'Experiencing sharp chest pain, shortness of breath, and mild dizziness for the past 20 minutes')..." style="flex:1; min-width:280px; padding:16px 20px; border-radius:12px; border:1px solid rgba(255,255,255,0.12); background:rgba(15,23,42,0.9); color:#fff; font-size:0.95rem;" required>
+                    <button type="submit" id="aiSubmitBtn" class="btn-primary" style="padding:16px 30px; border-radius:12px; font-weight:800; cursor:pointer; display:flex; align-items:center; gap:8px; flex-shrink:0;">
+                        <span id="aiBtnText">Analyze Clinical Triage</span>
+                        <span id="aiBtnSpinner" style="display:none;" class="spinner-icon">🔄</span>
+                    </button>
+                </form>
+
+                <!-- AI TRIAGE OUTPUT CONTAINER -->
+                <div id="aiChatOutput" style="display:none;"></div>
+
+            </div>
 
         </div>
     </section>
 
-    <!-- ================= VOLUNTEER NETWORK ================= -->
+    <!-- ================= EMERGENCY VOLUNTEER COMMAND CENTER ================= -->
     <section class="features" id="volunteers" style="padding-top:60px;">
-        <div class="section-tag">— VOLUNTEER NETWORK</div>
+        <div class="section-tag">— VOLUNTEER COMMAND CENTER</div>
         <h2 class="reveal">Crowdsourced First Responder Network</h2>
-        <p class="section-subtitle reveal">Certified EMTs and CPR-trained medical volunteers available nearby.</p>
+        <p class="section-subtitle reveal">Certified EMTs, ER Nurses, and CPR-trained medical volunteers dispatched via real-time proximity mesh.</p>
 
-        <div class="feature-container">
-            <div class="feature-card reveal">
-                <div class="icon feature-icon-volunteer"><svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg></div>
-                <h3>Michael Chang</h3>
-                <p style="color:#94a3b8; font-size:0.9rem;">Certified First Responder / EMT Basic</p>
-                <p style="color:#4ade80; font-weight:700; margin-top:6px;">Status: Active • Radius: 8.5 km</p>
-                <button class="btn-secondary" style="width:100%; margin-top:12px; padding:10px; border-radius:8px; background:rgba(168,85,247,0.15); color:#c084fc; border:1px solid rgba(168,85,247,0.3); font-weight:600; cursor:pointer;" onclick="connectVolunteer('Michael Chang')">Connect Responder</button>
+        <div class="vol-command-wrapper reveal">
+            
+            <!-- 1. Summary Statistics Row -->
+            <div class="vol-summary-grid">
+                <div class="vol-summary-card">
+                    <div class="vol-summary-icon total">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    </div>
+                    <div class="vol-summary-info">
+                        <span class="vol-summary-val">148</span>
+                        <span class="vol-summary-lbl">Total Active Responders</span>
+                    </div>
+                </div>
+
+                <div class="vol-summary-card">
+                    <div class="vol-summary-icon avail">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    </div>
+                    <div class="vol-summary-info">
+                        <span class="vol-summary-val" style="color:#4ade80;">32</span>
+                        <span class="vol-summary-lbl">On-Duty Available</span>
+                    </div>
+                </div>
+
+                <div class="vol-summary-card">
+                    <div class="vol-summary-icon resp">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    </div>
+                    <div class="vol-summary-info">
+                        <span class="vol-summary-val" style="color:#c084fc;">3.8<span style="font-size:1.0rem;">m</span></span>
+                        <span class="vol-summary-lbl">Avg Response Time</span>
+                    </div>
+                </div>
+
+                <div class="vol-summary-card">
+                    <div class="vol-summary-icon dist">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"></circle><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z"></path></svg>
+                    </div>
+                    <div class="vol-summary-info">
+                        <span class="vol-summary-val" style="color:#fbbf24;">1.4<span style="font-size:1.0rem;">km</span></span>
+                        <span class="vol-summary-lbl">Average Proximity</span>
+                    </div>
+                </div>
             </div>
 
-            <div class="feature-card reveal">
-                <div class="icon feature-icon-volunteer"><svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg></div>
-                <h3>Sophia Martinez</h3>
-                <p style="color:#94a3b8; font-size:0.9rem;">Registered Nurse (RN) / CPR Trained</p>
-                <p style="color:#4ade80; font-weight:700; margin-top:6px;">Status: Active • Radius: 12.0 km</p>
-                <button class="btn-secondary" style="width:100%; margin-top:12px; padding:10px; border-radius:8px; background:rgba(168,85,247,0.15); color:#c084fc; border:1px solid rgba(168,85,247,0.3); font-weight:600; cursor:pointer;" onclick="connectVolunteer('Sophia Martinez')">Connect Responder</button>
+            <!-- 2. Live Volunteer Map Radar Panel -->
+            <div class="vol-map-panel">
+                <div class="vol-map-header">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span style="color:#fff; font-weight:800; font-size:1.05rem;">🛰️ Live Responder Proximity Mesh Radar</span>
+                        <div class="vol-telemetry-badge">
+                            <span class="telemetry-pulse-dot" style="background:#c084fc; box-shadow:0 0 10px #c084fc;"></span>
+                            <span>GPS Proximity Mesh: 99.9% Reliable</span>
+                        </div>
+                    </div>
+                    <div style="color:var(--color-text-gray); font-size:0.8rem; font-weight:700; display:flex; align-items:center; gap:14px;">
+                        <span><span style="color:#4ade80;">●</span> Ready (32)</span>
+                        <span><span style="color:#facc15;">●</span> On Call (14)</span>
+                        <span><span style="color:#38bdf8;">▲</span> Emergency Hub</span>
+                    </div>
+                </div>
+
+                <div class="vol-map-canvas" id="volunteerMapRadar">
+                    <div class="fleet-map-grid-bg"></div>
+                    <div class="radar-sweep-circle" style="border-color:rgba(168,85,247,0.25);"></div>
+
+                    <!-- GPS Pins -->
+                    <div class="vol-map-pin available" style="top:30%; left:34%;" onclick="connectVolunteer('Michael Chang')" title="Michael Chang (EMT Basic)">
+                        <div class="vol-pin-ring">👨‍⚕️</div>
+                        <span class="pin-label">Michael C. • 0.8km</span>
+                    </div>
+
+                    <div class="vol-map-pin available" style="top:62%; left:68%;" onclick="connectVolunteer('Sophia Martinez')" title="Sophia Martinez (RN Nurse)">
+                        <div class="vol-pin-ring">👩‍⚕️</div>
+                        <span class="pin-label">Sophia M. • 1.2km</span>
+                    </div>
+
+                    <div class="vol-map-pin oncall" style="top:28%; left:74%;" onclick="connectVolunteer('Dr. Alex Vance')" title="Dr. Alex Vance (ER Doctor)">
+                        <div class="vol-pin-ring">👨‍⚕️</div>
+                        <span class="pin-label">Dr. Alex V. • 1.9km</span>
+                    </div>
+
+                    <div class="vol-map-pin available" style="top:72%; left:28%;" onclick="connectVolunteer('Elena Rostova')" title="Elena Rostova (Paramedic)">
+                        <div class="vol-pin-ring">👩‍⚕️</div>
+                        <span class="pin-label">Elena R. • 2.4km</span>
+                    </div>
+
+                    <div class="vol-map-pin hospital" style="top:48%; left:50%;" title="City Care Trauma Hub">
+                        <div class="vol-pin-ring">🏥</div>
+                        <span class="pin-label" style="border-color:rgba(56,189,248,0.4);">Trauma Center Hub</span>
+                    </div>
+                </div>
             </div>
+
+            <!-- 3. Volunteer Cards Responsive Grid -->
+            <div class="vol-cards-grid">
+                
+                <!-- Volunteer Card 1 -->
+                <div class="vol-card">
+                    <div class="vol-card-header">
+                        <div class="vol-profile-meta">
+                            <div class="vol-avatar">MC</div>
+                            <div>
+                                <h3 class="vol-name">Michael Chang</h3>
+                                <div class="vol-role">Certified First Responder / EMT Basic</div>
+                                <div class="vol-verify-badges">
+                                    <span class="vol-vbadge">✓ Verified EMT</span>
+                                    <span class="vol-vbadge">✓ CPR Advanced</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="status-badge available">
+                            <span class="dot"></span>
+                            <span>Available</span>
+                        </div>
+                    </div>
+
+                    <div class="vol-card-metrics">
+                        <div>
+                            <span class="vol-metric-lbl">Rating</span>
+                            <div class="vol-metric-val" style="color:#facc15;">★ 4.9 <span style="font-size:0.7rem; color:#94a3b8;">(124)</span></div>
+                        </div>
+                        <div>
+                            <span class="vol-metric-lbl">Distance</span>
+                            <div class="vol-metric-val" style="color:#38bdf8;">0.8 km</div>
+                        </div>
+                        <div>
+                            <span class="vol-metric-lbl">Est. Arrival</span>
+                            <div class="vol-metric-val" style="color:#4ade80;">3 mins</div>
+                        </div>
+                    </div>
+
+                    <div class="vol-skills-container">
+                        <span class="equipment-lbl">Certified Skills</span>
+                        <div class="vol-skills-tags">
+                            <span class="vol-skill-tag">🫀 CPR</span>
+                            <span class="vol-skill-tag">⚡ AED Defibrillator</span>
+                            <span class="vol-skill-tag">🩸 Trauma Care</span>
+                            <span class="vol-skill-tag">🩹 First Aid</span>
+                        </div>
+                    </div>
+
+                    <div class="fleet-driver-row">
+                        <span class="driver-info">🏥 City Care General Hospital</span>
+                        <span class="last-updated">On Duty</span>
+                    </div>
+
+                    <div class="vol-action-group">
+                        <button class="btn-vol-profile" onclick="viewVolunteerProfile('Michael Chang', 'EMT Basic', 'City Care General', '4.9', 'CPR, AED, Trauma Care, First Aid')">
+                            <span>👤 Profile</span>
+                        </button>
+                        <button class="btn-vol-help" onclick="connectVolunteer('Michael Chang')">
+                            <span>🚨 Request Help</span>
+                        </button>
+                        <button class="btn-vol-call" onclick="callVolunteerDirect('Michael Chang', '+1 555 0188')">
+                            <span>📞 Call</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Volunteer Card 2 -->
+                <div class="vol-card">
+                    <div class="vol-card-header">
+                        <div class="vol-profile-meta">
+                            <div class="vol-avatar" style="border-color:rgba(56,189,248,0.4); color:#38bdf8;">SM</div>
+                            <div>
+                                <h3 class="vol-name">Sophia Martinez</h3>
+                                <div class="vol-role">Registered Nurse (RN) / ER Specialist</div>
+                                <div class="vol-verify-badges">
+                                    <span class="vol-vbadge">✓ Board Certified RN</span>
+                                    <span class="vol-vbadge">✓ ACLS Certified</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="status-badge available">
+                            <span class="dot"></span>
+                            <span>Available</span>
+                        </div>
+                    </div>
+
+                    <div class="vol-card-metrics">
+                        <div>
+                            <span class="vol-metric-lbl">Rating</span>
+                            <div class="vol-metric-val" style="color:#facc15;">★ 5.0 <span style="font-size:0.7rem; color:#94a3b8;">(98)</span></div>
+                        </div>
+                        <div>
+                            <span class="vol-metric-lbl">Distance</span>
+                            <div class="vol-metric-val" style="color:#38bdf8;">1.2 km</div>
+                        </div>
+                        <div>
+                            <span class="vol-metric-lbl">Est. Arrival</span>
+                            <div class="vol-metric-val" style="color:#4ade80;">4 mins</div>
+                        </div>
+                    </div>
+
+                    <div class="vol-skills-container">
+                        <span class="equipment-lbl">Certified Skills</span>
+                        <div class="vol-skills-tags">
+                            <span class="vol-skill-tag">🫁 Airway Mgmt</span>
+                            <span class="vol-skill-tag">💉 IV Drip</span>
+                            <span class="vol-skill-tag">🫀 Cardiac Care</span>
+                            <span class="vol-skill-tag">🩺 Triage</span>
+                        </div>
+                    </div>
+
+                    <div class="fleet-driver-row">
+                        <span class="driver-info">🏥 Apex Trauma Center</span>
+                        <span class="last-updated">On Duty</span>
+                    </div>
+
+                    <div class="vol-action-group">
+                        <button class="btn-vol-profile" onclick="viewVolunteerProfile('Sophia Martinez', 'Registered Nurse (RN)', 'Apex Trauma Center', '5.0', 'Airway Mgmt, IV Drip, Cardiac Care, Triage')">
+                            <span>👤 Profile</span>
+                        </button>
+                        <button class="btn-vol-help" onclick="connectVolunteer('Sophia Martinez')">
+                            <span>🚨 Request Help</span>
+                        </button>
+                        <button class="btn-vol-call" onclick="callVolunteerDirect('Sophia Martinez', '+1 555 0189')">
+                            <span>📞 Call</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Volunteer Card 3 -->
+                <div class="vol-card">
+                    <div class="vol-card-header">
+                        <div class="vol-profile-meta">
+                            <div class="vol-avatar" style="border-color:rgba(34,197,94,0.4); color:#4ade80;">AV</div>
+                            <div>
+                                <h3 class="vol-name">Dr. Alex Vance</h3>
+                                <div class="vol-role">Emergency Medicine Physician</div>
+                                <div class="vol-verify-badges">
+                                    <span class="vol-vbadge">✓ MD Licensed</span>
+                                    <span class="vol-vbadge">✓ Trauma Surge</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="status-badge busy">
+                            <span class="dot"></span>
+                            <span>On Call</span>
+                        </div>
+                    </div>
+
+                    <div class="vol-card-metrics">
+                        <div>
+                            <span class="vol-metric-lbl">Rating</span>
+                            <div class="vol-metric-val" style="color:#facc15;">★ 4.9 <span style="font-size:0.7rem; color:#94a3b8;">(210)</span></div>
+                        </div>
+                        <div>
+                            <span class="vol-metric-lbl">Distance</span>
+                            <div class="vol-metric-val" style="color:#38bdf8;">1.9 km</div>
+                        </div>
+                        <div>
+                            <span class="vol-metric-lbl">Est. Arrival</span>
+                            <div class="vol-metric-val" style="color:#4ade80;">6 mins</div>
+                        </div>
+                    </div>
+
+                    <div class="vol-skills-container">
+                        <span class="equipment-lbl">Certified Skills</span>
+                        <div class="vol-skills-tags">
+                            <span class="vol-skill-tag">🩺 Emergency Triage</span>
+                            <span class="vol-skill-tag">⚡ Defibrillation</span>
+                            <span class="vol-skill-tag">💉 Resuscitation</span>
+                        </div>
+                    </div>
+
+                    <div class="fleet-driver-row">
+                        <span class="driver-info">🏥 Metro Heart Institute</span>
+                        <span class="last-updated">On Call</span>
+                    </div>
+
+                    <div class="vol-action-group">
+                        <button class="btn-vol-profile" onclick="viewVolunteerProfile('Dr. Alex Vance', 'Emergency Medicine Physician', 'Metro Heart Institute', '4.9', 'Emergency Triage, Defibrillation, Resuscitation')">
+                            <span>👤 Profile</span>
+                        </button>
+                        <button class="btn-vol-help" onclick="connectVolunteer('Dr. Alex Vance')">
+                            <span>🚨 Request Help</span>
+                        </button>
+                        <button class="btn-vol-call" onclick="callVolunteerDirect('Dr. Alex Vance', '+1 555 0190')">
+                            <span>📞 Call</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Volunteer Card 4 -->
+                <div class="vol-card">
+                    <div class="vol-card-header">
+                        <div class="vol-profile-meta">
+                            <div class="vol-avatar" style="border-color:rgba(248,113,113,0.4); color:#f87171;">ER</div>
+                            <div>
+                                <h3 class="vol-name">Elena Rostova</h3>
+                                <div class="vol-role">Paramedic Lead / CPR Instructor</div>
+                                <div class="vol-verify-badges">
+                                    <span class="vol-vbadge">✓ Paramedic L3</span>
+                                    <span class="vol-vbadge">✓ PALS Certified</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="status-badge available">
+                            <span class="dot"></span>
+                            <span>Available</span>
+                        </div>
+                    </div>
+
+                    <div class="vol-card-metrics">
+                        <div>
+                            <span class="vol-metric-lbl">Rating</span>
+                            <div class="vol-metric-val" style="color:#facc15;">★ 4.8 <span style="font-size:0.7rem; color:#94a3b8;">(86)</span></div>
+                        </div>
+                        <div>
+                            <span class="vol-metric-lbl">Distance</span>
+                            <div class="vol-metric-val" style="color:#38bdf8;">2.4 km</div>
+                        </div>
+                        <div>
+                            <span class="vol-metric-lbl">Est. Arrival</span>
+                            <div class="vol-metric-val" style="color:#4ade80;">7 mins</div>
+                        </div>
+                    </div>
+
+                    <div class="vol-skills-container">
+                        <span class="equipment-lbl">Certified Skills</span>
+                        <div class="vol-skills-tags">
+                            <span class="vol-skill-tag">👶 Pediatric CPR</span>
+                            <span class="vol-skill-tag">🔥 Burn Care</span>
+                            <span class="vol-skill-tag">🦴 Splinting</span>
+                            <span class="vol-skill-tag">⚡ AED</span>
+                        </div>
+                    </div>
+
+                    <div class="fleet-driver-row">
+                        <span class="driver-info">🏥 St. Jude Children's Hospital</span>
+                        <span class="last-updated">On Duty</span>
+                    </div>
+
+                    <div class="vol-action-group">
+                        <button class="btn-vol-profile" onclick="viewVolunteerProfile('Elena Rostova', 'Paramedic Lead', 'St. Jude Children\'s', '4.8', 'Pediatric CPR, Burn Care, Splinting, AED')">
+                            <span>👤 Profile</span>
+                        </button>
+                        <button class="btn-vol-help" onclick="connectVolunteer('Elena Rostova')">
+                            <span>🚨 Request Help</span>
+                        </button>
+                        <button class="btn-vol-call" onclick="callVolunteerDirect('Elena Rostova', '+1 555 0191')">
+                            <span>📞 Call</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 4. Recent Volunteer Activity Stream Panel -->
+            <div class="vol-activity-panel">
+                <div class="vol-activity-header">
+                    <span>📡 Recent Live Volunteer Activity & Response Log</span>
+                    <span style="font-size:0.75rem; color:#4ade80; background:rgba(34,197,94,0.12); padding:3px 10px; border-radius:12px; border:1px solid rgba(34,197,94,0.3);">● Live Stream Sync</span>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <div class="vol-activity-item">
+                        <div class="vol-activity-icon" style="background:rgba(34,197,94,0.15); color:#4ade80;">🟢</div>
+                        <div style="flex:1;">
+                            <strong style="color:#fff;">Michael Chang</strong> responded to Cardiac SOS in Sector 4 (0.8km away).
+                        </div>
+                        <span style="color:var(--color-text-gray); font-size:0.75rem;">2 mins ago</span>
+                    </div>
+
+                    <div class="vol-activity-item">
+                        <div class="vol-activity-icon" style="background:rgba(56,189,248,0.15); color:#38bdf8;">⚡</div>
+                        <div style="flex:1;">
+                            <strong style="color:#fff;">Sophia Martinez</strong> dispatched mobile AED unit to Apex Center.
+                        </div>
+                        <span style="color:var(--color-text-gray); font-size:0.75rem;">7 mins ago</span>
+                    </div>
+
+                    <div class="vol-activity-item">
+                        <div class="vol-activity-icon" style="background:rgba(168,85,247,0.15); color:#c084fc;">🚑</div>
+                        <div style="flex:1;">
+                            <strong style="color:#fff;">Dr. Alex Vance</strong> completed critical triage handoff at Metro Hospital.
+                        </div>
+                        <span style="color:var(--color-text-gray); font-size:0.75rem;">14 mins ago</span>
+                    </div>
+
+                    <div class="vol-activity-item">
+                        <div class="vol-activity-icon" style="background:rgba(245,158,11,0.15); color:#fbbf24;">🩺</div>
+                        <div style="flex:1;">
+                            <strong style="color:#fff;">Elena Rostova</strong> administered Pediatric First Aid in North District.
+                        </div>
+                        <span style="color:var(--color-text-gray); font-size:0.75rem;">22 mins ago</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
     <!-- ================= HOW IT WORKS ================= -->
 
-    <section class="how-it-works" id="book-appointment">
+    <!-- ================= EMERGENCY RESPONSE TIMELINE ================= -->
+    <section class="how-it-works" id="book-appointment" style="padding-top:60px;">
+        <div class="section-tag">— EMERGENCY RESPONSE WORKFLOW</div>
+        <h2 class="reveal">From SOS to Arrival —<br><span class="gradient-text">In Minutes.</span></h2>
+        <p class="section-subtitle reveal">An automated, end-to-end clinical workflow connecting patients, AI triage, emergency dispatch, and hospital intake in real time.</p>
 
-        <div class="section-tag">HOW IT WORKS</div>
-        <h2 class="reveal">From SOS to arrival —<br><span class="gradient-text">in minutes.</span></h2>
-
-        <div class="timeline-container">
-            <div class="timeline-line"></div>
+        <div class="timeline-section-wrapper reveal">
             
-            <div class="timeline-step reveal">
-                <div class="step-badge">01</div>
-                <div class="step-icon-wrapper">
-                    <svg class="step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                    </svg>
+            <!-- 1. Summary Statistics Row -->
+            <div class="timeline-summary-grid">
+                <div class="timeline-summary-card">
+                    <div class="timeline-summary-icon resp">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    </div>
+                    <div class="timeline-summary-info">
+                        <span class="timeline-summary-val" style="color:#38bdf8;">3.8<span style="font-size:1.0rem;">m</span></span>
+                        <span class="timeline-summary-lbl">Average Response Time</span>
+                    </div>
                 </div>
-                <h3>Patient requests help</h3>
-                <p>Tap SOS or describe symptoms to the AI.</p>
+
+                <div class="timeline-summary-card">
+                    <div class="timeline-summary-icon rate">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    </div>
+                    <div class="timeline-summary-info">
+                        <span class="timeline-summary-val" style="color:#4ade80;">99.4%</span>
+                        <span class="timeline-summary-lbl">Emergency Success Rate</span>
+                    </div>
+                </div>
+
+                <div class="timeline-summary-card">
+                    <div class="timeline-summary-icon pts">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                    </div>
+                    <div class="timeline-summary-info">
+                        <span class="timeline-summary-val" style="color:#c084fc;">12,450+</span>
+                        <span class="timeline-summary-lbl">Patients Assisted</span>
+                    </div>
+                </div>
+
+                <div class="timeline-summary-card">
+                    <div class="timeline-summary-icon hosp">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M9 12h6"></path><path d="M12 9v6"></path></svg>
+                    </div>
+                    <div class="timeline-summary-info">
+                        <span class="timeline-summary-val" style="color:#fbbf24;">450+</span>
+                        <span class="timeline-summary-lbl">Hospitals Connected</span>
+                    </div>
+                </div>
             </div>
 
-            <div class="timeline-step reveal">
-                <div class="step-badge">02</div>
-                <div class="step-icon-wrapper">
-                    <svg class="step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9.59 4.59A2 2 0 1 1 11 8H9V6a2 2 0 0 1 .59-1.41zM6 11V9H4a2 2 0 1 1 2-2v2a2 2 0 0 1-2 2h2zm2 4H6v-2a2 2 0 1 1 2 2z"></path>
-                        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-                    </svg>
+            <!-- 2. 6 Premium Step Cards Grid -->
+            <div class="timeline-cards-grid" id="timelineStepGrid">
+                
+                <!-- Step 1 -->
+                <div class="timeline-step-card active-step" data-step="1" onclick="selectTimelineStep(1)">
+                    <div class="timeline-card-header">
+                        <div class="timeline-step-num">01</div>
+                        <div class="timeline-time-badge" style="color:#f87171; border-color:rgba(239,68,68,0.3);">⏱️ 0 sec</div>
+                    </div>
+                    <div class="timeline-icon-box" style="background:rgba(239,68,68,0.12); border-color:rgba(239,68,68,0.3); color:#f87171;">🚨</div>
+                    <h3 class="timeline-card-title">SOS Triggered</h3>
+                    <p class="timeline-card-desc">Patient initiates 1-tap SOS or describes critical symptoms via mobile app or web portal.</p>
+                    <div class="timeline-card-footer">
+                        <span>Phase: Alert Broadcast</span>
+                        <span>Step 1 of 6</span>
+                    </div>
                 </div>
-                <h3>AI recommends hospital</h3>
-                <p>Best-fit by specialty, distance and bed load.</p>
+
+                <!-- Step 2 -->
+                <div class="timeline-step-card" data-step="2" onclick="selectTimelineStep(2)">
+                    <div class="timeline-card-header">
+                        <div class="timeline-step-num">02</div>
+                        <div class="timeline-time-badge" style="color:#38bdf8; border-color:rgba(56,189,248,0.3);">⏱️ 15 sec</div>
+                    </div>
+                    <div class="timeline-icon-box" style="background:rgba(56,189,248,0.12); border-color:rgba(56,189,248,0.3); color:#38bdf8;">🤖</div>
+                    <h3 class="timeline-card-title">AI Risk Analysis</h3>
+                    <p class="timeline-card-desc">Google Gemini AI processes symptom telemetry, assesses clinical urgency, and generates triage risk scores.</p>
+                    <div class="timeline-card-footer">
+                        <span>Phase: Clinical Triage</span>
+                        <span>Step 2 of 6</span>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="timeline-step-card" data-step="3" onclick="selectTimelineStep(3)">
+                    <div class="timeline-card-header">
+                        <div class="timeline-step-num">03</div>
+                        <div class="timeline-time-badge" style="color:#fbbf24; border-color:rgba(245,158,11,0.3);">⏱️ 30 sec</div>
+                    </div>
+                    <div class="timeline-icon-box" style="background:rgba(245,158,11,0.12); border-color:rgba(245,158,11,0.3); color:#fbbf24;">🏥</div>
+                    <h3 class="timeline-card-title">Hospital Selected</h3>
+                    <p class="timeline-card-desc">Automated matching identifies the optimal trauma center with verified ICU bed capacity and preps intake.</p>
+                    <div class="timeline-card-footer">
+                        <span>Phase: Bed Reservation</span>
+                        <span>Step 3 of 6</span>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="timeline-step-card" data-step="4" onclick="selectTimelineStep(4)">
+                    <div class="timeline-card-header">
+                        <div class="timeline-step-num">04</div>
+                        <div class="timeline-time-badge" style="color:#c084fc; border-color:rgba(168,85,247,0.3);">⏱️ 45 sec</div>
+                    </div>
+                    <div class="timeline-icon-box" style="background:rgba(168,85,247,0.12); border-color:rgba(168,85,247,0.3); color:#c084fc;">🚑</div>
+                    <h3 class="timeline-card-title">Ambulance Dispatched</h3>
+                    <p class="timeline-card-desc">Nearest specialized cardiac ICU or trauma unit is assigned and routed with siren priority override.</p>
+                    <div class="timeline-card-footer">
+                        <span>Phase: Unit Dispatch</span>
+                        <span>Step 4 of 6</span>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="timeline-step-card" data-step="5" onclick="selectTimelineStep(5)">
+                    <div class="timeline-card-header">
+                        <div class="timeline-step-num">05</div>
+                        <div class="timeline-time-badge" style="color:#38bdf8; border-color:rgba(56,189,248,0.3);">⏱️ 6 min</div>
+                    </div>
+                    <div class="timeline-icon-box" style="background:rgba(56,189,248,0.12); border-color:rgba(56,189,248,0.3); color:#38bdf8;">📍</div>
+                    <h3 class="timeline-card-title">Live GPS Tracking</h3>
+                    <p class="timeline-card-desc">Patient and hospital ER team monitor live ambulance speed, satellite telemetry, and real-time ETA.</p>
+                    <div class="timeline-card-footer">
+                        <span>Phase: Live Telemetry</span>
+                        <span>Step 5 of 6</span>
+                    </div>
+                </div>
+
+                <!-- Step 6 -->
+                <div class="timeline-step-card" data-step="6" onclick="selectTimelineStep(6)">
+                    <div class="timeline-card-header">
+                        <div class="timeline-step-num">06</div>
+                        <div class="timeline-time-badge" style="color:#4ade80; border-color:rgba(34,197,94,0.3);">⏱️ 12 min</div>
+                    </div>
+                    <div class="timeline-icon-box" style="background:rgba(34,197,94,0.12); border-color:rgba(34,197,94,0.3); color:#4ade80;">❤️</div>
+                    <h3 class="timeline-card-title">Patient Reached Hospital</h3>
+                    <p class="timeline-card-desc">Ambulance arrives; patient undergoes seamless clinical handoff into pre-briefed operating theatre or ICU.</p>
+                    <div class="timeline-card-footer">
+                        <span>Phase: Clinical Intake</span>
+                        <span>Step 6 of 6</span>
+                    </div>
+                </div>
+
             </div>
 
-            <div class="timeline-step reveal">
-                <div class="step-badge">03</div>
-                <div class="step-icon-wrapper">
-                    <svg class="step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                    </svg>
+            <!-- 3. Interactive Response Simulator Control Bar -->
+            <div class="timeline-sim-bar">
+                <div class="sim-controls-row">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <button class="btn-sim-play" id="simPlayBtn" onclick="runEmergencyTimelineSimulation()">
+                            <span id="simPlayIcon">▶</span>
+                            <span id="simPlayText">Play Live Response Simulation</span>
+                        </button>
+                        <div style="color:#fff; font-weight:800; font-size:0.9rem;" id="simStatusText">Click any step or press Play to simulate emergency timeline</div>
+                    </div>
+                    <div style="color:var(--color-text-gray); font-size:0.8rem; font-weight:600;">
+                        Auto-sequencing 6 workflow stages
+                    </div>
                 </div>
-                <h3>Hospital accepts</h3>
-                <p>Care team is briefed and prepares intake.</p>
-            </div>
 
-            <div class="timeline-step reveal">
-                <div class="step-badge">04</div>
-                <div class="step-icon-wrapper">
-                    <svg class="step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="1" y="3" width="15" height="13"></rect>
-                        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-                        <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                        <circle cx="18.5" cy="18.5" r="2.5"></circle>
-                    </svg>
+                <div class="sim-progress-track">
+                    <div class="sim-progress-fill" id="timelineSimProgress"></div>
                 </div>
-                <h3>Ambulance dispatched</h3>
-                <p>Nearest verified unit is routed instantly.</p>
-            </div>
-
-            <div class="timeline-step reveal">
-                <div class="step-badge">05</div>
-                <div class="step-icon-wrapper">
-                    <svg class="step-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
-                    </svg>
-                </div>
-                <h3>Live tracking</h3>
-                <p>Real-time ETA until safe arrival.</p>
             </div>
 
         </div>
-
     </section>
 
     <!-- ================= WHY PULSEX ================= -->
@@ -1947,18 +2849,61 @@
             );
         }
 
-        // 7. Ambulance Dispatch Simulator
+        // 7. Ambulance Dispatch Simulator & Command Center Controls
         function dispatchAmbulanceProgress(vehicle) {
-            showGenericModal("🚨 Dispatching Ambulance...", `Searching nearest active unit for ${vehicle}...`);
+            showGenericModal("🚨 Emergency Dispatch Initiated", `Locking GPS vector for unit ${vehicle}...\nConnecting to emergency broadcast frequency.`);
             setTimeout(() => {
                 showGenericModal(
-                    "🚑 Ambulance Assigned!",
-                    `Unit ${vehicle} assigned!\nDriver: John Miller (+1 555 0881)\nETA: 4 Minutes (En Route)`
+                    "🚑 Ambulance Dispatched & En Route!",
+                    `Unit ${vehicle} has confirmed dispatch!\n\nDriver: On-duty Specialist\nStatus: Emergency Lights & Siren Engaged\nETA: 3.5 Minutes (Optimal Traffic Route)`
                 );
-            }, 1200);
+            }, 1000);
         }
 
-        // 8. AI Assistant Chat Evaluation
+        function trackAmbulanceLive(vehicleId) {
+            showGenericModal(
+                `📡 Live Telemetry Feed — ${vehicleId}`,
+                `GPS Coordinates: 40.7128° N, 74.0060° W\nSpeed: 62 km/h (Emergency Mode)\nSatellite Sync: 99.8% Signal Lock\nRoute Status: Priority Signal Override Enabled`
+            );
+        }
+
+        // 7. Interactive Fleet GPS Map & Dispatch Telemetry System
+        window.initGoogleMapsEngine = function() {
+            if (window.pulseXMapSystem) {
+                window.pulseXMapSystem.init('liveFleetInteractiveMap');
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fallback initialization if Google Maps callback hasn't fired
+            setTimeout(() => {
+                if (window.pulseXMapSystem && !window.pulseXMapSystem.map) {
+                    window.pulseXMapSystem.init('liveFleetInteractiveMap');
+                }
+            }, 1200);
+        });
+
+        // 8. AI Assistant Chat Evaluation & Clinical Triage Controls
+        function filterSymptomCategory(category, btnElement) {
+            const btns = document.querySelectorAll('.symptom-cat-btn');
+            btns.forEach(b => b.classList.remove('active'));
+            if (btnElement) btnElement.classList.add('active');
+
+            const chips = document.querySelectorAll('.symptom-chip-item');
+            chips.forEach(chip => {
+                if (category === 'all') {
+                    chip.style.display = 'inline-flex';
+                } else {
+                    const catClass = `cat-${category}`;
+                    if (chip.classList.contains(catClass)) {
+                        chip.style.display = 'inline-flex';
+                    } else {
+                        chip.style.display = 'none';
+                    }
+                }
+            });
+        }
+
         async function sendAIChat(symptomsText) {
             document.getElementById('aiChatInput').value = symptomsText;
             submitAIChatForm();
@@ -1974,22 +2919,78 @@
             const text = input.value.trim();
             if (!text) return;
 
-            // Loading state: Spinner, Disable button, Show output container
+            // Loading state: Disable button & show initial animated steps
             if (submitBtn) submitBtn.disabled = true;
-            if (btnText) btnText.innerText = 'Analyzing...';
+            if (btnText) btnText.innerText = 'Analyzing Triage...';
             if (btnSpinner) btnSpinner.style.display = 'inline-block';
 
             chatOutput.style.display = 'block';
             chatOutput.innerHTML = `
-                <div style="background:rgba(0,0,0,0.4); padding:20px; border-radius:14px; text-align:center; border:1px solid rgba(14,165,233,0.3);">
-                    <div style="font-size:2rem; margin-bottom:10px; animation:spin 1s linear infinite;">🧠</div>
-                    <div style="color:#38bdf8; font-weight:700; font-size:1.05rem;">PulseX AI Clinical Triage in Progress...</div>
-                    <div style="color:#94a3b8; font-size:0.85rem; margin-top:4px;">Evaluating symptom telemetry against evidence-based medical triage protocols...</div>
-                    <div style="width:100%; height:4px; background:rgba(255,255,255,0.1); border-radius:2px; margin-top:14px; overflow:hidden;">
-                        <div style="width:75%; height:100%; background:linear-gradient(90deg, #0ea5e9, #10b981); animation:pulseProgress 1.5s infinite;"></div>
+                <div class="ai-analysis-anim-box">
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
+                        <div style="color:#fff; font-weight:800; font-size:1.05rem;">🧠 PulseX Clinical AI Processing Triage</div>
+                        <div style="color:#38bdf8; font-size:0.8rem; font-weight:700;">Google Gemini 2.0 Flash</div>
+                    </div>
+
+                    <div class="anim-step-row active" id="animStep1">
+                        <span class="anim-step-dot"></span>
+                        <span>Step 1/4: 🔍 Analyzing Symptoms & Vital Signals...</span>
+                    </div>
+                    <div class="anim-step-row" id="animStep2">
+                        <span class="anim-step-dot"></span>
+                        <span>Step 2/4: ⚡ Assessing Clinical Urgency & Emergency Risk...</span>
+                    </div>
+                    <div class="anim-step-row" id="animStep3">
+                        <span class="anim-step-dot"></span>
+                        <span>Step 3/4: 🏥 Matching Specialist & Hospital Capacity...</span>
+                    </div>
+                    <div class="anim-step-row" id="animStep4">
+                        <span class="anim-step-dot"></span>
+                        <span>Step 4/4: 📋 Compiling Actionable Recommendation...</span>
+                    </div>
+
+                    <div style="width:100%; height:6px; background:rgba(255,255,255,0.08); border-radius:4px; overflow:hidden; margin-top:8px;">
+                        <div id="aiProgressBar" style="width:25%; height:100%; background:linear-gradient(90deg, #38bdf8, #4ade80); transition:width 0.4s ease;"></div>
                     </div>
                 </div>
             `;
+
+            // Step animation timers
+            setTimeout(() => {
+                const s1 = document.getElementById('animStep1');
+                const s2 = document.getElementById('animStep2');
+                const bar = document.getElementById('aiProgressBar');
+                if (s1 && s2 && bar) {
+                    s1.classList.remove('active');
+                    s1.classList.add('completed');
+                    s2.classList.add('active');
+                    bar.style.width = '50%';
+                }
+            }, 350);
+
+            setTimeout(() => {
+                const s2 = document.getElementById('animStep2');
+                const s3 = document.getElementById('animStep3');
+                const bar = document.getElementById('aiProgressBar');
+                if (s2 && s3 && bar) {
+                    s2.classList.remove('active');
+                    s2.classList.add('completed');
+                    s3.classList.add('active');
+                    bar.style.width = '75%';
+                }
+            }, 700);
+
+            setTimeout(() => {
+                const s3 = document.getElementById('animStep3');
+                const s4 = document.getElementById('animStep4');
+                const bar = document.getElementById('aiProgressBar');
+                if (s3 && s4 && bar) {
+                    s3.classList.remove('active');
+                    s3.classList.add('completed');
+                    s4.classList.add('active');
+                    bar.style.width = '95%';
+                }
+            }, 1050);
 
             try {
                 const res = await fetch('/api/ai/triage', {
@@ -2001,137 +3002,145 @@
                 const result = await res.json();
                 const data = result.data || {};
 
+                // Delay rendering result slightly to finish 4-step visual flow
+                await new Promise(r => setTimeout(r, 1200));
+
                 const urgency = (data.urgency || 'MEDIUM').toUpperCase();
                 const isEmergency = urgency === 'EMERGENCY' || urgency === 'HIGH' || data.should_call_ambulance;
 
-                let urgencyColor = '#22c55e'; // Green LOW
-                let urgencyBg = 'rgba(34,197,94,0.15)';
+                let urgencyColor = '#4ade80'; // Green LOW
+                let urgencyBg = 'rgba(34,197,94,0.12)';
+                let urgencyBorder = 'rgba(34,197,94,0.35)';
                 let urgencyIcon = '🌱';
 
                 if (urgency === 'MEDIUM') {
-                    urgencyColor = '#eab308';
-                    urgencyBg = 'rgba(234,179,8,0.15)';
+                    urgencyColor = '#facc15';
+                    urgencyBg = 'rgba(234,179,8,0.12)';
+                    urgencyBorder = 'rgba(234,179,8,0.35)';
                     urgencyIcon = '⚡';
                 } else if (urgency === 'HIGH') {
                     urgencyColor = '#f97316';
                     urgencyBg = 'rgba(249,115,22,0.15)';
+                    urgencyBorder = 'rgba(249,115,22,0.4)';
                     urgencyIcon = '⚠️';
-                } else if (urgency === 'EMERGENCY') {
-                    urgencyColor = '#ef4444';
-                    urgencyBg = 'rgba(239,68,68,0.2)';
+                } else if (urgency === 'EMERGENCY' || urgency === 'CRITICAL') {
+                    urgencyColor = '#f87171';
+                    urgencyBg = 'rgba(239,68,68,0.18)';
+                    urgencyBorder = 'rgba(239,68,68,0.5)';
                     urgencyIcon = '🚨';
                 }
 
-                const confidencePct = Math.round((data.confidence || 0.92) * 100);
+                const confidencePct = Math.round((data.confidence || 0.94) * 100);
 
                 let html = `
-                    <div style="display:flex; flex-direction:column; gap:16px;">
+                    <div style="display:flex; flex-direction:column; gap:20px;">
                         
-                        <!-- URGENCY & CONFIDENCE HEADER CARD -->
-                        <div style="background:${urgencyBg}; border:1px solid ${urgencyColor}; border-radius:14px; padding:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                        <!-- 1. URGENCY LEVEL & CONFIDENCE HEADER CARD -->
+                        <div style="background:${urgencyBg}; border:1px solid ${urgencyBorder}; border-radius:18px; padding:22px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; box-shadow:0 8px 25px rgba(0,0,0,0.3);">
                             <div>
-                                <span style="background:${urgencyColor}; color:#fff; font-weight:800; font-size:0.8rem; padding:4px 12px; border-radius:20px; text-transform:uppercase; letter-spacing:0.5px;">${urgencyIcon} ${urgency} URGENCY</span>
-                                <h3 style="color:#fff; margin-top:8px; font-size:1.2rem;">${data.summary || 'Clinical Triage Evaluation'}</h3>
+                                <span style="background:${urgencyColor}; color:#0a0f1d; font-weight:900; font-size:0.8rem; padding:5px 14px; border-radius:20px; text-transform:uppercase; letter-spacing:0.05em; display:inline-flex; align-items:center; gap:6px;">${urgencyIcon} ${urgency} URGENCY</span>
+                                <h3 style="color:#fff; margin-top:10px; font-size:1.25rem; font-weight:800;">${data.summary || 'Clinical Triage Evaluation'}</h3>
                             </div>
                             <div style="text-align:right;">
-                                <div style="color:#94a3b8; font-size:0.75rem; font-weight:700;">AI CONFIDENCE SCORE</div>
-                                <div style="color:${urgencyColor}; font-size:1.5rem; font-weight:800;">${confidencePct}%</div>
+                                <div style="color:var(--color-text-gray); font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;">AI Confidence Score</div>
+                                <div style="color:${urgencyColor}; font-size:1.6rem; font-weight:900; margin-top:2px;">${confidencePct}%</div>
                             </div>
                         </div>
 
-                        <!-- POSSIBLE CONDITIONS & SPECIALIST CARD -->
-                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px;">
+                        <!-- 2. POSSIBLE CONDITIONS & RECOMMENDED SPECIALIST CARDS -->
+                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:18px;">
                             
-                            <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:18px;">
-                                <div style="color:#38bdf8; font-weight:700; font-size:0.9rem; margin-bottom:8px;">🩺 Possible Clinical Conditions</div>
-                                <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                                    ${(data.possible_conditions || []).map(c => `<span style="background:rgba(14,165,233,0.15); color:#38bdf8; border:1px solid rgba(14,165,233,0.3); padding:4px 10px; border-radius:12px; font-size:0.8rem;">${c}</span>`).join('')}
+                            <div style="background:rgba(15,23,42,0.7); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:20px;">
+                                <div style="color:#38bdf8; font-weight:800; font-size:0.92rem; margin-bottom:10px; display:flex; align-items:center; gap:6px;">🩺 Possible Conditions</div>
+                                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                    ${(data.possible_conditions || ['Symptom Assessment']).map(c => `<span style="background:rgba(56,189,248,0.12); color:#38bdf8; border:1px solid rgba(56,189,248,0.3); padding:5px 12px; border-radius:12px; font-size:0.8rem; font-weight:700;">${c}</span>`).join('')}
                                 </div>
                             </div>
 
-                            <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:18px;">
-                                <div style="color:#4ade80; font-weight:700; font-size:0.9rem; margin-bottom:6px;">👨‍⚕️ Recommended Specialist & Department</div>
-                                <div style="color:#fff; font-weight:700; font-size:0.95rem;">${data.recommended_specialist || 'General Medicine'}</div>
-                                <div style="color:#94a3b8; font-size:0.85rem; margin-top:2px;">Department: ${data.recommended_department || 'Outpatient Clinic'}</div>
+                            <div style="background:rgba(15,23,42,0.7); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:20px;">
+                                <div style="color:#4ade80; font-weight:800; font-size:0.92rem; margin-bottom:8px; display:flex; align-items:center; gap:6px;">👨‍⚕️ Recommended Specialist & Department</div>
+                                <div style="color:#fff; font-weight:800; font-size:1.05rem;">${data.recommended_specialist || 'General Practitioner'}</div>
+                                <div style="color:var(--color-text-gray); font-size:0.85rem; margin-top:3px; font-weight:600;">Department: ${data.recommended_department || 'Outpatient Clinic'}</div>
                             </div>
 
                         </div>
 
-                        <!-- FIRST AID & RED FLAGS CARD -->
-                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px;">
+                        <!-- 3. FIRST-AID & RED FLAGS CARD -->
+                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:18px;">
                             
-                            <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:18px;">
-                                <div style="color:#4ade80; font-weight:700; font-size:0.9rem; margin-bottom:8px;">🩹 First-Aid Advice</div>
-                                <ul style="margin:0; padding-left:18px; color:#cbd5e1; font-size:0.85rem;">
-                                    ${(data.first_aid || []).map(fa => `<li style="margin-bottom:4px;">${fa}</li>`).join('')}
+                            <div style="background:rgba(15,23,42,0.7); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:20px;">
+                                <div style="color:#4ade80; font-weight:800; font-size:0.92rem; margin-bottom:10px; display:flex; align-items:center; gap:6px;">🩹 Immediate First-Aid Guidance</div>
+                                <ul style="margin:0; padding-left:18px; color:#cbd5e1; font-size:0.88rem; line-height:1.6;">
+                                    ${(data.first_aid || ['Rest in a comfortable position', 'Stay hydrated', 'Monitor symptoms closely']).map(fa => `<li style="margin-bottom:4px;">${fa}</li>`).join('')}
                                 </ul>
                             </div>
 
-                            <div style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); border-radius:14px; padding:18px;">
-                                <div style="color:#f87171; font-weight:700; font-size:0.9rem; margin-bottom:8px;">⚠️ Red Flag Warning Symptoms</div>
-                                <ul style="margin:0; padding-left:18px; color:#fca5a5; font-size:0.85rem;">
-                                    ${(data.red_flags || []).map(rf => `<li style="margin-bottom:4px;">${rf}</li>`).join('')}
+                            <div style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.22); border-radius:16px; padding:20px;">
+                                <div style="color:#f87171; font-weight:800; font-size:0.92rem; margin-bottom:10px; display:flex; align-items:center; gap:6px;">⚠️ Red Flag Warning Symptoms</div>
+                                <ul style="margin:0; padding-left:18px; color:#fca5a5; font-size:0.88rem; line-height:1.6;">
+                                    ${(data.red_flags || ['Sudden worsening of symptoms', 'High fever over 103°F', 'Loss of consciousness']).map(rf => `<li style="margin-bottom:4px;">${rf}</li>`).join('')}
                                 </ul>
                             </div>
 
                         </div>
 
-                        <!-- RECOMMENDED TESTS CARD -->
-                        <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:18px;">
-                            <div style="color:#a855f7; font-weight:700; font-size:0.9rem; margin-bottom:8px;">🧪 Recommended Diagnostic Tests</div>
-                            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                                ${(data.recommended_tests || []).map(t => `<span style="background:rgba(168,85,247,0.15); color:#c084fc; border:1px solid rgba(168,85,247,0.3); padding:4px 10px; border-radius:12px; font-size:0.8rem;">${t}</span>`).join('')}
+                        <!-- 4. NEARBY HOSPITALS RECOMMENDATION CARD -->
+                        <div style="background:rgba(15,23,42,0.7); backdrop-filter:blur(10px); border:1px solid rgba(56,189,248,0.2); border-radius:16px; padding:20px;">
+                            <div style="color:#38bdf8; font-weight:800; font-size:0.95rem; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+                                <span>🏥 Recommended Nearby Hospitals (Live Bed Availability)</span>
+                                <span style="font-size:0.78rem; color:#4ade80; background:rgba(34,197,94,0.12); padding:3px 10px; border-radius:12px; border:1px solid rgba(34,197,94,0.3);">● 3 Hospitals Verified Ready</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:12px; margin-top:8px;">
+                                <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:12px;">
+                                    <div style="color:#fff; font-weight:800; font-size:0.9rem;">City Care General Hospital</div>
+                                    <div style="color:var(--color-text-gray); font-size:0.78rem; margin-top:2px;">1.2 km away • 14 ICU Beds Available</div>
+                                </div>
+                                <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:12px;">
+                                    <div style="color:#fff; font-weight:800; font-size:0.9rem;">Apex Trauma Center</div>
+                                    <div style="color:var(--color-text-gray); font-size:0.78rem; margin-top:2px;">3.5 km away • 8 ICU Beds Available</div>
+                                </div>
                             </div>
                         </div>
                 `;
 
-                // EMERGENCY ACTIONS vs LOW/MEDIUM ACTIONS
+                // 5. EMERGENCY WARNING BANNER vs LOW/MEDIUM ACTION BUTTONS
                 if (isEmergency) {
                     html += `
-                        <!-- AUTOMATIC EMERGENCY ACTION PANEL -->
-                        <div style="background:rgba(239,68,68,0.15); border:2px solid #ef4444; border-radius:14px; padding:20px; margin-top:8px;">
-                            <div style="color:#f87171; font-weight:800; font-size:1.1rem; margin-bottom:4px;">🚨 IMMEDIATE EMERGENCY ACTION REQUIRED</div>
-                            <div style="color:#cbd5e1; font-size:0.88rem; margin-bottom:16px;">Symptoms indicate a potential emergency. Please initiate emergency response protocols below immediately:</div>
+                        <div style="background:linear-gradient(135deg, rgba(239,68,68,0.2) 0%, rgba(185,28,28,0.25) 100%); border:2px solid #ef4444; border-radius:18px; padding:22px; margin-top:4px; box-shadow:0 10px 30px rgba(239,68,68,0.2);">
+                            <div style="color:#f87171; font-weight:900; font-size:1.15rem; margin-bottom:6px; display:flex; align-items:center; gap:8px;">🚨 CRITICAL ACTION REQUIRED — IMMEDIATE DISPATCH</div>
+                            <div style="color:#cbd5e1; font-size:0.9rem; margin-bottom:18px; line-height:1.5;">Symptoms indicate a potential medical emergency. Please trigger instant emergency SOS or dispatch ambulance:</div>
                             
-                            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:10px;">
-                                <button class="btn-primary" style="background:#ef4444; color:#fff; border:none; padding:12px; border-radius:10px; font-weight:700; cursor:pointer;" onclick="triggerSOSWorkflow()">🚑 Trigger Emergency SOS</button>
-                                <a href="#hospitals" class="btn-secondary" style="display:block; text-align:center; padding:12px; border-radius:10px; background:rgba(14,165,233,0.2); color:#38bdf8; border:1px solid rgba(14,165,233,0.4); text-decoration:none; font-weight:700;">🏥 Find Nearby Hospitals</a>
-                                <a href="#doctors" class="btn-secondary" style="display:block; text-align:center; padding:12px; border-radius:10px; background:rgba(16,185,129,0.2); color:#4ade80; border:1px solid rgba(16,185,129,0.4); text-decoration:none; font-weight:700;">👨‍⚕️ Find Available Doctors</a>
-                                <button class="btn-secondary" style="padding:12px; border-radius:10px; background:rgba(245,158,11,0.2); color:#fbbf24; border:1px solid rgba(245,158,11,0.4); font-weight:700; cursor:pointer;" onclick="openBookingModal('${data.recommended_specialist || 'Emergency Doctor'}', 'doc-01')">📅 Book Appointment</button>
-                                <button class="btn-secondary" style="padding:12px; border-radius:10px; background:rgba(239,68,68,0.2); color:#f87171; border:1px solid rgba(239,68,68,0.4); font-weight:700; cursor:pointer;" onclick="requestBloodUnit()">🩸 Blood Bank Repository</button>
-                                <button class="btn-secondary" style="padding:12px; border-radius:10px; background:rgba(168,85,247,0.2); color:#c084fc; border:1px solid rgba(168,85,247,0.4); font-weight:700; cursor:pointer;" onclick="dispatchAmbulanceProgress('Cardiac ICU Unit')">🚑 Request Ambulance</button>
+                            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap:12px;">
+                                <button class="btn-primary" style="background:linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); color:#fff; border:1px solid rgba(248,113,113,0.4); padding:14px; border-radius:12px; font-weight:800; cursor:pointer; font-size:0.9rem; box-shadow:0 4px 15px rgba(220,38,38,0.3);" onclick="triggerSOSWorkflow()">🚑 Trigger Emergency SOS</button>
+                                <button class="btn-secondary" style="padding:14px; border-radius:12px; background:rgba(239,68,68,0.2); color:#f87171; border:1px solid rgba(239,68,68,0.4); font-weight:800; cursor:pointer; font-size:0.9rem;" onclick="dispatchAmbulanceProgress('Cardiac ICU Unit')">🚑 Dispatch Ambulance</button>
+                                <button class="btn-secondary" style="padding:14px; border-radius:12px; background:rgba(245,158,11,0.2); color:#fbbf24; border:1px solid rgba(245,158,11,0.4); font-weight:800; cursor:pointer; font-size:0.9rem;" onclick="openBookingModal('${data.recommended_specialist || 'Emergency Specialist'}', 'doc-01')">📅 Book Priority Visit</button>
                             </div>
 
-                            <div style="margin-top:14px; font-weight:700; font-size:0.85rem; color:#fca5a5;">
-                                📞 Emergency Helpline Direct: 911 / 112 | PulseX Cardiac Emergency Line: +1 800 555 0199
+                            <div style="margin-top:16px; font-weight:800; font-size:0.85rem; color:#fca5a5; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                                <span>📞 Direct Helpline: 911 / 112</span>
+                                <span>|</span>
+                                <span>PulseX Hotline: +1 800 555 0199</span>
                             </div>
                         </div>
                     `;
                 } else {
                     html += `
-                        <!-- LOW / MEDIUM URGENCY ACTIONS -->
-                        <div style="background:rgba(14,165,233,0.08); border:1px solid rgba(14,165,233,0.2); border-radius:14px; padding:18px; margin-top:8px;">
-                            <div style="color:#38bdf8; font-weight:700; font-size:0.95rem; margin-bottom:8px;">👍 Self-Care Advice & OPD Consultation</div>
-                            <div style="color:#cbd5e1; font-size:0.85rem; margin-bottom:12px;">Symptoms appear manageable with outpatient care. Schedule an OPD appointment with a recommended doctor:</div>
+                        <div style="background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.25); border-radius:18px; padding:20px; margin-top:4px;">
+                            <div style="color:#38bdf8; font-weight:800; font-size:1.0rem; margin-bottom:6px;">👍 Outpatient Consultation & Action Plan</div>
+                            <div style="color:#cbd5e1; font-size:0.88rem; margin-bottom:14px;">Symptoms appear manageable with specialized outpatient consultation:</div>
                             
-                            <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                                <button class="btn-primary" style="padding:10px 20px; border-radius:10px; font-weight:700; cursor:pointer;" onclick="openBookingModal('${data.recommended_specialist || 'General Medicine Specialist'}', 'doc-01')">📅 Book Appointment</button>
-                                <a href="#doctors" class="btn-secondary" style="padding:10px 20px; border-radius:10px; background:rgba(255,255,255,0.06); color:#fff; text-decoration:none; font-weight:600;">👨‍⚕️ View Recommended Doctors</a>
+                            <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                                <button class="btn-primary" style="padding:12px 24px; border-radius:12px; font-weight:800; cursor:pointer;" onclick="openBookingModal('${data.recommended_specialist || 'General Medicine Specialist'}', 'doc-01')">📅 Book Specialist Appointment</button>
+                                <a href="#doctors" class="btn-secondary" style="padding:12px 20px; border-radius:12px; background:rgba(255,255,255,0.06); color:#fff; text-decoration:none; font-weight:700; display:inline-flex; align-items:center; gap:6px;">👨‍⚕️ View Verified Specialists</a>
                             </div>
-
-                            ${(data.follow_up_questions && data.follow_up_questions.length > 0) ? `
-                                <div style="margin-top:14px; color:#94a3b8; font-size:0.82rem;">
-                                    <strong>Follow-up Questions to consider:</strong> ${data.follow_up_questions.join(' • ')}
-                                </div>
-                            ` : ''}
                         </div>
                     `;
                 }
 
-                // DISCLAIMER CARD
+                // 6. MEDICAL DISCLAIMER NOTICE
                 html += `
-                        <div style="color:#64748b; font-size:0.75rem; text-align:center; margin-top:8px; border-top:1px solid rgba(255,255,255,0.06); padding-top:10px;">
-                            🔒 ${data.disclaimer || 'This AI provides informational guidance only and is not a substitute for a licensed healthcare professional.'}
+                        <div style="color:#64748b; font-size:0.76rem; text-align:center; margin-top:12px; border-top:1px solid rgba(255,255,255,0.08); padding-top:12px; line-height:1.5;">
+                            🔒 <strong>Medical Disclaimer:</strong> ${data.disclaimer || 'PulseX AI Triage provides preliminary educational guidance powered by Google Gemini and is not a clinical diagnosis. Always consult a certified healthcare professional for medical emergencies.'}
                         </div>
 
                     </div>
@@ -2141,22 +3150,36 @@
 
             } catch (err) {
                 chatOutput.innerHTML = `
-                    <div style="background:rgba(239,68,68,0.15); border:1px solid #ef4444; border-radius:14px; padding:18px; color:#f87171;">
-                        <strong>⚠️ Triage Service Error:</strong> Failed to complete AI triage analysis. Please verify your connection or call emergency assistance directly if in distress.
+                    <div style="background:rgba(239,68,68,0.15); border:1px solid #ef4444; border-radius:16px; padding:20px; color:#f87171;">
+                        <strong>⚠️ Triage Service Error:</strong> Failed to complete AI triage analysis. Please check network connectivity or call emergency services directly if in distress.
                     </div>
                 `;
             } finally {
                 if (submitBtn) submitBtn.disabled = false;
-                if (btnText) btnText.innerText = 'Analyze Triage';
+                if (btnText) btnText.innerText = 'Analyze Clinical Triage';
                 if (btnSpinner) btnSpinner.style.display = 'none';
             }
         }
 
-        // 9. Volunteer Network Connection
+        // 9. Volunteer Network Connection & Profile Modals
         function connectVolunteer(volName) {
             showGenericModal(
-                '🤝 First Responder Alerted',
-                `Alert notification sent to volunteer ${volName}. Proximity GPS tracking active.`
+                '🤝 First Responder Alert Dispatched',
+                `Priority SOS alert sent to volunteer ${volName}.\n\nGPS Proximity Lock: Active (Estimated Arrival: 3.5 Mins)\nDirect Mesh Channel: Connected`
+            );
+        }
+
+        function viewVolunteerProfile(name, role, hospital, rating, skills) {
+            showGenericModal(
+                `👨‍⚕️ Responder Profile — ${name}`,
+                `Role: ${role}\nAttached Hospital: ${hospital}\nRating: ★ ${rating} (Verified)\nCertifications & Skills: ${skills}\nStatus: Active On-Duty Proximity Mesh`
+            );
+        }
+
+        function callVolunteerDirect(name, phone) {
+            showGenericModal(
+                `📞 Direct Responder Comms — ${name}`,
+                `Connecting encrypted voice channel to ${name} (${phone})...\n\nPress OK to place direct call or transmit emergency GPS coordinates.`
             );
         }
 
@@ -2209,6 +3232,56 @@
                 '🤝 PulseX Blood Donor Registration',
                 `Thank you for offering to donate! Your voluntary blood donation saves lives.\n\nPlease confirm your blood type at your nearest PulseX partner hospital or book a donation slot in your profile settings.`
             );
+        }
+
+        // 11. Emergency Response Timeline Controls
+        const timelineDescriptions = {
+            1: "Step 1/6: 🚨 SOS Triggered (0s) — Instant emergency alert broadcast initiated by patient.",
+            2: "Step 2/6: 🤖 AI Risk Analysis (15s) — Gemini AI evaluates triage urgency and risk factors.",
+            3: "Step 3/6: 🏥 Hospital Selected (30s) — Matching hospital ICU bed reserved automatically.",
+            4: "Step 4/6: 🚑 Ambulance Dispatched (45s) — Priority cardiac ICU unit dispatched with siren override.",
+            5: "Step 5/6: 📍 Live GPS Tracking (6m) — Satellite telemetry & real-time ETA streamed to care team.",
+            6: "Step 6/6: ❤️ Patient Reached Hospital (12m) — Patient admitted into prepped operating theatre."
+        };
+
+        function selectTimelineStep(stepNum) {
+            const cards = document.querySelectorAll('.timeline-step-card');
+            cards.forEach(c => c.classList.remove('active-step'));
+
+            const targetCard = document.querySelector(`.timeline-step-card[data-step="${stepNum}"]`);
+            if (targetCard) targetCard.classList.add('active-step');
+
+            const progressBar = document.getElementById('timelineSimProgress');
+            if (progressBar) progressBar.style.width = `${(stepNum / 6) * 100}%`;
+
+            const statusText = document.getElementById('simStatusText');
+            if (statusText && timelineDescriptions[stepNum]) {
+                statusText.innerText = timelineDescriptions[stepNum];
+            }
+        }
+
+        let simTimer = null;
+        function runEmergencyTimelineSimulation() {
+            if (simTimer) clearInterval(simTimer);
+            
+            const btnText = document.getElementById('simPlayText');
+            const btnIcon = document.getElementById('simPlayIcon');
+            if (btnText) btnText.innerText = 'Simulating Workflow...';
+            if (btnIcon) btnIcon.innerText = '🔄';
+
+            let currentStep = 1;
+            selectTimelineStep(currentStep);
+
+            simTimer = setInterval(() => {
+                currentStep++;
+                if (currentStep > 6) {
+                    clearInterval(simTimer);
+                    if (btnText) btnText.innerText = 'Replay Live Simulation';
+                    if (btnIcon) btnIcon.innerText = '▶';
+                    return;
+                }
+                selectTimelineStep(currentStep);
+            }, 1400);
         }
     </script>
 </body>

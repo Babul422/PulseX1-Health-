@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require("express");
+const path = require("path");
 const cookieParser = require("cookie-parser");
 const errorHandler = require("./middleware/errorHandler");
 
@@ -21,7 +22,8 @@ const PORT = process.env.PORT || 3000;
 
 // View engine & static middleware
 app.set("view engine", "ejs");
-app.use(express.static("public"));
+app.set("views", path.join(__dirname, "views"));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Request body & cookie parsers
 app.use(express.json());
@@ -69,7 +71,11 @@ app.get("/notifications", requireAuth, (req, res) => {
 });
 
 app.get("/", (req, res) => {
-    res.render("index", { user: req.user || null, currentUser: req.user || null });
+    res.render("index", { 
+        user: req.user || null, 
+        currentUser: req.user || null,
+        googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY || ""
+    });
 });
 
 app.get("/login", redirectIfLoggedIn, (req, res) => {
